@@ -1,0 +1,101 @@
+.Header {
+    background-color: #1E152A;
+    color: #EEEEEE;
+    width: 100%;
+    position: fixed;
+    top: 0;
+    left: 0;
+    z-index: 1000;
+    padding: 24px 0;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.247);
+  }
+  
+  .container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 40px;
+    box-sizing: border-box;
+    display: flex;
+    justify-content: space-between; /* Isso alinha os elementos filhos (o <h1> e o <nav>) em extremidades opostas do contêiner flexível */
+    align-items: center; /* Isso centraliza verticalmente os elementos filhos */
+    gap: 16px;
+  }
+  
+  .container h1 {
+    margin: 0;
+    font-size: 24px;
+  }
+  
+  .container nav ul {
+    list-style-type: none;
+    margin: 0;
+    padding: 0;
+    display: flex; /* Isso faz com que os itens da lista se comportem como um flex container */
+  }
+  
+  .container nav ul li {
+    margin-right: 20px;
+  }
+  
+  .container nav ul li:last-child {
+    margin-right: 0; /* Remove a margem à direita do último item da lista */
+  }
+  
+  .container nav ul li a {
+    color: #fff;
+    text-decoration: none;
+    transition: color 0.3s ease;
+  }
+
+  .container nav ul li a:hover {
+    color: #f3bd5b;
+  }
+
+  .container form {
+    flex-grow: 1; /* Ocupa o espaço restante entre o título e o menu */
+    margin: 0 20px; /* Espaçamento para os lados */
+    display: flex;
+    flex-direction: row;
+  }
+  
+  .container form input {
+    width: 100%;
+    padding: 8px;
+    border: none;
+    border-radius: 4px;
+    margin-right: 10px;
+    transition: border-color 0.4s ease;
+  }
+
+  .container form input:focus {
+    outline: none;
+  }
+
+  .container form input:focus-visible {
+    border: solid 3px #f3bd5b;
+  }
+
+  .container form input::placeholder {
+    color: #7a7a7a; /* Define a cor do placeholder */
+    letter-spacing: 1.05px;
+    
+  }
+  
+  .container form button {
+    background-color: #f3bd5b;
+    color: #EEEEEE;
+    border: none;
+    padding: 8px 16px;
+    border-radius: 4px;
+    cursor: pointer;
+    transition: background-color 0.4s ease, color 0.4s ease;
+  }
+
+  .container form button:hover {
+    background-color: #dadada;
+    color: #07090f;
+  }
+
+  .btn_pesquisa {
+    font-weight: 500;
+  }
