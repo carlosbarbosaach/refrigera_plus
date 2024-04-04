@@ -1,0 +1,20 @@
+.container form input {
+    width: 100%;
+    padding: 8px;
+    border: none;
+    border-radius: 8px;
+    margin-right: 10px;
+    transition: border-color 0.4s ease;
+}
+
+.container form input:focus {
+    outline: none;
+}
+
+.container form input:focus-visible {
+    border: solid 3px #f3bd5b;
+}
+
+.container form input::placeholder {
+    color: #7a7a7a;
+}

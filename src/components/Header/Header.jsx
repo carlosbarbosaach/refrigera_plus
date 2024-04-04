@@ -1,4 +1,6 @@
 import React from 'react';
+import InputPesquisar from './components/InputPesquisar/InputPesquisar'
+import BtnPesquisar from './components/BotaoPesquisar/BtnPesquisar'
 import './Header.css';
 
 function Header() {
@@ -7,8 +9,8 @@ function Header() {
       <div className="container">
         <h1>Refrigera PluS</h1>
         <form>
-          <input type="text" placeholder="Pesquisar produtos..." />
-          <button className='btn_pesquisa' type="submit">Pesquisar</button>
+          <InputPesquisar />
+          <BtnPesquisar />
         </form>
         <nav>
           <ul>
