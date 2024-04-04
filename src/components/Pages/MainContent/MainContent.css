@@ -1,0 +1,91 @@
+.MainContent {
+    width: 100%;
+    height: 100%;
+    padding-top: 100px;
+}
+
+.ProductContainer {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 20px;
+}
+
+.ProductBox {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    cursor: pointer;
+    border: 1px solid #dbdbdb;
+    background-color: #f6f6f6;
+    border-radius: 15px;
+    padding: 20px;
+    margin-bottom: 20px;
+    margin-top: 20px;
+    gap: 20px;
+    box-shadow: rgb(0 0 0 / 9%) 0px 1px 4px, rgb(51 51 51 / 0%) 0px 0px 0px 3px;
+}
+
+.ImageContainer img {
+    width: 102px;
+    height: 102px;
+    object-fit: contain;
+}
+
+.ProductContent {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+}
+
+.ProductContent a {
+    color: #555152;
+}
+
+.ProductContent a:hover {
+    color: #555152;
+}
+
+.BrandContent {
+    display: flex;
+}
+
+.BrandContent a {
+    font-size: 12px;
+    color: #b2b2b2;
+}
+
+.InfoContent {
+    display: flex;
+    flex-direction: column;
+    align-items: baseline;
+}
+
+.InfoContent .PriceContent {
+    color: #efac41;
+}
+
+.PriceContent small {
+    font-size: 12px;
+}
+
+.DescricaoProduct {
+    text-align: left;
+}
+
+.LowContainer {
+    margin: 10px 0;
+}
+
+.LowContainer button {
+    background-color: #f3bd5b;
+    color: #555152;
+    border: none;
+    padding: 8px 16px;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: background-color 0.4s ease, color 0.4s ease;
+}
+
+.LowContainer button:hover {
+    background-color: #f1a01d;
+}
