@@ -4,88 +4,60 @@
     padding-top: 100px;
 }
 
-.ProductContainer {
+.ProductItems {
     max-width: 1200px;
     margin: 0 auto;
-    padding: 0 20px;
+    padding: 10px 25px;
 }
 
-.ProductBox {
+.ProductItem {
+    border: 1px solid;
     display: flex;
     flex-direction: row;
-    align-items: center;
-    cursor: pointer;
-    border: 1px solid #dbdbdb;
-    background-color: #f6f6f6;
-    border-radius: 15px;
+    border-radius: 8px;
+    padding: 15px 10px;
+}
+
+.ProductImagem {
     padding: 20px;
-    margin-bottom: 20px;
-    margin-top: 20px;
-    gap: 20px;
-    box-shadow: rgb(0 0 0 / 9%) 0px 1px 4px, rgb(51 51 51 / 0%) 0px 0px 0px 3px;
 }
 
-.ImageContainer img {
-    width: 102px;
-    height: 102px;
-    object-fit: contain;
+.ProductImagem img {
+    min-width: 90px;
+    max-width: 90px;
+    max-height: 146px;
+    min-height: 146px;
 }
 
-.ProductContent {
-    display: flex;
-    flex-direction: column;
-    align-items: flex-start;
-}
-
-.ProductContent a {
-    color: #555152;
-}
-
-.ProductContent a:hover {
-    color: #555152;
-}
-
-.BrandContent {
-    display: flex;
-}
-
-.BrandContent a {
-    font-size: 12px;
-    color: #b2b2b2;
-}
-
-.InfoContent {
+.ProductInfo .InfoNameCategory {
+    font-size: 1.25rem;
+    color: #262626;
+    line-height: 1.5rem;
+    font-weight: 700;
     display: flex;
     flex-direction: column;
     align-items: baseline;
 }
 
-.InfoContent .PriceContent {
-    color: #efac41;
+.InfoNameCategory h3 {
+    margin: 0;
 }
 
-.PriceContent small {
-    font-size: 12px;
-}
-
-.DescricaoProduct {
-    text-align: left;
-}
-
-.LowContainer {
-    margin: 10px 0;
-}
-
-.LowContainer button {
-    background-color: #f3bd5b;
-    color: #555152;
-    border: none;
-    padding: 8px 16px;
-    border-radius: 8px;
+.InfoNameCategory .ProductDetail {
+    font-size: 0.875rem;
+    line-height: 1.125rem;
+    font-weight: 700;
+    color: #cccccc;
+    pointer-events: all;
     cursor: pointer;
-    transition: background-color 0.4s ease, color 0.4s ease;
 }
 
-.LowContainer button:hover {
-    background-color: #f1a01d;
+.InfoNameCategory .ProductDetail {
+    margin: 5px;
+}
+
+.InfoPriceQuantity {
+    display: flex;
+    flex-direction: row;
+    gap: 20px;
 }
