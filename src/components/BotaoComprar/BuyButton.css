@@ -1,4 +1,5 @@
-.container form button {
+.BuyButton {
+    display: flex;
     background-color: #f3bd5b;
     color: #EEEEEE;
     border: none;
@@ -9,11 +10,9 @@
     outline: none;
 }
 
-.container form button:hover {
-    background-color: #dadada;
-    color: #07090f;
+.BuyButton:focus-visible {
+    outline: none;
 }
-
-.btn_pesquisa {
-    font-weight: 600;
+.BuyButton:focus {
+    outline: none;
 }

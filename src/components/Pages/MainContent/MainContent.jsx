@@ -1,9 +1,11 @@
 import React, { useState, useEffect } from 'react';
 import './MainContent.css';
 import API from '../../../hooks/useApi';
+import BuyButton from '../../BotaoComprar/BuyButton'
 
 function MainContent() {
   const [produtos, setProdutos] = useState([]);
+  const [carrinho, setCarrinho] = useState([]);
 
   useEffect(() => {
     async function fetchData() {
@@ -33,6 +35,28 @@ function MainContent() {
     fetchData();
   }, []);
 
+  const handleBuyButtonClick = (produtoId) => {
+    const produtoExistente = carrinho.find(item => item.id === produtoId);
+    const produto = produtos.find(p => p.id === produtoId);
+
+    if (produtoExistente) {
+      if (produtoExistente.quantidade + 1 <= 10) {
+        const novoCarrinho = carrinho.map(item =>
+          item.id === produtoId ? { ...item, quantidade: item.quantidade + 1 } : item
+        );
+        setCarrinho(novoCarrinho);
+        setMensagemErro('');
+      } else {
+        setMensagemErro('Você não pode comprar mais de 10 unidades deste produto.');
+      }
+    } else {
+      if (produto) {
+        setCarrinho([...carrinho, { ...produto, quantidade: 1 }]);
+        setMensagemErro('');
+      }
+    }
+  };
+
   return (
     <main className="MainContent">
       <div className="ProductList">
@@ -50,16 +74,27 @@ function MainContent() {
                   <p className="ProductDetail">Categoria: {produto.categoria.nome}</p>
                 </div>
                 <div className='InfoPriceQuantity'>
-                  <p className="ProductDetail"> <span>R$</span>{produto.preco}</p>
-                  <p className="ProductDetail">Quantidade: {produto.quantidade}</p>
+                  <p className="ProductDetail"> <span>R$ </span>{produto.preco}</p>
+                  <p className={`ProductQuantity ${produto.quantidade < 10 ? 'LowQuantity' : 'HighQuantity'}`}>
+                    Quantidade: {produto.quantidade}
+                  </p>
                 </div>
                 <div className='InfoDescription'>
-                  <p className="ProductDetail">Descrição: {produto.descricao}</p>
+                  <p className="ProductDetail">{produto.descricao}</p>
+                  <BuyButton onClick={() => handleBuyButtonClick(produto.id)} />
                 </div>
               </div>
             </li>
           ))}
         </ul>
+        <div className="Carrinho">
+          <h2>Carrinho</h2>
+          <ul>
+            {carrinho.map(item => (
+              <li key={item.id}>{item.nome} - Quantidade: {item.quantidade}</li>
+            ))}
+          </ul>
+        </div>
       </div>
     </main>
   );
