@@ -10,7 +10,8 @@ class EstoqueContent extends Component {
       preco: 0,
       quantidade: 0,
       imagem: null,
-      idImagem: ''
+      idImagem: '',
+      idProduto: ''
     };
   }
 
@@ -46,31 +47,27 @@ class EstoqueContent extends Component {
 
       const imageData = await response.json();
       const idImagem = imageData.id;
-      this.setState({ idImagem });
       console.log('Imagem cadastrada com sucesso. ID:', idImagem);
+      return idImagem; // Retorna o ID da imagem
     } catch (error) {
       console.error('Erro ao cadastrar imagem:', error);
+      throw error;
     }
   }
 
-  handleSubmit = async (event) => {
-    event.preventDefault();
-
-    // Etapa 1: Cadastrar a imagem
-    await this.cadastrarImagem();
-
-    // Etapa 2: Cadastrar o produto usando o ID da imagem
-    const { categoriaId, descricao, nome, preco, quantidade, idImagem } = this.state;
-    const produtoData = {
-      categoria: { id: categoriaId },
-      descricao,
-      nome,
-      preco,
-      quantidade,
-      idImagem
-    };
-
+  cadastrarProduto = async () => {
     try {
+      const { categoriaId, descricao, nome, preco, quantidade } = this.state;
+      const produtoData = {
+        categoria: { id: categoriaId },
+        descricao,
+        nome,
+        preco,
+        quantidade
+      };
+
+      console.log('ProdutoData:', produtoData);
+
       const response = await fetch('http://45.235.53.125:8080/api/produto', {
         method: 'POST',
         headers: {
@@ -84,10 +81,51 @@ class EstoqueContent extends Component {
       }
 
       const produtoDataJson = await response.json();
-      console.log('Produto cadastrado com sucesso:', produtoDataJson);
-      // Lógica para finalizar o cadastro
+      const idProduto = produtoDataJson.id;
+      console.log('Produto cadastrado com sucesso. ID:', idProduto);
+      return idProduto; // Retorna o ID do produto
     } catch (error) {
       console.error('Erro ao cadastrar produto:', error);
+      throw error;
+    }
+  }
+
+  adicionarImagemAoProduto = async (idImagem, idProduto) => {
+    try {
+      const url = `http://45.235.53.125:8080/api/produto/addImagem?imagem=${idImagem}&produto=${idProduto}`;
+
+      const response = await fetch(url, {
+        method: 'PATCH',
+        headers: {
+          'Content-Type': 'application/json'
+        }
+      });
+
+      if (!response.ok) {
+        throw new Error('Erro ao adicionar imagem ao produto: ' + response.statusText);
+      }
+
+      console.log('Imagem adicionada ao produto com sucesso.');
+    } catch (error) {
+      console.error('Erro ao adicionar imagem ao produto:', error);
+      throw error;
+    }
+  }
+
+  handleSubmit = async (event) => {
+    event.preventDefault();
+
+    try {
+      // Etapa 1: Cadastrar a imagem
+      const idImagem = await this.cadastrarImagem();
+
+      // Etapa 2: Cadastrar o produto
+      const idProduto = await this.cadastrarProduto();
+
+      // Etapa 3: Adicionar a imagem ao produto
+      await this.adicionarImagemAoProduto(idImagem, idProduto);
+    } catch (error) {
+      console.error('Erro ao finalizar cadastro:', error);
     }
   }
 
