@@ -35,7 +35,7 @@
 }
 
 .ProductInfo .InfoNameCategory {
-    font-size: 1.25rem;
+    font-size: 20px;
     color: #262626;
     line-height: 1.5rem;
     font-weight: 700;
@@ -50,10 +50,10 @@
 }
 
 .InfoNameCategory .ProductDetail {
-    font-size: 14px;
+    font-size: 12px;
     line-height: 1.125rem;
-    font-weight: 500;
-    color: #b8b8b8;
+    font-weight: 400;
+    color: #525252;
     pointer-events: all;
     cursor: pointer;
 }
