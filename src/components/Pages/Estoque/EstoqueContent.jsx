@@ -83,25 +83,16 @@ function EstoqueContent() {
         throw new Error('Erro ao cadastrar produto: ' + response.statusText);
       }
 
-      // Verifica o tipo de conteúdo da resposta
       const contentType = response.headers.get('content-type');
       if (contentType && contentType.indexOf('application/json') !== -1) {
-        // Se o tipo de conteúdo for JSON, analisa a resposta como JSON
-        const produtoData = await response.json();
-        const idProdutoResponse = produtoDataResponse.id;
-        console.log('Produto cadastrado com sucesso. ID:', idProdutoResponse);
-        setIdProduto(idProdutoResponse);
-        console.log("🚀 ~ cadastrarProduto ~ produtoData:", produtoData)
-        const idProduto = produtoData.id;
+        const produtoDataResponse = await response.json();
+        const idProdutoResponse = produtoDataResponse.id; // Armazena o ID do produto
+        setIdProduto(idProdutoResponse); // Armazena o ID do produto no estado
         return idProdutoResponse;
       } else {
-        // Se não for JSON, analisa a resposta como texto
         const text = await response.text();
         console.log('Resposta do servidor:', text);
-        // Aqui você pode manipular o texto conforme necessário
-        // Por exemplo, você pode usar a biblioteca react-xml-parser para converter o texto XML em uma estrutura de dados manipulável
-        // Consulte a documentação da biblioteca para mais detalhes: https://www.npmjs.com/package/react-xml-parser
-        return null; // Ou lança um erro, dependendo do caso
+        return null;
       }
     } catch (error) {
       console.error('Erro ao cadastrar produto:', error);
@@ -109,11 +100,9 @@ function EstoqueContent() {
     }
   };
 
-  const atualizarProdutoComImagem = async (idProduto, idImagem) => {
-    console.log("🚀 ~ atualizarProdutoComImagem ~ idImagem:", idImagem)
-    console.log("🚀 ~ atualizarProdutoComImagem ~ idProduto:", idProduto)
+  const atualizarProdutoComImagem = async (idImagem, idProdutoResponse) => {
     try {
-      const url = `http://45.235.53.125:8080/api/produto/addImagem?imagem=${idImagem}&produto=${idProduto}`;
+      const url = `http://45.235.53.125:8080/api/produto/addImagem?imagem=${idImagem}&produto=${idProdutoResponse}`;
 
       const response = await fetch(url, {
         method: 'PATCH'
@@ -134,14 +123,10 @@ function EstoqueContent() {
     event.preventDefault();
 
     try {
-      // Passo 1: Cadastrar a imagem
       const idImagem = await cadastrarImagem();
+      const idProdutoResponse = await cadastrarProduto(idImagem);
 
-      // Passo 2: Cadastrar o produto
-      const idProduto = await cadastrarProduto(idImagem);
-
-      // Passo 3: Atualizar o produto com o ID da imagem
-      await atualizarProdutoComImagem(idProduto, idImagem);
+      await atualizarProdutoComImagem(idImagem, idProdutoResponse);
 
       console.log('Produto cadastrado com sucesso e imagem associada.');
     } catch (error) {
@@ -151,6 +136,17 @@ function EstoqueContent() {
 
   return (
     <form onSubmit={handleSubmit}>
+      <div>
+        <label>
+          Nome:
+          <input
+            name="nome"
+            type="text"
+            value={nome}
+            onChange={handleInputChange}
+          />
+        </label>
+      </div>
       <div>
         <label>
           ID da Categoria:
@@ -169,17 +165,6 @@ function EstoqueContent() {
             name="descricao"
             type="text"
             value={descricao}
-            onChange={handleInputChange}
-          />
-        </label>
-      </div>
-      <div>
-        <label>
-          Nome:
-          <input
-            name="nome"
-            type="text"
-            value={nome}
             onChange={handleInputChange}
           />
         </label>

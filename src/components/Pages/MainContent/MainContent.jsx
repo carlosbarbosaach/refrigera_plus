@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import React, { useState, useEffect } from "react";
 import "./MainContent.css";
 import API from "../../../hooks/useApi";
 import BuyButton from "../../BotaoComprar/BuyButton";
@@ -7,6 +7,7 @@ function MainContent() {
   const [produtos, setProdutos] = useState([]);
   const [carrinho, setCarrinho] = useState([]);
   const [mensagemErro, setMensagemErro] = useState("");
+  const [compraFinalizada, setCompraFinalizada] = useState(false);
 
   useEffect(() => {
     async function fetchData() {
@@ -24,6 +25,17 @@ function MainContent() {
 
     fetchData();
   }, []);
+
+  useEffect(() => {
+    if (compraFinalizada) {
+      atualizarQuantidadeProdutos();
+      setCompraFinalizada(false);
+    }
+  }, [compraFinalizada]);
+
+  const formatPrice = (price) => {
+    return `R$ ${price.toFixed(2)}`;
+  };
 
   const handleBuyButtonClick = (produtoId) => {
     const produtoExistente = carrinho.find((item) => item.id === produtoId);
@@ -51,6 +63,41 @@ function MainContent() {
     }
   };
 
+  const handleRemoveButtonClick = (produtoId) => {
+    const novoCarrinho = carrinho.map((item) =>
+      item.id === produtoId
+        ? { ...item, quantidade: item.quantidade - 1 }
+        : item
+    ).filter(item => item.quantidade > 0);
+    setCarrinho(novoCarrinho);
+  };
+
+  const handleFinalizarCompra = async () => {
+    try {
+      await API.atualizarQuantidadeProdutos(carrinho);
+      setCarrinho([]);
+      setCompraFinalizada(true);
+    } catch (error) {
+      console.error("Erro ao finalizar a compra:", error);
+      setMensagemErro(
+        "Erro ao finalizar a compra. Por favor, tente novamente mais tarde."
+      );
+    }
+  };
+
+  const atualizarQuantidadeProdutos = async () => {
+    try {
+      const novosProdutos = await API.getProduto();
+      console.log("Dados dos produtos atualizados:", novosProdutos);
+      setProdutos(novosProdutos);
+    } catch (error) {
+      console.error("Erro ao buscar dados da API:", error);
+      setMensagemErro(
+        "Erro ao buscar dados da API. Por favor, tente novamente mais tarde."
+      );
+    }
+  };
+
   return (
     <main className="MainContent">
       <div className="ProductList">
@@ -74,14 +121,11 @@ function MainContent() {
                 </div>
                 <div className="InfoPriceQuantity">
                   <p className="ProductDetail">
-                    {" "}
-                    <span>R$ </span>
-                    {produto.preco}
+                    {formatPrice(produto.preco)}
                   </p>
                   <p
-                    className={`ProductQuantity ${
-                      produto.quantidade < 10 ? "LowQuantity" : "HighQuantity"
-                    }`}
+                    className={`ProductQuantity ${produto.quantidade < 10 ? "LowQuantity" : "HighQuantity"
+                      }`}
                   >
                     Quantidade: {produto.quantidade}
                   </p>
@@ -95,16 +139,21 @@ function MainContent() {
           ))}
         </ul>
         {mensagemErro && <p className="ErrorMessage">{mensagemErro}</p>}
-        <div className="Carrinho">
-          <h2>Carrinho</h2>
-          <ul>
-            {carrinho.map((item) => (
-              <li key={item.id}>
-                {item.nome} - Quantidade: {item.quantidade}
-              </li>
-            ))}
-          </ul>
-        </div>
+        {carrinho.length > 0 && (
+          <div className="Carrinho">
+            <h2>Carrinho</h2>
+            <ul>
+              {carrinho.map((item) => (
+                <li key={item.id}>
+                  {item.nome} - Quantidade: {item.quantidade}
+                  <button onClick={() => handleRemoveButtonClick(item.id)}>Remover</button>
+                </li>
+              ))}
+            </ul>
+            <button onClick={handleFinalizarCompra}>Finalizar Compra</button>
+          </div>
+        )}
+        {compraFinalizada && <p>Compra finalizada com sucesso!</p>}
       </div>
     </main>
   );
