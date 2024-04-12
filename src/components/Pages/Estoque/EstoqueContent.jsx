@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import './EstoqueContent.css';
 
 function EstoqueContent() {
   const [categoriaId, setCategoriaId] = useState(0);
@@ -135,74 +136,84 @@ function EstoqueContent() {
   };
 
   return (
-    <form onSubmit={handleSubmit}>
-      <div>
-        <label>
-          Nome:
-          <input
-            name="nome"
-            type="text"
-            value={nome}
-            onChange={handleInputChange}
-          />
-        </label>
+    <>
+      <div className='containerForm'>
+        <form className="product-form" onSubmit={handleSubmit}>
+          <h2>Página de Gestão</h2>
+          <div className="form-group">
+            <label htmlFor="nome">
+              Nome:
+              <input
+                className="form-control"
+                name="nome"
+                type="text"
+                value={nome}
+                onChange={handleInputChange}
+              />
+            </label>
+          </div>
+          <div className="form-group">
+            <label htmlFor="categoriaId">
+              ID da Categoria:
+              <input
+                className="form-control"
+                name="categoriaId"
+                type="number"
+                value={categoriaId}
+                onChange={handleInputChange}
+              />
+            </label>
+          </div>
+          <div className="form-group">
+            <label htmlFor="preco">
+              Preço:
+              <input
+                className="form-control"
+                name="preco"
+                type="number"
+                value={preco}
+                onChange={handleInputChange}
+              />
+            </label>
+          </div>
+          <div className="form-group">
+            <label htmlFor="quantidade">
+              Quantidade:
+              <input
+                className="form-control"
+                name="quantidade"
+                type="number"
+                value={quantidade}
+                onChange={handleInputChange}
+              />
+            </label>
+          </div>
+          <div className="form-group">
+            <label htmlFor="descricao" className="form-label">
+              Descrição:
+              <textarea
+                className="form-control"
+                name="descricao"
+                value={descricao}
+                onChange={handleInputChange}
+              />
+            </label>
+          </div>
+          <div className="form-group">
+            <label htmlFor="imagem">
+              Imagem:
+              <input
+                className="form-control"
+                name="imagem"
+                type="file"
+                onChange={handleImageChange}
+              />
+            </label>
+          </div>
+          <button className="btn-submit" type="submit">Cadastrar Produto</button>
+        </form>
       </div>
-      <div>
-        <label>
-          ID da Categoria:
-          <input
-            name="categoriaId"
-            type="number"
-            value={categoriaId}
-            onChange={handleInputChange}
-          />
-        </label>
-      </div>
-      <div>
-        <label>
-          Descrição:
-          <input
-            name="descricao"
-            type="text"
-            value={descricao}
-            onChange={handleInputChange}
-          />
-        </label>
-      </div>
-      <div>
-        <label>
-          Preço:
-          <input
-            name="preco"
-            type="number"
-            value={preco}
-            onChange={handleInputChange}
-          />
-        </label>
-      </div>
-      <div>
-        <label>
-          Quantidade:
-          <input
-            name="quantidade"
-            type="number"
-            value={quantidade}
-            onChange={handleInputChange}
-          />
-        </label>
-      </div>
-      <div>
-        <label>
-          Imagem:
-          <input
-            name="imagem"
-            type="file"
-            onChange={handleImageChange}
-          />
-        </label>
-      </div>
-      <button type="submit">Cadastrar Produto</button>
-    </form>
+    </>
   );
 }
 

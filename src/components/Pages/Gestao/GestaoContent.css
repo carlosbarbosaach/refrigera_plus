@@ -33,3 +33,56 @@
     color: #EEEEEE;
     background-color: #f1a01d;
 }
+
+.progress-bar {
+    width: 300px;
+    /* largura fixa */
+    background-color: #ededed;
+    border-radius: 8px;
+    height: 15px;
+    margin-bottom: 10px;
+    font-size: 11px;
+    display: flex;
+    align-items: center;
+}
+
+.progress {
+    background-color: #4CAF50;
+    height: 100%;
+    border-radius: 8px;
+    text-align: center;
+    color: white;
+}
+
+.banner-container {
+    width: 100%;
+    margin-bottom: 20px;
+}
+
+.banner-image {
+    width: 100%;
+    max-height: 270px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.247);
+    /* Defina a altura máxima do banner conforme necessário */
+}
+
+.containerAnalise {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin-bottom: 60px;
+}
+
+.contentAnalise {
+    background: #fbfbfb;
+    border: 2px solid transparent;
+    border-radius: 24px;
+    padding: 16px 24px;
+    max-width: 612px;
+    width: 100%;
+    text-decoration: none;
+    align-items: center;
+    display: flex;
+    flex-direction: column;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.247);
+}

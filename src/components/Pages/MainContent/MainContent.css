@@ -47,10 +47,11 @@
 
 .InfoNameCategory h3 {
     margin: 0;
+    text-align: left;
 }
 
 .InfoNameCategory .ProductDetail {
-    font-size: 12px;
+    font-size: 14px;
     line-height: 1.125rem;
     font-weight: 400;
     color: #525252;
@@ -122,4 +123,8 @@
     font-size: 14px;
     text-align: left;
     margin-right: 20px;
+}
+
+.ProductList {
+    margin: 10px 0 60px;
 }
