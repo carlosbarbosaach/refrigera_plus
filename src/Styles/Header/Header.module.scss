@@ -1,0 +1,57 @@
+@import "../Mixins/variables.scss";
+
+.Header {
+    background-color: $colorBlue01;
+    color: $colorWhite01;
+    width: 100%;
+    position: fixed;
+    top: 0;
+    left: 0;
+    z-index: 2;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.247);
+    flex: 0;
+
+    &__container {
+        max-width: 1256px;
+        margin: 0 auto;
+        padding: 26px;
+        box-sizing: border-box;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        gap: 16px;
+
+        &__title {
+            margin: 0;
+            font-size: 24px;
+        }
+
+        &__form {
+            flex-grow: 1;
+            margin: 0 20px;
+            display: flex;
+            flex-direction: row;
+        }
+
+        &__nav ul {
+            list-style-type: none;
+            margin: 0;
+            padding: 0;
+            display: flex;
+
+            & li {
+                margin-right: 20px;
+
+                & a {
+                    color: $colorWhite01;
+                    text-decoration: none;
+                    transition: color 0.3s ease;
+
+                    &:hover {
+                        color: $colorYellow01;
+                    }
+                }
+            }
+        }
+    }
+}

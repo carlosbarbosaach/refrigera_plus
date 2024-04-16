@@ -1,22 +1,28 @@
 import React from 'react';
 import InputPesquisar from './components/InputPesquisar/InputPesquisar'
 import BtnPesquisar from './components/BotaoPesquisar/BtnPesquisar'
-import './Header.css';
+import Styles from '../../Styles/Header/Header.module.scss';
 
 function Header() {
   return (
-    <header className="Header">
-      <div className="container">
-        <h1>Refrigera PluS</h1>
-        <form>
+    <header className={Styles.Header}>
+      <div className={Styles.Header__container}>
+        <h1 className={Styles.Header__container__title}>Refrigera PluS</h1>
+        <form className={Styles.Header__container__form}>
           <InputPesquisar />
           <BtnPesquisar />
         </form>
-        <nav>
+        <nav className={Styles.Header__container__nav}>
           <ul>
-            <li><a href="/">Página Inicial</a></li>
-            <li><a href="/gestao">Gestão</a></li>
-            <li><a href="/estoque">Estoque</a></li>
+            <li className={Styles.Header__item}>
+              <a className={Styles.Header__link} href="/">Página Inicial</a>
+            </li>
+            <li className={Styles.Header__item}>
+              <a className={Styles.Header__link} href="/gestao">Gestão</a>
+            </li>
+            <li className={Styles.Header__item}>
+              <a className={Styles.Header__link} href="/estoque">Estoque</a>
+            </li>
           </ul>
         </nav>
       </div>

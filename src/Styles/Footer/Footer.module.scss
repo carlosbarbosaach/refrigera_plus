@@ -3,17 +3,17 @@
 .Footer {
   background-color: $colorBlue01;
   box-sizing: border-box;
-  color: $colorLight01;
+  color: $colorWhite01;
   width: 100%;
   flex: 0;
 
   &__container {
-    height: 120px;
     display: flex;
     flex-direction: row;
     align-items: center;
     justify-content: center;
     gap: 20px;
+    height: 120px;
   }
 
   &__childrenOne{

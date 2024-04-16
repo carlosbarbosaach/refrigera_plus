@@ -1,10 +1,10 @@
 import React from 'react';
-import './InputPesquisar.css';
+import Styles from "../../../../Styles/Header/Input.module.scss"
 
 function Header() {
     return (
         <>
-            <input type="text" placeholder="Pesquisar produtos..." />
+            <input className={Styles.Input} type="text" placeholder="Pesquisar produtos..." />
         </>
     );
 }
