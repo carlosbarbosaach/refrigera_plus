@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
-import "./MainContent.css";
+import Styles from '../../../Styles/Pages/Main/MainContent.module.scss'
 import API from "../../../hooks/useApi";
+import BuyButton from '../../BotaoComprar/BuyButton'
 
 function MainContent() {
   const [produtos, setProdutos] = useState([]);
@@ -33,32 +34,33 @@ function MainContent() {
   };
 
   return (
-    <main className="MainContent">
+    <main className={Styles.Main}>
       {carregando ? ( // Renderiza uma mensagem de carregamento enquanto os produtos estão sendo buscados
         <p>Carregando...</p>
       ) : (
-        <div className="ProductList">
-          <ul className="ProductItems">
+        <div className={Styles.Main__container}>
+          <p className={Styles.Main__container__richTextTitle}>Nossos produtos</p>
+          <ul className={Styles.Main__container__ul}>
             {produtos.slice(0, numProdutosExibidos).map((produto) => (
-              <li key={produto.id} className="ProductItem">
+              <li key={produto.id} className={Styles.Main__container__ul__li}>
                 {produto.idImagem && (
-                  <div className='ProductImagem'>
-                    <img src={`http://45.235.53.125:8080/api/imagem/${produto.idImagem}`} alt="" className="ProductImage" />
+                  <div className={Styles.Main__container__imagem}>
+                    <img src={`http://45.235.53.125:8080/api/imagem/${produto.idImagem}`} alt="Imagem do produto" />
                   </div>
                 )}
-                <div className="ProductInfo">
-                  <div className="InfoNameCategory">
+                <div className={Styles.Main__container__productInfo}>
+                  <div className={Styles.Main__container__productInfo__NameCategory}>
                     <h3>{produto.nome}</h3>
-                    <p className="ProductDetail">
-                      Categoria:{" "}
+                    <p>
+                      {" "}
                       {produto.categoria
                         ? produto.categoria.nome
                         : "Categoria não especificada"}
                     </p>
                   </div>
-                  <div className="InfoPriceQuantity">
-                    <p className="ProductDetail">
-                      {formatPrice(produto.preco)}
+                  <div className={Styles.Main__container__productInfo__PriceQuantity}>
+                    <p>
+                      <span>{formatPrice(produto.preco)}</span>
                     </p>
                     <p
                       className={`ProductQuantity ${produto.quantidade < 5 ? "LowQuantity" : "HighQuantity"
@@ -67,18 +69,18 @@ function MainContent() {
                       Quantidade: {produto.quantidade}
                     </p>
                   </div>
-                  <div className="InfoDescription">
-                    <p className="ProductDetail">{produto.descricao}</p>
-                  </div>
                 </div>
+                <BuyButton />
               </li>
             ))}
           </ul>
-          {mensagemErro && <p className="ErrorMessage">{mensagemErro}</p>}
+          {mensagemErro && <p className={Styles.Main__ErrorMessage}>{mensagemErro}</p>}
           {produtos.length > numProdutosExibidos && (
-            <button className="ShowMoreButton" onClick={mostrarMaisProdutos}>
-              Mostrar Mais
-            </button>
+            <div className={Styles.Main__container__ShowMoreButton}>
+              <button className={Styles.Main__container__ButtonStyle} onClick={mostrarMaisProdutos}>
+                Mostrar Mais
+              </button>
+            </div>
           )}
         </div>
       )}
