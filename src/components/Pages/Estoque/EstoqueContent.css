@@ -1,10 +1,5 @@
 .containerForm {
-    padding-top: 150px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    margin-bottom: 60px;
-    flex-direction: column;
+    flex: 0;
 }
 
 .product-form {

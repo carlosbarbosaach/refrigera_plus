@@ -1,11 +1,9 @@
 .MainContent {
-    width: 100%;
-    height: 100%;
-    padding-top: 100px;
+    flex: 0;
 }
 
 .ProductItems {
-    max-width: 1200px;
+    max-width: 1400px;
     margin: 0 auto;
     padding: 10px 25px;
 }
