@@ -9,11 +9,6 @@ import iconManagement from '../../assets/icon_chart01.svg'
 import iconBox from '../../assets/icon_box01.svg'
 
 function Header() {
-  const [searchTerm, setSearchTerm] = useState("");
-
-  const handleSearchChange = (term) => {
-    setSearchTerm(term);
-  };
 
   return (
     <header className={Styles.Header}>
@@ -21,10 +16,6 @@ function Header() {
         <Link to="/">
         <img src={LogoRefrigera} alt="Refrigera PluS" className={Styles.Header__container__logo} />
         </Link>
-        <form className={Styles.Header__container__form}>
-          <InputPesquisar onSearchChange={handleSearchChange} />
-          <BtnPesquisar />
-        </form>
         <nav className={Styles.Header__container__nav}>
           <ul>
             <li className={Styles.Header__item}>

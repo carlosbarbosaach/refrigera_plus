@@ -1,21 +1,27 @@
 import React, { useState, useEffect } from "react";
-import Styles from '../../../Styles/Pages/Main/MainContent.module.scss'
+import Styles from '../../../Styles/Pages/Main/MainContent.module.scss';
 import API from "../../../hooks/useApi";
-import BuyButton from '../../BotaoComprar/BuyButton'
+import BuyButton from '../../BotaoComprar/BuyButton';
+import LupaIcon from '../../../assets/icon_lupa.svg';
+import IconDown from '../../../assets/icon_down.svg';
+import IconAltaEstoque from '../../../assets/icon_trend-up.svg';
+import IconBaixaEstoque from '../../../assets/icon_trend-down.svg';
+import CarrinhoIcon from '../../../assets/icon_bag.svg';
 
 function MainContent() {
   const [produtos, setProdutos] = useState([]);
   const [mensagemErro, setMensagemErro] = useState("");
   const [numProdutosExibidos, setNumProdutosExibidos] = useState(4);
-  const [carregando, setCarregando] = useState(true); // Estado para controlar o carregamento dos produtos
+  const [carregando, setCarregando] = useState(true);
   const [pesquisa, setPesquisa] = useState("");
+  const [contadorCliques, setContadorCliques] = useState(-1); // Inicializado com -1
 
   useEffect(() => {
     async function fetchData() {
       try {
         const produtosData = await API.getProduto();
         setProdutos(produtosData);
-        setCarregando(false); // Altera o estado de carregamento após receber os dados
+        setCarregando(false);
       } catch (error) {
         console.error("Erro ao buscar dados da API:", error);
         setMensagemErro(
@@ -27,28 +33,48 @@ function MainContent() {
   }, []);
 
   const formatPrice = (price) => {
-    return `R$ ${price.toFixed(2)}`;
+    return `${price.toFixed(2)}`;
   };
 
   const mostrarMaisProdutos = () => {
     setNumProdutosExibidos(numProdutosExibidos + 5);
   };
 
-  // Função para filtrar os produtos com base no texto de pesquisa
+  const adicionarAoCarrinho = () => {
+    setContadorCliques(contadorCliques + 1);
+  };
+
   const filtrarProdutos = (produto) => {
     return produto.nome.toLowerCase().includes(pesquisa.toLowerCase());
   };
 
+  const produtosFiltrados = produtos.filter(filtrarProdutos);
+  const naoHaProdutos = produtosFiltrados.length === 0;
+
   return (
     <main className={Styles.Main}>
-      {carregando ? ( // Renderiza uma mensagem de carregamento enquanto os produtos estão sendo buscados
+      {carregando ? (
         <p>Carregando...</p>
       ) : (
         <div className={Styles.Main__container}>
-          <p className={Styles.Main__container__richTextTitle}>Nossos produtos</p>
+          <div className={Styles.Main__container__searchInput}>
+            <input
+              type="text"
+              placeholder="Pesquisar produtos..."
+              value={pesquisa}
+              onChange={(e) => setPesquisa(e.target.value)}
+              className={Styles.Main__container__searchInput__Styles}
+            />
+            <img className={Styles.Main__container__searchInput__lupaIcon} src={LupaIcon} alt="Icone de Lupa" />
+          </div>
+          {produtosFiltrados.length > 0 && (
+            <p className={Styles.Main__container__richTextTitle}>Nossos produtos</p>
+          )}
+          {produtosFiltrados.length === 0 && pesquisa.length > 0 && (
+            <p className={Styles.Main__container__notProduct}>Nenhum produto encontrado com o termo de pesquisa "{pesquisa}".</p>
+          )}
           <ul className={Styles.Main__container__ul}>
-            {produtos
-              .filter(filtrarProdutos)
+            {produtosFiltrados
               .slice(0, numProdutosExibidos)
               .map((produto) => (
                 <li key={produto.id} className={Styles.Main__container__ul__li}>
@@ -57,38 +83,43 @@ function MainContent() {
                       <img src={`http://45.235.53.125:8080/api/imagem/${produto.idImagem}`} alt="Imagem do produto" />
                     </div>
                   )}
+                  <p className={`ProductQuantity ${produto.quantidade && produto.quantidade < 10 ? Styles.LowQuantity : Styles.HighQuantity}`}>
+                    {produto.quantidade && produto.quantidade < 10 ? (
+                      <img src={IconBaixaEstoque} alt="Estoque Baixo" />
+                    ) : (
+                      <img src={IconAltaEstoque} alt="Estoque Alto" />
+                    )}
+                  </p>
                   <div className={Styles.Main__container__productInfo}>
                     <div className={Styles.Main__container__productInfo__NameCategory}>
                       <h3>{produto.nome}</h3>
                       <p>
-                        {" "}
-                        {produto.categoria
-                          ? produto.categoria.nome
-                          : "Categoria não especificada"}
+                        {produto.categoria ? produto.categoria.nome : "Categoria não especificada"}
                       </p>
                     </div>
                     <div className={Styles.Main__container__productInfo__PriceQuantity}>
                       <p>
-                        <span>{formatPrice(produto.preco)}</span>
-                      </p>
-                      <p
-                        className={`ProductQuantity ${produto.quantidade < 5 ? "LowQuantity" : "HighQuantity"
-                          }`}
-                      >
-                        Quantidade: {produto.quantidade}
+                        R$<span>{formatPrice(produto.preco)}</span>
                       </p>
                     </div>
                   </div>
-                  <BuyButton />
+                  <BuyButton onClick={adicionarAoCarrinho} />
                 </li>
               ))}
           </ul>
           {mensagemErro && <p className={Styles.Main__ErrorMessage}>{mensagemErro}</p>}
-          {produtos.length > numProdutosExibidos && (
+          {!naoHaProdutos && produtos.length > numProdutosExibidos && (
             <div className={Styles.Main__container__ShowMoreButton}>
               <button className={Styles.Main__container__ButtonStyle} onClick={mostrarMaisProdutos}>
-                Mostrar Mais
+                Mostrar Mais <img src={IconDown} alt="Ícone de seta para baixo" />
               </button>
+            </div>
+          )}
+          {/* Exibe o ícone do carrinho e a contagem de cliques após o primeiro clique */}
+          {contadorCliques > 0 && (
+            <div className={Styles.Main__container__carrinho}>
+              <img src={CarrinhoIcon} alt="Ícone de Carrinho" />
+              <p className={Styles.Main__container__contadorCliques}>{contadorCliques}</p>
             </div>
           )}
         </div>
