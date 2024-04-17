@@ -1,19 +1,28 @@
-import React from 'react';
+import React, { useState } from 'react';
+import { Link } from 'react-router-dom';
 import InputPesquisar from './components/InputPesquisar/InputPesquisar'
 import BtnPesquisar from './components/BotaoPesquisar/BtnPesquisar'
 import Styles from '../../Styles/Header/Header.module.scss';
 import LogoRefrigera from '../../assets/logo_refrigera.png'
-import iconHome from '../../assets/icon_home.svg'
-import iconManagement from '../../assets/icon_management.svg'
-import iconBox from '../../assets/icon_box.svg'
+import iconHome from '../../assets/icon_home01.svg'
+import iconManagement from '../../assets/icon_chart01.svg'
+import iconBox from '../../assets/icon_box01.svg'
 
 function Header() {
+  const [searchTerm, setSearchTerm] = useState("");
+
+  const handleSearchChange = (term) => {
+    setSearchTerm(term);
+  };
+
   return (
     <header className={Styles.Header}>
       <div className={Styles.Header__container}>
+        <Link to="/">
         <img src={LogoRefrigera} alt="Refrigera PluS" className={Styles.Header__container__logo} />
+        </Link>
         <form className={Styles.Header__container__form}>
-          <InputPesquisar />
+          <InputPesquisar onSearchChange={handleSearchChange} />
           <BtnPesquisar />
         </form>
         <nav className={Styles.Header__container__nav}>

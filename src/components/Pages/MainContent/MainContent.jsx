@@ -8,6 +8,7 @@ function MainContent() {
   const [mensagemErro, setMensagemErro] = useState("");
   const [numProdutosExibidos, setNumProdutosExibidos] = useState(4);
   const [carregando, setCarregando] = useState(true); // Estado para controlar o carregamento dos produtos
+  const [pesquisa, setPesquisa] = useState("");
 
   useEffect(() => {
     async function fetchData() {
@@ -33,6 +34,11 @@ function MainContent() {
     setNumProdutosExibidos(numProdutosExibidos + 5);
   };
 
+  // Função para filtrar os produtos com base no texto de pesquisa
+  const filtrarProdutos = (produto) => {
+    return produto.nome.toLowerCase().includes(pesquisa.toLowerCase());
+  };
+
   return (
     <main className={Styles.Main}>
       {carregando ? ( // Renderiza uma mensagem de carregamento enquanto os produtos estão sendo buscados
@@ -41,38 +47,41 @@ function MainContent() {
         <div className={Styles.Main__container}>
           <p className={Styles.Main__container__richTextTitle}>Nossos produtos</p>
           <ul className={Styles.Main__container__ul}>
-            {produtos.slice(0, numProdutosExibidos).map((produto) => (
-              <li key={produto.id} className={Styles.Main__container__ul__li}>
-                {produto.idImagem && (
-                  <div className={Styles.Main__container__imagem}>
-                    <img src={`http://45.235.53.125:8080/api/imagem/${produto.idImagem}`} alt="Imagem do produto" />
+            {produtos
+              .filter(filtrarProdutos)
+              .slice(0, numProdutosExibidos)
+              .map((produto) => (
+                <li key={produto.id} className={Styles.Main__container__ul__li}>
+                  {produto.idImagem && (
+                    <div className={Styles.Main__container__imagem}>
+                      <img src={`http://45.235.53.125:8080/api/imagem/${produto.idImagem}`} alt="Imagem do produto" />
+                    </div>
+                  )}
+                  <div className={Styles.Main__container__productInfo}>
+                    <div className={Styles.Main__container__productInfo__NameCategory}>
+                      <h3>{produto.nome}</h3>
+                      <p>
+                        {" "}
+                        {produto.categoria
+                          ? produto.categoria.nome
+                          : "Categoria não especificada"}
+                      </p>
+                    </div>
+                    <div className={Styles.Main__container__productInfo__PriceQuantity}>
+                      <p>
+                        <span>{formatPrice(produto.preco)}</span>
+                      </p>
+                      <p
+                        className={`ProductQuantity ${produto.quantidade < 5 ? "LowQuantity" : "HighQuantity"
+                          }`}
+                      >
+                        Quantidade: {produto.quantidade}
+                      </p>
+                    </div>
                   </div>
-                )}
-                <div className={Styles.Main__container__productInfo}>
-                  <div className={Styles.Main__container__productInfo__NameCategory}>
-                    <h3>{produto.nome}</h3>
-                    <p>
-                      {" "}
-                      {produto.categoria
-                        ? produto.categoria.nome
-                        : "Categoria não especificada"}
-                    </p>
-                  </div>
-                  <div className={Styles.Main__container__productInfo__PriceQuantity}>
-                    <p>
-                      <span>{formatPrice(produto.preco)}</span>
-                    </p>
-                    <p
-                      className={`ProductQuantity ${produto.quantidade < 5 ? "LowQuantity" : "HighQuantity"
-                        }`}
-                    >
-                      Quantidade: {produto.quantidade}
-                    </p>
-                  </div>
-                </div>
-                <BuyButton />
-              </li>
-            ))}
+                  <BuyButton />
+                </li>
+              ))}
           </ul>
           {mensagemErro && <p className={Styles.Main__ErrorMessage}>{mensagemErro}</p>}
           {produtos.length > numProdutosExibidos && (
