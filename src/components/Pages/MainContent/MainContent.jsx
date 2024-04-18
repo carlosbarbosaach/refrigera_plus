@@ -5,6 +5,7 @@ import BuyButton from '../../BotaoComprar/BuyButton';
 import LupaIcon from '../../../assets/icon_lupa.svg';
 import IconDown from '../../../assets/icon_down.svg';
 import CarrinhoIcon from '../../../assets/icon_bag.svg';
+import Modal from './Modal/Modal';
 
 function MainContent() {
   const [produtos, setProdutos] = useState([]);
@@ -12,7 +13,9 @@ function MainContent() {
   const [numProdutosExibidos, setNumProdutosExibidos] = useState(4);
   const [carregando, setCarregando] = useState(true);
   const [pesquisa, setPesquisa] = useState("");
-  const [contadorCliques, setContadorCliques] = useState(-1); // Inicializado com -1
+  const [contadorCliques, setContadorCliques] = useState(0);
+  const [modalAberto, setModalAberto] = useState(false);
+  const [produtosNoCarrinho, setProdutosNoCarrinho] = useState({});
 
   useEffect(() => {
     async function fetchData() {
@@ -38,8 +41,19 @@ function MainContent() {
     setNumProdutosExibidos(numProdutosExibidos + 5);
   };
 
-  const adicionarAoCarrinho = () => {
+  const adicionarAoCarrinho = (produto) => {
     setContadorCliques(contadorCliques + 1);
+    if (produtosNoCarrinho[produto.id]) {
+      setProdutosNoCarrinho({
+        ...produtosNoCarrinho,
+        [produto.id]: produtosNoCarrinho[produto.id] + 1
+      });
+    } else {
+      setProdutosNoCarrinho({
+        ...produtosNoCarrinho,
+        [produto.id]: 1
+      });
+    }
   };
 
   const filtrarProdutos = (produto) => {
@@ -65,9 +79,17 @@ function MainContent() {
             />
             <img className={Styles.Main__container__searchInput__lupaIcon} src={LupaIcon} alt="Icone de Lupa" />
           </div>
-          {produtosFiltrados.length > 0 && (
-            <p className={Styles.Main__container__richTextTitle}>Nossos produtos</p>
-          )}
+          <div className={Styles.Main__container__Wrapper}>
+            {produtosFiltrados.length > 0 && (
+              <p className={Styles.Main__container__richTextTitle}>Nossos produtos</p>
+            )}
+            {contadorCliques > 0 && (
+              <div className={Styles.Main__container__Wrapper__carrinho} onClick={() => setModalAberto(true)}>
+                <img src={CarrinhoIcon} alt="Ícone de Carrinho" />
+                <p className={Styles.Main__container__Wrapper__contadorCliques}>{contadorCliques}</p>
+              </div>
+            )}
+          </div>
           {produtosFiltrados.length === 0 && pesquisa.length > 0 && (
             <p className={Styles.Main__container__notProduct}>Nenhum produto encontrado com o termo de pesquisa "{pesquisa}".</p>
           )}
@@ -100,7 +122,7 @@ function MainContent() {
                       </p>
                     </div>
                   </div>
-                  <BuyButton onClick={adicionarAoCarrinho} />
+                  <BuyButton onClick={() => adicionarAoCarrinho(produto)} />
                 </li>
               ))}
           </ul>
@@ -112,12 +134,11 @@ function MainContent() {
               </button>
             </div>
           )}
-          {/* Exibe o ícone do carrinho e a contagem de cliques após o primeiro clique */}
-          {contadorCliques > 0 && (
-            <div className={Styles.Main__container__carrinho}>
-              <img src={CarrinhoIcon} alt="Ícone de Carrinho" />
-              <p className={Styles.Main__container__contadorCliques}>{contadorCliques}</p>
-            </div>
+          {modalAberto && (
+            <Modal
+              produtosNoCarrinho={produtosNoCarrinho}
+              onClose={() => setModalAberto(false)}
+            />
           )}
         </div>
       )}
