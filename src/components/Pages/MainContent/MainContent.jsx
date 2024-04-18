@@ -4,8 +4,6 @@ import API from "../../../hooks/useApi";
 import BuyButton from '../../BotaoComprar/BuyButton';
 import LupaIcon from '../../../assets/icon_lupa.svg';
 import IconDown from '../../../assets/icon_down.svg';
-import IconAltaEstoque from '../../../assets/icon_trend-up.svg';
-import IconBaixaEstoque from '../../../assets/icon_trend-down.svg';
 import CarrinhoIcon from '../../../assets/icon_bag.svg';
 
 function MainContent() {
@@ -83,13 +81,6 @@ function MainContent() {
                       <img src={`http://45.235.53.125:8080/api/imagem/${produto.idImagem}`} alt="Imagem do produto" />
                     </div>
                   )}
-                  <p className={`ProductQuantity ${produto.quantidade && produto.quantidade < 10 ? Styles.LowQuantity : Styles.HighQuantity}`}>
-                    {produto.quantidade && produto.quantidade < 10 ? (
-                      <img src={IconBaixaEstoque} alt="Estoque Baixo" />
-                    ) : (
-                      <img src={IconAltaEstoque} alt="Estoque Alto" />
-                    )}
-                  </p>
                   <div className={Styles.Main__container__productInfo}>
                     <div className={Styles.Main__container__productInfo__NameCategory}>
                       <h3>{produto.nome}</h3>
@@ -100,6 +91,12 @@ function MainContent() {
                     <div className={Styles.Main__container__productInfo__PriceQuantity}>
                       <p>
                         R$<span>{formatPrice(produto.preco)}</span>
+                      </p>
+                      <p
+                        className={`ProductQuantity ${produto.quantidade < 5 ? "LowQuantity" : "HighQuantity"
+                          }`}
+                      >
+                        Quantidade: <span className={Styles.spanQuantity}>{produto.quantidade}</span>
                       </p>
                     </div>
                   </div>

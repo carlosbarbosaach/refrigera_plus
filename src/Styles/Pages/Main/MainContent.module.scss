@@ -19,7 +19,7 @@
         }
 
         &__searchInput {
-            margin: 60px 0 25px;
+            margin: 40px 0 25px;
             display: flex;
             align-items: center;
             position: relative;
@@ -28,9 +28,9 @@
             &__lupaIcon {
                 position: absolute;
                 top: 50%;
-                right: 10px; // Ajuste a posição conforme necessário
+                right: 10px;
                 transform: translateY(-50%);
-                cursor: pointer; // Adicione cursor pointer para indicar que é clicável
+                cursor: pointer;
             }
 
             &__Styles {
@@ -110,6 +110,7 @@
             & img {
                 max-height: 146px;
                 min-height: 210px;
+                max-width: 260px;
             }
         }
 
@@ -153,14 +154,19 @@
                 & p {
                     margin: 0 auto;
                     padding: 0;
-                    font-size: 14px;
-                    font-weight: 700;
-                    color: $colorBlue01;
+                    font-size: 12px;
+                    color: $colorBlack01;
                     font-weight: 500;
+                    margin: 5px 0 0;
+
+                    & .spanQuantity {
+                        color: $colorBlack01;
+                        font-size: 16px;
+                    }
                 }
 
                 & span {
-                    font-size: 26px;
+                    font-size: 32px;
                     font-weight: 700;
                     color: $colorBlue01;
                 }
@@ -200,21 +206,3 @@
         }
     }
 }
-
-.ProductQuantity {
-    position: absolute;
-    top: -2px;
-    right: 20px;
-}
-
-.LowQuantity {
-    position: absolute;
-    top: -2px;
-    right: 20px;
-  }
-  
-  .HighQuantity {
-    position: absolute;
-    top: -2px;
-    right: 20px;
-  }
