@@ -1,10 +1,11 @@
 import React from "react";
+import Styles from "../../../../Styles/Pages/Main/ModalCarrinho.module.scss";
 
-function Modal({ produtosNoCarrinho, onClose }) {
+function Modal({ produtosNoCarrinho, onClose, onFinalizarCompra }) {
     return (
-        <div className="modal">
-            <div className="modal-content">
-                <span className="close" onClick={onClose}>
+        <div className={Styles.modalBackground}>
+            <div className={Styles.modalContent}>
+                <span className={Styles.close} onClick={onClose}>
                     &times;
                 </span>
                 <h2>Produtos Comprados</h2>
@@ -15,6 +16,7 @@ function Modal({ produtosNoCarrinho, onClose }) {
                         </li>
                     ))}
                 </ul>
+                <button onClick={onFinalizarCompra} className={Styles.finalizarButton}>Finalizar Compra</button>
             </div>
         </div>
     );
