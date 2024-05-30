@@ -6,6 +6,7 @@ import LupaIcon from '../../../assets/icon_lupa.svg';
 import IconDown from '../../../assets/icon_down.svg';
 import CarrinhoIcon from '../../../assets/icon_bag.svg';
 import Modal from './Modal/Modal';
+import { ColorRing } from 'react-loader-spinner'
 
 function MainContent() {
   const [produtos, setProdutos] = useState([]);
@@ -66,7 +67,15 @@ function MainContent() {
   return (
     <main className={Styles.Main}>
       {carregando ? (
-        <p>Carregando...</p>
+        <ColorRing
+        visible={true}
+        height="80"
+        width="80"
+        ariaLabel="color-ring-loading"
+        wrapperStyle={{}}
+        wrapperClass="color-ring-wrapper"
+        colors={['#3889F2', '#076DF2', '#0554F2', '#3889F2', '#0554F2']}
+        />
       ) : (
         <div className={Styles.Main__container}>
           <div className={Styles.Main__container__searchInput}>
