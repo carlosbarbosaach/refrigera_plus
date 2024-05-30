@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
-import './GestaoContent.css';
-import bannerImage from '../../../assets/banner-analise.png'; // Importe a imagem do seu banner
+import Styles from '../../../Styles/Pages/Gestao/GestaoContent.module.scss';
+import bannerImage from '../../../assets/banner-analise.png';
 
 function GestaoContent() {
   const [products, setProducts] = useState([]);
@@ -8,9 +8,9 @@ function GestaoContent() {
   const [highStockPercentage, setHighStockPercentage] = useState(0);
   const [totalPrice, setTotalPrice] = useState(0);
   const [error, setError] = useState(null);
-  const [showDataAnalysis, setShowDataAnalysis] = useState(false); // Estado para controlar a visibilidade da tela de análise de dados
-  const [showPromotionsAnalysis, setShowPromotionsAnalysis] = useState(false); // Estado para controlar a visibilidade da tela de análise de promoções e descontos
-  const [showFinancialAnalysis, setShowFinancialAnalysis] = useState(false); // Estado para controlar a visibilidade da tela de análise financeira e contabilidade
+  const [showDataAnalysis, setShowDataAnalysis] = useState(false);
+  const [showPromotionsAnalysis, setShowPromotionsAnalysis] = useState(false);
+  const [showFinancialAnalysis, setShowFinancialAnalysis] = useState(false);
 
   useEffect(() => {
     if (showDataAnalysis || showPromotionsAnalysis || showFinancialAnalysis) {
@@ -75,48 +75,46 @@ function GestaoContent() {
 
   return (
     <>
-      <main className='GestaoContent'>
-        <div className="banner-container">
-          <img src={bannerImage} alt="Banner" className="banner-image" />
+      <main className={Styles.GestaoContent}>
+        <div className={Styles.GestaoContent__bannerContainer}>
+          <img className={Styles.GestaoContent__bannerContainer__image} src={bannerImage} alt="Banner"/>
         </div>
-        <h2>Página de Gestão</h2>
-        <div className='GestaoContainer'>
-          <div className='GestaoBox'>
-            {/* Adicione eventos onClick para alterar os estados */}
-            <a href="#" onClick={handleDataAnalysisClick}>Análise de Dados e Relatórios</a>
-            <a href="#" onClick={handlePromotionsClick}>Gestão de Promoções e Descontos</a>
-            <a href="#" onClick={handleFinancialClick}>Gestão Financeira e Contabilidade</a>
+        <h2 className={Styles.GestaoContent__title}>Página de Gestão</h2>
+        <div className={Styles.GestaoContainer}>
+          <div className={Styles.GestaoContainer__box}>
+            <a className={Styles.GestaoContainer__subtitle} href="#" onClick={handleDataAnalysisClick}>Análise de Dados e Relatórios</a>
+            <a className={Styles.GestaoContainer__subtitle} href="#" onClick={handlePromotionsClick}>Gestão de Promoções e Descontos</a>
+            <a className={Styles.GestaoContainer__subtitle} href="#" onClick={handleFinancialClick}>Gestão Financeira e Contabilidade</a>
           </div>
         </div>
-        <div className='containerAnalise'>
+        <div className={Styles.containerAnalise}>
           {showDataAnalysis && (
-            <div className='contentAnalise'>
-              <h2>Análise de Dados e Relatórios</h2>
+            <div className={Styles.containerAnalise__content}>
+              <h2 className={Styles.containerAnalise__content__title}>Análise de Dados e Relatórios</h2>
               <div>
-                <p>Total de produtos cadastrados: {products.length}</p>
-                <p>Produtos com alto estoque:</p>
-                <div className="progress-bar" style={{ width: '300px' }}>
+                <p className={Styles.containerAnalise__content__subtitle}>Total de produtos cadastrados: {products.length}</p>
+                <p className={Styles.containerAnalise__content__subtitle}>Produtos com alto estoque:</p>
+                <div className="progress-bar" style={{ width: '300px', backgroundColor: '#EBEBEB', borderRadius: '8px'}}>
                   <div className="progress" style={{ width: `${highStockPercentage}%`, backgroundColor: getProgressBarColor(highStockPercentage) }}>{highStockPercentage.toFixed(2)}%</div>
                 </div>
                 <br />
-                <p>Produtos com baixo estoque:</p>
-                <div className="progress-bar" style={{ width: '300px' }}>
+                <p className={Styles.containerAnalise__content__subtitle} >Produtos com baixo estoque:</p>
+                <div className="progress-bar" style={{ width: '300px', backgroundColor: '#EBEBEB', borderRadius: '8px'}}>
                   <div className="progress" style={{ width: `${lowStockPercentage}%`, backgroundColor: getProgressBarColor(lowStockPercentage) }}>{lowStockPercentage.toFixed(2)}%</div>
                 </div>
               </div>
             </div>
           )}
           {showPromotionsAnalysis && (
-            <div className='contentAnalise'>
-              <h2>Gestão de Promoções e Descontos</h2>
-              <p>No momento não há promoções ou descontos disponíveis.</p>
+            <div className={Styles.containerAnalise__content}>
+              <h2 className={Styles.containerAnalise__content__title}>Gestão de Promoções e Descontos</h2>
+              <p className={Styles.containerAnalise__content__subtitle}>No momento não há promoções ou descontos disponíveis.</p>
             </div>
           )}
           {showFinancialAnalysis && (
-            <div className='contentAnalise'>
-              <h2>Gestão Financeira e Contabilidade</h2>
-              <p>Aqui você pode visualizar e analisar dados financeiros e contábeis.</p>
-              {/* Adicione outras informações relacionadas à gestão financeira e contabilidade */}
+            <div className={Styles.containerAnalise__content}>
+              <h2 className={Styles.containerAnalise__content__title}>Gestão Financeira e Contabilidade</h2>
+              <p className={Styles.containerAnalise__content__subtitle}>Aqui você pode visualizar e analisar dados financeiros e contábeis.</p>
             </div>
           )}
         </div>

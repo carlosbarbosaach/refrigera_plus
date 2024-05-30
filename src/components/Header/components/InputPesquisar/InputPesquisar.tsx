@@ -1,12 +1,23 @@
+// InputPesquisar.js
 import React from 'react';
-import './InputPesquisar.css';
+import Styles from "../../../../Styles/Header/Input.module.scss"
 
-function Header() {
+function InputPesquisar({ onSearchChange }) {
+    const handleSearchChange = (event) => {
+        const searchTerm = event.target.value;
+        onSearchChange(searchTerm);
+    };
+
     return (
         <>
-            <input type="text" placeholder="Pesquisar produtos..." />
+            <input
+                className={Styles.Input}
+                type="text"
+                placeholder="Pesquisar produtos..."
+                onChange={handleSearchChange}
+            />
         </>
     );
 }
 
-export default Header;
+export default InputPesquisar;

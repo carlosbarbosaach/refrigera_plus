@@ -1,14 +1,34 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import './EstoqueContent.css';
+import GetEstoque from "./GetEstoque";
 
 function EstoqueContent() {
-  const [categoriaId, setCategoriaId] = useState(0);
+  const [categorias, setCategorias] = useState([]);
+  const [categoriaId, setCategoriaId] = useState('');
   const [descricao, setDescricao] = useState('');
   const [nome, setNome] = useState('');
   const [preco, setPreco] = useState(0);
   const [quantidade, setQuantidade] = useState(0);
   const [imagem, setImagem] = useState(null);
   const [idProduto, setIdProduto] = useState(null);
+  const [showModal, setShowModal] = useState(false);
+
+  useEffect(() => {
+    const fetchCategorias = async () => {
+      try {
+        const response = await fetch('http://45.235.53.125:8080/api/categoria');
+        if (!response.ok) {
+          throw new Error('Erro ao obter categorias: ' + response.statusText);
+        }
+        const data = await response.json();
+        setCategorias(data);
+      } catch (error) {
+        console.error('Erro ao obter categorias:', error);
+      }
+    };
+
+    fetchCategorias();
+  }, []);
 
   const handleInputChange = (event) => {
     const { name, value } = event.target;
@@ -35,6 +55,22 @@ function EstoqueContent() {
 
   const handleImageChange = (event) => {
     setImagem(event.target.files[0]);
+  };
+
+  const handleSubmit = async (event) => {
+    event.preventDefault();
+
+    try {
+      const idImagem = await cadastrarImagem();
+      const idProdutoResponse = await cadastrarProduto(idImagem);
+
+      await atualizarProdutoComImagem(idImagem, idProdutoResponse);
+
+      console.log('Produto cadastrado com sucesso e imagem associada.');
+      setShowModal(false); // Fechar o modal após o cadastro do produto
+    } catch (error) {
+      console.error('Erro ao cadastrar produto:', error);
+    }
   };
 
   const cadastrarImagem = async () => {
@@ -120,98 +156,106 @@ function EstoqueContent() {
     }
   };
 
-  const handleSubmit = async (event) => {
-    event.preventDefault();
+  const openModal = () => {
+    setShowModal(true);
+  };
 
-    try {
-      const idImagem = await cadastrarImagem();
-      const idProdutoResponse = await cadastrarProduto(idImagem);
-
-      await atualizarProdutoComImagem(idImagem, idProdutoResponse);
-
-      console.log('Produto cadastrado com sucesso e imagem associada.');
-    } catch (error) {
-      console.error('Erro ao cadastrar produto:', error);
-    }
+  const closeModal = () => {
+    setShowModal(false);
   };
 
   return (
     <>
       <div className='containerForm'>
-        <form className="product-form" onSubmit={handleSubmit}>
-          <h2>Página de Gestão</h2>
-          <div className="form-group">
-            <label htmlFor="nome">
-              Nome:
-              <input
-                className="form-control"
-                name="nome"
-                type="text"
-                value={nome}
-                onChange={handleInputChange}
-              />
-            </label>
+      <button className="btn-add" onClick={openModal}>
+          Adicionar Novo Produto
+        </button>
+        <GetEstoque />
+        {showModal && (
+          <div className="modal" onClick={closeModal}>
+            <div className="modal-content" onClick={(e) => e.stopPropagation()}>
+              <button className="close-modal" onClick={closeModal}>X</button>
+              <form className="product-form" onSubmit={handleSubmit}>
+                <div className="form-group">
+                <h2>Adicionar Novo Produto</h2>
+                  <label htmlFor="nome">
+                    Nome:
+                    <input
+                      className="form-control"
+                      name="nome"
+                      type="text"
+                      value={nome}
+                      onChange={handleInputChange}
+                    />
+                  </label>
+                </div>
+                <div className="form-group">
+                  <label htmlFor="categoriaId">
+                    Categoria:
+                    <select
+                      className="form-control"
+                      name="categoriaId"
+                      value={categoriaId}
+                      onChange={handleInputChange}
+                    >
+                      <option value="">Selecione uma categoria</option>
+                      {categorias.map(categoria => (
+                        <option key={categoria.id} value={categoria.id}>{categoria.nome}</option>
+                      ))}
+                    </select>
+                  </label>
+                </div>
+                <div className="form-group">
+                  <label htmlFor="preco">
+                    Preço:
+                    <input
+                      className="form-control"
+                      name="preco"
+                      type="number"
+                      value={preco}
+                      onChange={handleInputChange}
+                    />
+                  </label>
+                </div>
+                <div className="form-group">
+                  <label htmlFor="quantidade">
+                    Quantidade:
+                    <input
+                      className="form-control"
+                      name="quantidade"
+                      type="number"
+                      value={quantidade}
+                      onChange={handleInputChange}
+                    />
+                  </label>
+                </div>
+                <div className="form-group">
+                  <label htmlFor="descricao" className="form-label">
+                    Descrição:
+                    <textarea
+                      className="form-control"
+                      name="descricao"
+                      value={descricao}
+                      onChange={handleInputChange}
+                    />
+                  </label>
+                </div>
+                <div className="form-group">
+                  <label htmlFor="imagem">
+                    Imagem:
+                    <input
+                      className="form-control"
+                      name="imagem"
+                      type="file"
+                      onChange={handleImageChange}
+                    />
+                  </label>
+                </div>
+                <button className="btn-submit" type="submit">Cadastrar Produto</button>
+              </form>
+            </div>
           </div>
-          <div className="form-group">
-            <label htmlFor="categoriaId">
-              ID da Categoria:
-              <input
-                className="form-control"
-                name="categoriaId"
-                type="number"
-                value={categoriaId}
-                onChange={handleInputChange}
-              />
-            </label>
-          </div>
-          <div className="form-group">
-            <label htmlFor="preco">
-              Preço:
-              <input
-                className="form-control"
-                name="preco"
-                type="number"
-                value={preco}
-                onChange={handleInputChange}
-              />
-            </label>
-          </div>
-          <div className="form-group">
-            <label htmlFor="quantidade">
-              Quantidade:
-              <input
-                className="form-control"
-                name="quantidade"
-                type="number"
-                value={quantidade}
-                onChange={handleInputChange}
-              />
-            </label>
-          </div>
-          <div className="form-group">
-            <label htmlFor="descricao" className="form-label">
-              Descrição:
-              <textarea
-                className="form-control"
-                name="descricao"
-                value={descricao}
-                onChange={handleInputChange}
-              />
-            </label>
-          </div>
-          <div className="form-group">
-            <label htmlFor="imagem">
-              Imagem:
-              <input
-                className="form-control"
-                name="imagem"
-                type="file"
-                onChange={handleImageChange}
-              />
-            </label>
-          </div>
-          <button className="btn-submit" type="submit">Cadastrar Produto</button>
-        </form>
+        )}
       </div>
     </>
   );

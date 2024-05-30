@@ -1,0 +1,227 @@
+@import "../../Mixins/variables.scss";
+
+.Main {
+    flex-grow: 1;
+    max-width: 1256px;
+    margin: 0 auto;
+    padding: 140px 0 60px;
+
+    &__container {
+        &__searchInput {
+            margin: 40px 0 25px;
+            display: flex;
+            align-items: center;
+            position: relative;
+            justify-content: flex-end;
+
+            &__lupaIcon {
+                position: absolute;
+                top: 50%;
+                right: 10px;
+                transform: translateY(-50%);
+                cursor: pointer;
+            }
+
+            &__Styles {
+                padding-right: 36px;
+                max-width: 450px;
+                padding: 8px 12px;
+                width: 100%;
+                border: 1px solid $colorBlue03;
+                border-radius: 8px;
+                transition: border-color 0.4s ease;
+                height: 24px;
+
+                &:focus {
+                    outline: none;
+                }
+
+                &:focus-visible {
+                    border: solid 3px $colorBlue02;
+                }
+
+                &::placeholder {
+                    color: $colorGrey02;
+                    font-weight: 500;
+                    font-size: 14px;
+                    font-family: 'Poppins', sans-serif;
+                    line-height: 1.5;
+                    font-weight: 400;
+                }
+            }
+        }
+
+        &__notProduct {
+            color: $colorBlack01;
+            max-width: 450px;
+            font-size: 24px;
+            line-height: 1.5;
+            font-weight: 500;
+            width: 100%;
+        }
+
+        &__richTextTitle {
+            color: $colorBlack01;
+            font-size: 22px;
+            font-weight: 700;
+            line-height: 22px;
+            letter-spacing: .01em;
+            text-align: left;
+            text-transform: none;
+        }
+
+        &__ul {
+            display: grid;
+            padding: 0;
+            gap: 12px;
+            margin: 0 0 40px;
+            grid-template-columns: repeat(4, 1fr);
+
+            &__li {
+                box-shadow: 5px 5px 15px rgba(183, 183, 183, 0.5);
+                display: flex;
+                flex-direction: column;
+                border-radius: 8px;
+                padding: 15px 20px 30px;
+                cursor: pointer;
+                justify-content: space-around;
+                position: relative;
+            }
+        }
+
+        &__imagem {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-bottom: 14px;
+            height: 100%;
+
+            & img {
+                max-height: 146px;
+                min-height: 210px;
+                max-width: 260px;
+            }
+        }
+
+        &__productInfo {
+            margin-bottom: 20px;
+
+            &__NameCategory h3 {
+                color: $colorBlack01;
+                font-size: 16px;
+                font-weight: 400;
+                line-height: 22px;
+                letter-spacing: 0.01em;
+                text-align: left;
+                margin: 0 0 6px;
+                margin-bottom: 10px;
+                min-height: 86px;
+                display: flex;
+                width: 100%;
+                flex-direction: column;
+            }
+
+            &__NameCategory p {
+                color: $colorBlack01;
+                font-size: 12px;
+                font-weight: 400;
+                line-height: 22px;
+                letter-spacing: 0.01em;
+                text-align: left;
+                margin: 0 0 10px;
+            }
+
+            &__PriceQuantity {
+                color: $colorBlack01;
+                font-size: 16px;
+                font-weight: 600;
+                line-height: 22px;
+                letter-spacing: 0.01em;
+                text-align: left;
+                margin: 0 0 6px;
+
+                & p {
+                    margin: 0 auto;
+                    padding: 0;
+                    font-size: 12px;
+                    color: $colorBlack01;
+                    font-weight: 500;
+                    margin: 5px 0 0;
+
+                    & .spanQuantity {
+                        color: $colorBlack01;
+                        font-size: 16px;
+                    }
+                }
+
+                & span {
+                    font-size: 32px;
+                    font-weight: 700;
+                    color: $colorBlue01;
+                }
+            }
+        }
+
+        &__ShowMoreButton {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        &__ButtonStyle {
+            background-color: $colorBlue03;
+            color: $colorWhite01;
+            text-transform: uppercase;
+            line-height: 21px;
+            border: none;
+            padding: 10px 16px;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: background-color 0.4s ease, color 0.4s ease;
+            outline: none;
+            font-weight: 600;
+            font-size: 14px;
+            max-width: 176px;
+            width: 100%;
+            display: flex;
+            justify-content: end;
+            align-items: center;
+            gap: 5px;
+
+            &:hover {
+                background-color: $colorBlue01;
+                color: $colorWhite01;
+            }
+        }
+
+        &__Wrapper {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+
+            &__carrinho {
+                display: flex;
+                align-items: center;
+                position: relative;
+                cursor: pointer;
+            }
+
+            &__contadorCliques {
+                font-size: 12px;
+                color: $colorWhite01;
+                position: absolute;
+                text-align: center;
+                align-items: center;
+                top: -27px;
+                justify-content: center;
+                right: -1px;
+                border-radius: 50%;
+                width: 22px;
+                height: 22px;
+                background-color: $colorBlue01;
+                display: flex;
+            }
+        }
+
+    }
+}

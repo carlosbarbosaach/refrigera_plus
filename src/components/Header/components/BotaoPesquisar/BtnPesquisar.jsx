@@ -1,10 +1,10 @@
 import React from 'react';
-import './BtnPesquisar.css';
+import Styles from "../../../../Styles/Header/BtnPesquisar.module.scss"
 
 function BtnPesquisar() {
     return (
         <>
-            <button className='btn_pesquisa' type="submit">Pesquisar</button>
+            <button className={Styles.BtnPesquisar} type="submit">Pesquisar</button>
         </>
     );
 }
