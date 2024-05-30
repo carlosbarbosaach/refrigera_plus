@@ -6,6 +6,10 @@
     margin: 0 auto;
     padding: 140px 0 60px;
 
+    &__carregando {
+        color: $colorBlack01;
+    }
+
     &__container {
         &__searchInput {
             margin: 40px 0 25px;
