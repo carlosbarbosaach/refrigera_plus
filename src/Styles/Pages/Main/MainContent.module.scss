@@ -176,7 +176,6 @@
             background-color: $colorBlue03;
             color: $colorWhite01;
             text-transform: uppercase;
-            line-height: 21px;
             border: none;
             padding: 10px 16px;
             border-radius: 8px;
@@ -184,11 +183,12 @@
             transition: background-color 0.4s ease, color 0.4s ease;
             outline: none;
             font-weight: 600;
-            font-size: 14px;
-            max-width: 176px;
+            font-size: 13px;
+            max-width: 226px;
             width: 100%;
             display: flex;
-            justify-content: end;
+            letter-spacing: 0.6px;
+            justify-content: center;
             align-items: center;
             gap: 5px;
 

@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import './EstoqueContent.css';
+import Styles from '../../../Styles/Pages/Estoque/EstoqueContent.module.scss';
 import GetEstoque from "./GetEstoque";
 
 function EstoqueContent() {
@@ -166,22 +167,22 @@ function EstoqueContent() {
 
   return (
     <>
-      <div className='containerForm'>
-      <button className="btn-add" onClick={openModal}>
+      <div className={Styles.EstoqueMain}>
+      <button className={Styles.Estoque__add_button} onClick={openModal}>
           Adicionar Novo Produto
         </button>
         <GetEstoque />
         {showModal && (
-          <div className="modal" onClick={closeModal}>
-            <div className="modal-content" onClick={(e) => e.stopPropagation()}>
-              <button className="close-modal" onClick={closeModal}>X</button>
-              <form className="product-form" onSubmit={handleSubmit}>
-                <div className="form-group">
-                <h2>Adicionar Novo Produto</h2>
-                  <label htmlFor="nome">
+          <div className={Styles.Modal} onClick={closeModal}>
+            <div className={Styles.Modal__content} onClick={(e) => e.stopPropagation()}>
+              <button className={Styles.Modal__close} onClick={closeModal}>X</button>
+              <form className={Styles.Modal__content__form} onSubmit={handleSubmit}>
+                <div className={Styles.Modal__content__formGroup}>
+                <h2 className={Styles.Modal__content__title}>Adicionar Novo Produto</h2>
+                  <label className={Styles.Modal__content__label} htmlFor="nome">
                     Nome:
                     <input
-                      className="form-control"
+                      className={Styles.Modal__content__formControl}
                       name="nome"
                       type="text"
                       value={nome}
@@ -189,11 +190,11 @@ function EstoqueContent() {
                     />
                   </label>
                 </div>
-                <div className="form-group">
-                  <label htmlFor="categoriaId">
+                <div className={Styles.Modal__content__formGroup}>
+                  <label className={Styles.Modal__content__label} htmlFor="categoriaId">
                     Categoria:
                     <select
-                      className="form-control"
+                      className={Styles.Modal__content__formControl}
                       name="categoriaId"
                       value={categoriaId}
                       onChange={handleInputChange}
@@ -205,11 +206,11 @@ function EstoqueContent() {
                     </select>
                   </label>
                 </div>
-                <div className="form-group">
-                  <label htmlFor="preco">
+                <div className={Styles.Modal__content__formGroup}>
+                  <label className={Styles.Modal__content__label} htmlFor="preco">
                     Preço:
                     <input
-                      className="form-control"
+                      className={Styles.Modal__content__formControl}
                       name="preco"
                       type="number"
                       value={preco}
@@ -217,11 +218,11 @@ function EstoqueContent() {
                     />
                   </label>
                 </div>
-                <div className="form-group">
-                  <label htmlFor="quantidade">
+                <div className={Styles.Modal__content__formGroup}>
+                  <label className={Styles.Modal__content__label} htmlFor="quantidade">
                     Quantidade:
                     <input
-                      className="form-control"
+                      className={Styles.Modal__content__formControl}
                       name="quantidade"
                       type="number"
                       value={quantidade}
@@ -229,29 +230,31 @@ function EstoqueContent() {
                     />
                   </label>
                 </div>
-                <div className="form-group">
-                  <label htmlFor="descricao" className="form-label">
+                <div className={Styles.Modal__content__formGroup}>
+                  <label className={Styles.Modal__content__label} htmlFor="descricao">
                     Descrição:
                     <textarea
-                      className="form-control"
+                      className={Styles.Modal__content__formControl}
                       name="descricao"
                       value={descricao}
                       onChange={handleInputChange}
                     />
                   </label>
                 </div>
-                <div className="form-group">
-                  <label htmlFor="imagem">
+                <div className={Styles.Modal__content__formGroup}>
+                  <label className={Styles.Modal__content__label} htmlFor="imagem">
                     Imagem:
                     <input
-                      className="form-control"
+                      className={Styles.Modal__content__formControl}
                       name="imagem"
                       type="file"
                       onChange={handleImageChange}
                     />
                   </label>
                 </div>
-                <button className="btn-submit" type="submit">Cadastrar Produto</button>
+                <div className={Styles.Modal__content__containerAdd}>
+                <button className={Styles.Modal__content__containerAdd__addButton} type="submit">Cadastrar Produto</button>
+                </div>
               </form>
             </div>
           </div>
