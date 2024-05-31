@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import Styles from '../../../Styles/Pages/Estoque/EstoqueContent.module.scss';
 import './GetEstoque.css';
 
 const GetEstoque = () => {
@@ -113,16 +114,19 @@ const GetEstoque = () => {
 
     return (
         <>
-            <div>
-                <h1>Lista de Produtos</h1>
+            <div className={Styles.EstoqueContent}>
+                <h1 className={Styles.EstoqueContent__title}>Lista de Produtos</h1>
                 {produtos.map(produto => (
-                    <div key={produto.id}>
-                        <h2>{produto.nome}</h2>
-                        <p>Quantidade: {produto.quantidade}</p>
-                        <p>Preço: {produto.preco}</p>
-                        <button className="edit-button" onClick={() => { setProdutoParaEditar(produto); openModal(); }}>Editar</button>
-                        <button className="delete-button" onClick={() => { setProdutoParaExcluir(produto); openModal(); }}>Excluir</button>
-                        <hr />
+                    <div className={Styles.EstoqueContent__gapBox}>
+                        <div className={Styles.EstoqueContent__gapBox__box} key={produto.id}>
+                            <h2 className={Styles.EstoqueContent__text}>{produto.nome}</h2>
+                            <p className={Styles.EstoqueContent__text}>Quantidade: {produto.quantidade}</p>
+                            <p className={Styles.EstoqueContent__text}>Preço: {produto.preco}</p>
+                            <div className={Styles.EstoqueContent__buttons}>
+                                <button className={Styles.EstoqueContent__buttons__edit_button} onClick={() => { setProdutoParaEditar(produto); openModal(); }}>Editar</button>
+                                <button className={Styles.EstoqueContent__buttons__delete_button} onClick={() => { setProdutoParaExcluir(produto); openModal(); }}>Excluir</button>
+                            </div>
+                        </div>
                     </div>
                 ))}
             </div>

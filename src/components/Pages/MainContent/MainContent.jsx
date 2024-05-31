@@ -8,6 +8,7 @@ import CarrinhoIcon from '../../../assets/icon_bag.svg';
 import Modal from './Modal/Modal';
 import { ColorRing } from 'react-loader-spinner'
 
+
 function MainContent() {
   const [produtos, setProdutos] = useState([]);
   const [mensagemErro, setMensagemErro] = useState("");
