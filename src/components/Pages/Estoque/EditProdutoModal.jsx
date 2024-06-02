@@ -1,5 +1,3 @@
-// EditProdutoModal.js
-
 import React, { useState } from 'react';
 
 const EditProdutoModal = ({ produto, categorias, onEdit, onClose }) => {

@@ -6,6 +6,7 @@ import Footer from './components/Footer/Footer'
 import MainContent from './components/Pages/MainContent/MainContent'
 import GestaoContent from './components/Pages/Gestao/GestaoContent'
 import EstoqueContent from './components/Pages/Estoque/EstoqueContent'
+import 'react-toastify/dist/ReactToastify.css';
 
 function App() {
 
