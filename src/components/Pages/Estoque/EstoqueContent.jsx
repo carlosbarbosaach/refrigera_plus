@@ -1,7 +1,8 @@
 import React, { useState, useEffect } from 'react';
-import './EstoqueContent.css';
 import Styles from '../../../Styles/Pages/Estoque/EstoqueContent.module.scss';
 import GetEstoque from "./GetEstoque";
+import { FaArrowUp } from 'react-icons/fa';
+import { toast, ToastContainer } from 'react-toastify';
 
 function EstoqueContent() {
   const [categorias, setCategorias] = useState([]);
@@ -13,6 +14,8 @@ function EstoqueContent() {
   const [imagem, setImagem] = useState(null);
   const [idProduto, setIdProduto] = useState(null);
   const [showModal, setShowModal] = useState(false);
+  const [showScrollButton, setShowScrollButton] = useState(false);
+  const [showToast, setShowToast] = useState(false);
 
   useEffect(() => {
     const fetchCategorias = async () => {
@@ -29,6 +32,22 @@ function EstoqueContent() {
     };
 
     fetchCategorias();
+  }, []);
+
+  useEffect(() => {
+    const handleScroll = () => {
+      if (window.scrollY > 300) {
+        setShowScrollButton(true);
+      } else {
+        setShowScrollButton(false);
+      }
+    };
+
+    window.addEventListener('scroll', handleScroll);
+
+    return () => {
+      window.removeEventListener('scroll', handleScroll);
+    };
   }, []);
 
   const handleInputChange = (event) => {
@@ -69,6 +88,7 @@ function EstoqueContent() {
 
       console.log('Produto cadastrado com sucesso e imagem associada.');
       setShowModal(false); // Fechar o modal após o cadastro do produto
+      toast.success('Produto cadastrado com sucesso!');
     } catch (error) {
       console.error('Erro ao cadastrar produto:', error);
     }
@@ -124,8 +144,8 @@ function EstoqueContent() {
       const contentType = response.headers.get('content-type');
       if (contentType && contentType.indexOf('application/json') !== -1) {
         const produtoDataResponse = await response.json();
-        const idProdutoResponse = produtoDataResponse.id; // Armazena o ID do produto
-        setIdProduto(idProdutoResponse); // Armazena o ID do produto no estado
+        const idProdutoResponse = produtoDataResponse.id;
+        setIdProduto(idProdutoResponse);
         return idProdutoResponse;
       } else {
         const text = await response.text();
@@ -165,10 +185,19 @@ function EstoqueContent() {
     setShowModal(false);
   };
 
+  const scrollToTop = () => {
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  };
+
+  const handleToastClose = () => {
+    setShowToast(false);
+    window.location.reload();
+  };
+
   return (
     <>
       <div className={Styles.EstoqueMain}>
-      <button className={Styles.Estoque__add_button} onClick={openModal}>
+        <button className={Styles.Estoque__add_button} onClick={openModal}>
           Adicionar Novo Produto
         </button>
         <GetEstoque />
@@ -178,7 +207,7 @@ function EstoqueContent() {
               <button className={Styles.Modal__close} onClick={closeModal}>X</button>
               <form className={Styles.Modal__content__form} onSubmit={handleSubmit}>
                 <div className={Styles.Modal__content__formGroup}>
-                <h2 className={Styles.Modal__content__title}>Adicionar Novo Produto</h2>
+                  <h2 className={Styles.Modal__content__title}>Adicionar Novo Produto</h2>
                   <label className={Styles.Modal__content__label} htmlFor="nome">
                     Nome:
                     <input
@@ -253,11 +282,27 @@ function EstoqueContent() {
                   </label>
                 </div>
                 <div className={Styles.Modal__content__containerAdd}>
-                <button className={Styles.Modal__content__containerAdd__addButton} type="submit">Cadastrar Produto</button>
+                  <button className={Styles.Modal__content__containerAdd__addButton} type="submit">Cadastrar Produto</button>
                 </div>
               </form>
             </div>
           </div>
+        )}
+        {showScrollButton && (
+          <button className={Styles.ScrollToTopButton} onClick={scrollToTop}>
+            <FaArrowUp />
+          </button>
+        )}
+        <ToastContainer
+          position="bottom-right"
+          autoClose={2000}
+          hideProgressBar={false}
+          closeOnClick
+          pauseOnHover
+          onClose={handleToastClose}
+        />
+        {showToast && (
+          toast.success('Produto cadastrado com sucesso!')
         )}
       </div>
     </>
