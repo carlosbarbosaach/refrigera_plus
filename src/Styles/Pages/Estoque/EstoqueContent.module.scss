@@ -254,6 +254,9 @@
             font-size: 14px;
             font-weight: 500;
             color: $colorBlack01;
+            display: flex;
+            flex-direction: column;
+            align-items: baseline;
         }
     }
 

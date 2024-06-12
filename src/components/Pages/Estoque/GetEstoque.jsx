@@ -14,8 +14,10 @@ const GetEstoque = () => {
         nome: '',
         quantidade: 0,
         preco: 0,
-        categoriaId: ''
+        categoriaId: '',
+        idImagem: ''
     });
+    const [imagem, setImagem] = useState(null);
     const [showModal, setShowModal] = useState(false);
     const [pesquisa, setPesquisa] = useState('');
     const [carregando, setCarregando] = useState(true);
@@ -55,17 +57,16 @@ const GetEstoque = () => {
     const handleDelete = async () => {
         if (produtoParaExcluir) {
             try {
-                const response = await fetch(`http://45.235.53.125:8080//api/produto/${produtoParaExcluir.id}`, {
+                const response = await fetch(`http://45.235.53.125:8080/api/produto/${produtoParaExcluir.id}`, {
                     method: 'DELETE',
                 });
                 if (!response.ok) {
                     throw new Error('Erro ao excluir produto');
                 }
-                // Atualiza a lista de produtos após a exclusão
                 const updatedProdutos = produtos.filter(produto => produto.id !== produtoParaExcluir.id);
                 setProdutos(updatedProdutos);
-                setProdutoParaExcluir(null); // Fecha o modal de confirmação
-                toast.success('Produto excluído com sucesso!'); // Mostra a notificação de sucesso
+                setProdutoParaExcluir(null);
+                toast.success('Produto excluído com sucesso!');
             } catch (error) {
                 console.error('Erro ao excluir produto:', error);
                 toast.error('Erro ao excluir produto.');
@@ -73,39 +74,73 @@ const GetEstoque = () => {
         }
     };
 
-    const handleEdit = async () => {
+    const handleEdit = async (e) => {
+        e.preventDefault();
+
         if (editedProduto.id) {
             try {
-                const response = await fetch(`http://45.235.53.125:8080/api/produto/${editedProduto.id}`, {
-                    method: 'PATCH',
+                // Primeiro, envie a imagem para o servidor e obtenha o ID da imagem
+                const idImagem = await enviarImagemParaServidor();
+
+                // Em seguida, atualize o produto com o ID da imagem
+                const response = await fetch('http://45.235.53.125:8080/api/produto', {
+                    method: 'PUT',
                     headers: {
                         'Content-Type': 'application/json'
                     },
-                    body: JSON.stringify(editedProduto)
+                    body: JSON.stringify({
+                        id: editedProduto.id,
+                        nome: editedProduto.nome,
+                        quantidade: editedProduto.quantidade,
+                        preco: editedProduto.preco,
+                        categoria: {
+                            id: editedProduto.categoriaId,
+                            nome: categorias.find(categoria => categoria.id === editedProduto.categoriaId)?.nome || ''
+                        },
+                        descricao: editedProduto.descricao,
+                        idImagem: idImagem, // Aqui você passa o ID da imagem
+                    })
                 });
+
                 if (!response.ok) {
-                    throw new Error('Erro ao editar produto');
+                    const errorMessage = await response.text();
+                    throw new Error(errorMessage);
                 }
-                // Atualiza a lista de produtos após a edição
-                const updatedProdutos = produtos.map(produto => {
-                    if (produto.id === editedProduto.id) {
-                        return editedProduto;
-                    }
-                    return produto;
-                });
+
+                // Se o produto foi atualizado com sucesso, exibir mensagem e atualizar estado
+                const contentType = response.headers.get('content-type');
+                let updatedProduto;
+                if (contentType && contentType.indexOf('application/json') !== -1) {
+                    updatedProduto = await response.json();
+                } else {
+                    const successMessage = await response.text();
+                    console.log('Success message from server:', successMessage);
+                    updatedProduto = {
+                        ...editedProduto,
+                        categoria: categorias.find(categoria => categoria.id === editedProduto.categoriaId),
+                    };
+                }
+
+                const updatedProdutos = produtos.map(produto =>
+                    produto.id === updatedProduto.id ? updatedProduto : produto
+                );
                 setProdutos(updatedProdutos);
-                setProdutoParaEditar(null); // Fecha o modal de edição
+                setProdutoParaEditar(null);
+                closeModal();
+                toast.success('Produto editado com sucesso!');
             } catch (error) {
-                console.error('Erro ao editar produto:', error);
+                console.error('Erro ao editar produto:', error.message);
+                toast.error(`Erro ao editar produto: ${error.message}`);
             }
         }
     };
+
 
     const handleEditInputChange = (event) => {
         const { name, value } = event.target;
         setEditedProduto({
             ...editedProduto,
-            [name]: value
+            [name]: name === 'quantidade' || name === 'preco' || name === 'categoriaId' ? Number(value) : value,
         });
     };
 
@@ -115,8 +150,9 @@ const GetEstoque = () => {
 
     const closeModal = () => {
         setShowModal(false);
-        setProdutoParaEditar(null); // Limpa os dados do produto a ser editado ao fechar o modal
-        setProdutoParaExcluir(null); // Limpa os dados do produto a ser excluído ao fechar o modal
+        setProdutoParaEditar(null);
+        setProdutoParaExcluir(null);
+        setImagem(null);
     };
 
     const handleSearchChange = (event) => {
@@ -160,10 +196,11 @@ const GetEstoque = () => {
                                 <div className={Styles.EstoqueContent__gapBox__box}>
                                     <h2 className={Styles.EstoqueContent__text}>{produto.id}</h2>
                                     <h2 className={Styles.EstoqueContent__text}>{produto.nome}</h2>
+                                    <p className={Styles.EstoqueContent__text}>Categoria: {produto.categoria.nome}</p>
                                     <p className={Styles.EstoqueContent__text}>Quantidade: {produto.quantidade}</p>
                                     <p className={Styles.EstoqueContent__text}>Preço: {produto.preco}</p>
                                     <div className={Styles.EstoqueContent__buttons}>
-                                        <button className={Styles.EstoqueContent__buttons__edit_button} onClick={() => { setProdutoParaEditar(produto); openModal(); }}>Editar</button>
+                                        <button className={Styles.EstoqueContent__buttons__edit_button} onClick={() => { setProdutoParaEditar(produto); setEditedProduto(produto); openModal(); }}>Editar</button>
                                         <button className={Styles.EstoqueContent__buttons__delete_button} onClick={() => { setProdutoParaExcluir(produto); openModal(); }}>Excluir</button>
                                     </div>
                                 </div>
@@ -172,63 +209,91 @@ const GetEstoque = () => {
                     </div>
                 )}
             </div>
-
             {showModal && (
                 <div className={Styles.modal__editar}>
                     <div className={Styles.modal__editar_content}>
-                    <button className={Styles.modal__editar__close} onClick={closeModal}>X</button>
-                        {produtoParaEditar && (
+                        <button className={Styles.modal__editar__close} onClick={closeModal}>X</button>
+                        {produtoParaEditar && !produtoParaExcluir && (
                             <>
                                 <h2 className={Styles.modal__editar__title}>Editar Produto</h2>
                                 <form className={Styles.modal__editar__form} onSubmit={handleEdit}>
                                     <div className={Styles.modal__editar__content}>
                                         <label className={Styles.modal__editar__label}>Nome:</label>
-                                        <input className={Styles.modal__editar__input} type="text" name="nome" value={editedProduto.nome} onChange={handleEditInputChange} />
+                                        <input
+                                            className={Styles.modal__editar__input}
+                                            type="text"
+                                            name="nome"
+                                            value={editedProduto.nome}
+                                            onChange={handleEditInputChange}
+                                        />
                                     </div>
                                     <div>
                                         <label className={Styles.modal__editar__label}>Quantidade:</label>
-                                        <input className={Styles.modal__editar__input} type="number" name="quantidade" value={editedProduto.quantidade} onChange={handleEditInputChange} />
+                                        <input
+                                            className={Styles.modal__editar__input}
+                                            type="number"
+                                            name="quantidade"
+                                            value={editedProduto.quantidade}
+                                            onChange={handleEditInputChange}
+                                        />
                                     </div>
                                     <div>
                                         <label className={Styles.modal__editar__label}>Preço:</label>
-                                        <input className={Styles.modal__editar__input} type="number" name="preco" value={editedProduto.preco} onChange={handleEditInputChange} />
+                                        <input
+                                            className={Styles.modal__editar__input}
+                                            type="number"
+                                            name="preco"
+                                            value={editedProduto.preco}
+                                            onChange={handleEditInputChange}
+                                        />
                                     </div>
                                     <div>
                                         <label className={Styles.modal__editar__label}>Categoria:</label>
-                                        <select className={Styles.modal__editar__select} name="categoriaId" value={editedProduto.categoriaId} onChange={handleEditInputChange}>
+                                        <select
+                                            className={Styles.modal__editar__select}
+                                            name="categoriaId"
+                                            value={editedProduto.categoriaId}
+                                            onChange={handleEditInputChange}
+                                        >
                                             <option className={Styles.modal__editar__option} value="">Selecione uma categoria</option>
                                             {categorias.map(categoria => (
                                                 <option key={categoria.id} value={categoria.id}>{categoria.nome}</option>
                                             ))}
                                         </select>
                                     </div>
+                                    <div>
+                                        <label className={Styles.modal__editar__label}>Imagem:</label>
+                                        <input
+                                            className={Styles.modal__editar__input}
+                                            type="file"
+                                            onChange={(e) => setImagem(e.target.files[0])}
+                                        />
+                                    </div>
                                     <button className={Styles.modal__editar__save} type="submit">Salvar</button>
                                     <button className={Styles.modal__editar__cancel} type="button" onClick={closeModal}>Cancelar</button>
                                 </form>
                             </>
                         )}
-                        {produtoParaExcluir && (
-                            <>
-                                <div className={Styles.Modal} onClick={closeModal}>
-                                    <div className={Styles.Modal__content} onClick={(e) => e.stopPropagation()}>
-                                        <button className={Styles.Modal__close} onClick={closeModal}>X</button>
-                                        <div className={Styles.EstoqueExcluir}>
-                                            <h2 className={Styles.EstoqueExcluir__title}>Confirmar Exclusão</h2>
-                                            <p className={Styles.EstoqueExcluir__subtitle}>Deseja realmente excluir o produto <span className={Styles.EstoqueExcluir__span}>"{produtoParaExcluir.nome}"?</span></p>
-                                            <button className={Styles.EstoqueExcluir__yes} onClick={handleDelete}>Sim</button>
-                                            <button className={Styles.EstoqueExcluir__no} onClick={closeModal}>Não</button>
-                                        </div>
-                                    </div>
-                                </div>
-                            </>
-                        )}
+                    </div>
+                </div>
+            )}
+
+            {produtoParaExcluir && (
+                <div className={Styles.Modal} onClick={closeModal}>
+                    <div className={Styles.Modal__content} onClick={(e) => e.stopPropagation()}>
+                        <button className={Styles.Modal__close} onClick={closeModal}>X</button>
+                        <div className={Styles.EstoqueExcluir}>
+                            <h2 className={Styles.EstoqueExcluir__title}>Confirmar Exclusão</h2>
+                            <p className={Styles.EstoqueExcluir__subtitle}>Deseja realmente excluir o produto <span className={Styles.EstoqueExcluir__span}>"{produtoParaExcluir.nome}"?</span></p>
+                            <button className={Styles.EstoqueExcluir__yes} onClick={handleDelete}>Sim</button>
+                            <button className={Styles.EstoqueExcluir__no} onClick={closeModal}>Não</button>
+                        </div>
                     </div>
                 </div>
             )}
             <ToastContainer />
         </>
     );
-
 };
 
 export default GetEstoque;
