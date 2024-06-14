@@ -1,13 +1,9 @@
 import React, { useState, useEffect } from "react";
 import Styles from '../../../Styles/Pages/Main/MainContent.module.scss';
 import API from "../../../hooks/useApi";
-import BuyButton from '../../BotaoComprar/BuyButton';
 import LupaIcon from '../../../assets/icon_lupa.svg';
 import IconDown from '../../../assets/icon_down.svg';
-import CarrinhoIcon from '../../../assets/icon_bag.svg';
-import Modal from './Modal/Modal';
-import { ColorRing } from 'react-loader-spinner'
-
+import { ColorRing } from 'react-loader-spinner';
 
 function MainContent() {
   const [produtos, setProdutos] = useState([]);
@@ -15,15 +11,13 @@ function MainContent() {
   const [numProdutosExibidos, setNumProdutosExibidos] = useState(4);
   const [carregando, setCarregando] = useState(true);
   const [pesquisa, setPesquisa] = useState("");
-  const [contadorCliques, setContadorCliques] = useState(0);
-  const [modalAberto, setModalAberto] = useState(false);
-  const [produtosNoCarrinho, setProdutosNoCarrinho] = useState({});
 
   useEffect(() => {
     async function fetchData() {
       try {
         const produtosData = await API.getProduto();
-        setProdutos(produtosData);
+        const produtosWithQuantity = produtosData.map(produto => ({ ...produto, quantidade: produto.quantidade || 0 }));
+        setProdutos(produtosWithQuantity);
         setCarregando(false);
       } catch (error) {
         console.error("Erro ao buscar dados da API:", error);
@@ -35,27 +29,48 @@ function MainContent() {
     fetchData();
   }, []);
 
-  const formatPrice = (price) => {
-    return `${price.toFixed(2)}`;
+  const enviarQuantidadeAtualizada = async (produto) => {
+    try {
+      const response = await fetch(`http://45.235.53.125:8080/api/produto/${produto.id}`, {
+        method: 'PUT',
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({
+          quantidade: produto.quantidade
+        })
+      });
+
+      if (!response.ok) {
+        const errorData = await response.json();
+        throw new Error(`Erro na atualização do produto: ${errorData.message}`);
+      }
+    } catch (error) {
+      console.error("Erro ao enviar a quantidade atualizada:", error);
+      setMensagemErro("Erro ao atualizar a quantidade do produto. Por favor, tente novamente.");
+    }
   };
 
   const mostrarMaisProdutos = () => {
     setNumProdutosExibidos(numProdutosExibidos + 5);
   };
 
-  const adicionarAoCarrinho = (produto) => {
-    setContadorCliques(contadorCliques + 1);
-    if (produtosNoCarrinho[produto.id]) {
-      setProdutosNoCarrinho({
-        ...produtosNoCarrinho,
-        [produto.id]: produtosNoCarrinho[produto.id] + 1
-      });
-    } else {
-      setProdutosNoCarrinho({
-        ...produtosNoCarrinho,
-        [produto.id]: 1
-      });
-    }
+  const incrementQuantity = (id) => {
+    const updatedProdutos = produtos.map(produto =>
+      produto.id === id ? { ...produto, quantidade: produto.quantidade + 1 } : produto
+    );
+    setProdutos(updatedProdutos);
+    const updatedProduto = updatedProdutos.find(produto => produto.id === id);
+    enviarQuantidadeAtualizada(updatedProduto);
+  };
+
+  const decrementQuantity = (id) => {
+    const updatedProdutos = produtos.map(produto =>
+      produto.id === id && produto.quantidade > 0 ? { ...produto, quantidade: produto.quantidade - 1 } : produto
+    );
+    setProdutos(updatedProdutos);
+    const updatedProduto = updatedProdutos.find(produto => produto.id === id);
+    enviarQuantidadeAtualizada(updatedProduto);
   };
 
   const filtrarProdutos = (produto) => {
@@ -69,13 +84,13 @@ function MainContent() {
     <main className={Styles.Main}>
       {carregando ? (
         <ColorRing
-        visible={true}
-        height="80"
-        width="80"
-        ariaLabel="color-ring-loading"
-        wrapperStyle={{}}
-        wrapperClass="color-ring-wrapper"
-        colors={['#3889F2', '#076DF2', '#0554F2', '#3889F2', '#0554F2']}
+          visible={true}
+          height="80"
+          width="80"
+          ariaLabel="color-ring-loading"
+          wrapperStyle={{}}
+          wrapperClass="color-ring-wrapper"
+          colors={['#3889F2', '#076DF2', '#0554F2', '#3889F2', '#0554F2']}
         />
       ) : (
         <div className={Styles.Main__container}>
@@ -92,12 +107,6 @@ function MainContent() {
           <div className={Styles.Main__container__Wrapper}>
             {produtosFiltrados.length > 0 && (
               <p className={Styles.Main__container__richTextTitle}>Nossos produtos</p>
-            )}
-            {contadorCliques > 0 && (
-              <div className={Styles.Main__container__Wrapper__carrinho} onClick={() => setModalAberto(true)}>
-                <img src={CarrinhoIcon} alt="Ícone de Carrinho" />
-                <p className={Styles.Main__container__Wrapper__contadorCliques}>{contadorCliques}</p>
-              </div>
             )}
           </div>
           {produtosFiltrados.length === 0 && pesquisa.length > 0 && (
@@ -116,23 +125,34 @@ function MainContent() {
                   <div className={Styles.Main__container__productInfo}>
                     <div className={Styles.Main__container__productInfo__NameCategory}>
                       <h3>{produto.nome}</h3>
+                      <h3>{produto.descricao}</h3>
                       <p>
                         {produto.categoria ? produto.categoria.nome : "Categoria não especificada"}
                       </p>
                     </div>
                     <div className={Styles.Main__container__productInfo__PriceQuantity}>
-                      <p>
-                        R$<span>{formatPrice(produto.preco)}</span>
-                      </p>
                       <p
                         className={`ProductQuantity ${produto.quantidade < 5 ? "LowQuantity" : "HighQuantity"
                           }`}
                       >
                         Quantidade: <span className={Styles.spanQuantity}>{produto.quantidade}</span>
                       </p>
+                      <div className={Styles.Main__container__buttonGroup}>
+                        <button
+                          className={Styles.Main__container__button}
+                          onClick={() => incrementQuantity(produto.id)}
+                        >
+                          +
+                        </button>
+                        <button
+                          className={Styles.Main__container__button}
+                          onClick={() => decrementQuantity(produto.id)}
+                        >
+                          -
+                        </button>
+                      </div>
                     </div>
                   </div>
-                  <BuyButton onClick={() => adicionarAoCarrinho(produto)} />
                 </li>
               ))}
           </ul>
@@ -143,12 +163,6 @@ function MainContent() {
                 Mostrar Mais <img src={IconDown} alt="Ícone de seta para baixo" />
               </button>
             </div>
-          )}
-          {modalAberto && (
-            <Modal
-              produtosNoCarrinho={produtosNoCarrinho}
-              onClose={() => setModalAberto(false)}
-            />
           )}
         </div>
       )}
