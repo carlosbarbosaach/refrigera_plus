@@ -36,6 +36,10 @@ class API {
         return this.fetchData('/api/produto', 'POST', data);
     }
 
+    static putProduto(data) {
+        return this.fetchData('/api/produto', 'PUT', data);
+    }
+
     static postCategoria(data) {
         return this.fetchData('/api/categoria', 'POST', data);
     }
