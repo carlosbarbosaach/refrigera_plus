@@ -5,21 +5,34 @@ import LupaIcon from '../../../assets/icon_lupa.svg';
 import IconDown from '../../../assets/icon_down.svg';
 import { ColorRing } from 'react-loader-spinner';
 import ModalConfirmacao from '../MainContent/Modal/ModalConfirmacao';
+import FiltroCategorias from '../../Filtros/FiltroCategorias';
 
 function MainContent() {
+
   const [produtos, setProdutos] = useState([]);
+  const [categorias, setCategorias] = useState([]);
   const [mensagemErro, setMensagemErro] = useState("");
   const [numProdutosExibidos, setNumProdutosExibidos] = useState(4);
   const [carregando, setCarregando] = useState(true);
   const [pesquisa, setPesquisa] = useState("");
   const [produtoAExcluir, setProdutoAExcluir] = useState(null);
+  const [categoriaSelecionada, setCategoriaSelecionada] = useState(null);
 
   useEffect(() => {
     async function fetchData() {
       try {
-        const produtosData = await API.getProduto();
-        const produtosWithQuantity = produtosData.map(produto => ({ ...produto, quantidade: produto.quantidade || 0 }));
+        const [produtosData, categoriasData] = await Promise.all([
+          API.getProduto(),
+          API.getCategoria()
+        ]);
+
+        const produtosWithQuantity = produtosData.map(produto => ({
+          ...produto,
+          quantidade: produto.quantidade || 0
+        }));
+
         setProdutos(produtosWithQuantity);
+        setCategorias(categoriasData);
         setCarregando(false);
       } catch (error) {
         console.error("Erro ao buscar dados da API:", error);
@@ -49,6 +62,7 @@ function MainContent() {
       }
     } catch (error) {
       console.error("Erro ao enviar a quantidade atualizada:", error);
+      setMensagemErro("Erro ao enviar a quantidade atualizada. Por favor, tente novamente.");
     }
   };
 
@@ -58,6 +72,7 @@ function MainContent() {
 
   const deletarProduto = async () => {
     if (!produtoAExcluir) return;
+
     try {
       const response = await fetch(`http://45.235.53.125:8080/api/produto/${produtoAExcluir.id}`, {
         method: 'DELETE',
@@ -80,26 +95,33 @@ function MainContent() {
     setNumProdutosExibidos(numProdutosExibidos + 5);
   };
 
-  const incrementQuantity = (id) => {
+  const incrementQuantity = async (id) => {
     const updatedProdutos = produtos.map(produto =>
       produto.id === id ? { ...produto, quantidade: produto.quantidade + 1 } : produto
     );
     setProdutos(updatedProdutos);
     const updatedProduto = updatedProdutos.find(produto => produto.id === id);
-    enviarQuantidadeAtualizada(updatedProduto);
+    await enviarQuantidadeAtualizada(updatedProduto);
   };
 
-  const decrementQuantity = (id) => {
+  const decrementQuantity = async (id) => {
     const updatedProdutos = produtos.map(produto =>
       produto.id === id && produto.quantidade > 0 ? { ...produto, quantidade: produto.quantidade - 1 } : produto
     );
     setProdutos(updatedProdutos);
     const updatedProduto = updatedProdutos.find(produto => produto.id === id);
-    enviarQuantidadeAtualizada(updatedProduto);
+    await enviarQuantidadeAtualizada(updatedProduto);
+  };
+
+  const handleCategoriaChange = (categoriaId) => {
+    setCategoriaSelecionada(categoriaId);
   };
 
   const filtrarProdutos = (produto) => {
-    return produto.nome.toLowerCase().includes(pesquisa.toLowerCase());
+    return (
+      produto.nome.toLowerCase().includes(pesquisa.toLowerCase()) &&
+      (categoriaSelecionada === null || produto.categoria?.id === categoriaSelecionada)
+    );
   };
 
   const produtosFiltrados = produtos.filter(filtrarProdutos);
@@ -119,24 +141,24 @@ function MainContent() {
         />
       ) : (
         <div className={Styles.Main__container}>
-          <div className={Styles.Main__container__searchInput}>
-            <input
-              type="text"
-              placeholder="Pesquisar produtos..."
-              value={pesquisa}
-              onChange={(e) => setPesquisa(e.target.value)}
-              className={Styles.Main__container__searchInput__Styles}
+          <div className={Styles.Main__container__SearchFilter}>
+            <div className={Styles.Main__container__searchInput}>
+              <input
+                type="text"
+                placeholder="Pesquisar produtos..."
+                value={pesquisa}
+                onChange={(e) => setPesquisa(e.target.value)}
+                className={Styles.Main__container__searchInput__Styles}
+              />
+              <img className={Styles.Main__container__searchInput__lupaIcon} src={LupaIcon} alt="Ícone de Lupa" />
+            </div>
+            <FiltroCategorias
+              className={Styles.Main__container__filtrocategoria}
+              categorias={categorias}
+              categoriaSelecionada={categoriaSelecionada}
+              onCategoriaChange={handleCategoriaChange}
             />
-            <img className={Styles.Main__container__searchInput__lupaIcon} src={LupaIcon} alt="Icone de Lupa" />
           </div>
-          <div className={Styles.Main__container__Wrapper}>
-            {produtosFiltrados.length > 0 && (
-              <p className={Styles.Main__container__richTextTitle}>Nossos produtos</p>
-            )}
-          </div>
-          {produtosFiltrados.length === 0 && pesquisa.length > 0 && (
-            <p className={Styles.Main__container__notProduct}>Nenhum produto encontrado com o termo de pesquisa "{pesquisa}".</p>
-          )}
           <ul className={Styles.Main__container__ul}>
             {produtosFiltrados
               .slice(0, numProdutosExibidos)
@@ -178,6 +200,7 @@ function MainContent() {
                             -
                           </button>
                         </div>
+
                         <div className={Styles.Main__container__buttonGroup__excluir}>
                           <button
                             className={Styles.Main__container__buttonGroup__excluirButton}
@@ -192,7 +215,6 @@ function MainContent() {
                 </li>
               ))}
           </ul>
-          {mensagemErro && <p className={Styles.Main__ErrorMessage}>{mensagemErro}</p>}
           {!naoHaProdutos && produtos.length > numProdutosExibidos && (
             <div className={Styles.Main__container__ShowMoreButton}>
               <button className={Styles.Main__container__ButtonStyle} onClick={mostrarMaisProdutos}>

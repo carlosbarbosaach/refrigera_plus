@@ -240,10 +240,9 @@
             &__excluirButton {
                 padding: 12px 36px;
                 border-radius: 8px;
-                font-size: 16px;
+                font-size: 24px;
                 color: $colorWhite01;
                 background-color: #cccccc8d;
-                border-radius: 1px solid #ccccccdb;
                 border: none;
                 cursor: pointer;
                 transition: background-color 0.4s ease, color 0.4s ease;
@@ -257,27 +256,25 @@
             &__maisButton {
                 padding: 12px 28px;
                 border-radius: 8px;
-                font-size: 16px;
+                font-size: 24px;
                 color: $colorWhite01;
                 background-color: #24cb51;
-                border-radius: 1px solid #27ad4b;
                 border: none;
                 cursor: pointer;
                 transition: background-color 0.4s ease, color 0.4s ease;
 
                 &:hover {
-                    background-color: #0f840f; 
+                    background-color: #0f840f;
                 }
             }
 
             &__menosButton {
                 padding: 12px 28px;
                 border-radius: 8px;
-                font-size: 16px;
+                font-size: 24px;
                 border: none;
                 color: $colorWhite01;
                 background-color: $colorBlue03;
-                border-radius: 1px solid $colorBlue03;
                 cursor: pointer;
                 transition: background-color 0.4s ease, color 0.4s ease;
 
@@ -286,6 +283,13 @@
                 }
             }
         }
+
+        &__SearchFilter {
+            display: flex;
+            flex-direction: column;
+            margin: 0 0 26px;
+        }
+
     }
 }
 
