@@ -86,7 +86,7 @@
                 display: flex;
                 flex-direction: column;
                 border-radius: 8px;
-                padding: 15px 20px 30px;
+                padding: 10px 20px;
                 cursor: pointer;
                 justify-content: space-around;
                 position: relative;
@@ -226,5 +226,72 @@
             }
         }
 
+        &__buttonGroup {
+            display: flex;
+            flex-direction: row;
+            justify-content: space-between;
+            margin-top: 20px;
+
+            &__maismenos {
+                gap: 10px;
+                display: flex;
+            }
+
+            &__excluirButton {
+                padding: 12px 36px;
+                border-radius: 8px;
+                font-size: 16px;
+                color: $colorWhite01;
+                background-color: #cccccc8d;
+                border-radius: 1px solid #ccccccdb;
+                border: none;
+                cursor: pointer;
+                transition: background-color 0.4s ease, color 0.4s ease;
+
+                &:hover {
+                    background-color: #ea2e2e;
+                }
+
+            }
+
+            &__maisButton {
+                padding: 12px 28px;
+                border-radius: 8px;
+                font-size: 16px;
+                color: $colorWhite01;
+                background-color: #24cb51;
+                border-radius: 1px solid #27ad4b;
+                border: none;
+                cursor: pointer;
+                transition: background-color 0.4s ease, color 0.4s ease;
+
+                &:hover {
+                    background-color: #0f840f; 
+                }
+            }
+
+            &__menosButton {
+                padding: 12px 28px;
+                border-radius: 8px;
+                font-size: 16px;
+                border: none;
+                color: $colorWhite01;
+                background-color: $colorBlue03;
+                border-radius: 1px solid $colorBlue03;
+                cursor: pointer;
+                transition: background-color 0.4s ease, color 0.4s ease;
+
+                &:hover {
+                    background-color: $colorBlue01;
+                }
+            }
+        }
     }
+}
+
+.menosButtonDisabled {
+    background-color: $colorBlue03;
+    cursor: not-allowed;
+    opacity: 0.3;
+    border: none;
 }

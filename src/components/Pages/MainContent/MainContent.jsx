@@ -4,6 +4,7 @@ import API from "../../../hooks/useApi";
 import LupaIcon from '../../../assets/icon_lupa.svg';
 import IconDown from '../../../assets/icon_down.svg';
 import { ColorRing } from 'react-loader-spinner';
+import ModalConfirmacao from '../MainContent/Modal/ModalConfirmacao';
 
 function MainContent() {
   const [produtos, setProdutos] = useState([]);
@@ -11,6 +12,7 @@ function MainContent() {
   const [numProdutosExibidos, setNumProdutosExibidos] = useState(4);
   const [carregando, setCarregando] = useState(true);
   const [pesquisa, setPesquisa] = useState("");
+  const [produtoAExcluir, setProdutoAExcluir] = useState(null);
 
   useEffect(() => {
     async function fetchData() {
@@ -47,13 +49,17 @@ function MainContent() {
       }
     } catch (error) {
       console.error("Erro ao enviar a quantidade atualizada:", error);
-      setMensagemErro("Erro ao atualizar a quantidade do produto. Por favor, tente novamente.");
     }
   };
 
-  const deletarProduto = async (id) => {
+  const confirmarDelecao = (produto) => {
+    setProdutoAExcluir(produto);
+  };
+
+  const deletarProduto = async () => {
+    if (!produtoAExcluir) return;
     try {
-      const response = await fetch(`http://45.235.53.125:8080/api/produto/${id}`, {
+      const response = await fetch(`http://45.235.53.125:8080/api/produto/${produtoAExcluir.id}`, {
         method: 'DELETE',
       });
 
@@ -62,7 +68,8 @@ function MainContent() {
         throw new Error(`Erro ao deletar o produto: ${errorData.message}`);
       }
 
-      setProdutos(produtos.filter(produto => produto.id !== id));
+      setProdutos(produtos.filter(produto => produto.id !== produtoAExcluir.id));
+      setProdutoAExcluir(null);
     } catch (error) {
       console.error("Erro ao deletar o produto:", error);
       setMensagemErro("Erro ao deletar o produto. Por favor, tente novamente.");
@@ -156,24 +163,29 @@ function MainContent() {
                         Quantidade: <span className={Styles.spanQuantity}>{produto.quantidade}</span>
                       </p>
                       <div className={Styles.Main__container__buttonGroup}>
-                        <button
-                          className={Styles.Main__container__button}
-                          onClick={() => incrementQuantity(produto.id)}
-                        >
-                          +
-                        </button>
-                        <button
-                          className={Styles.Main__container__button}
-                          onClick={() => decrementQuantity(produto.id)}
-                        >
-                          -
-                        </button>
-                        <button
-                          className={Styles.Main__container__button}
-                          onClick={() => deletarProduto(produto.id)}
-                        >
-                          X
-                        </button>
+                        <div className={Styles.Main__container__buttonGroup__maismenos}>
+                          <button
+                            className={Styles.Main__container__buttonGroup__maisButton}
+                            onClick={() => incrementQuantity(produto.id)}
+                          >
+                            +
+                          </button>
+                          <button
+                            className={`${Styles.Main__container__buttonGroup__menosButton} ${produto.quantidade === 0 ? Styles.menosButtonDisabled : ''}`}
+                            onClick={() => decrementQuantity(produto.id)}
+                            disabled={produto.quantidade === 0}
+                          >
+                            -
+                          </button>
+                        </div>
+                        <div className={Styles.Main__container__buttonGroup__excluir}>
+                          <button
+                            className={Styles.Main__container__buttonGroup__excluirButton}
+                            onClick={() => confirmarDelecao(produto)}
+                          >
+                            x
+                          </button>
+                        </div>
                       </div>
                     </div>
                   </div>
@@ -190,6 +202,11 @@ function MainContent() {
           )}
         </div>
       )}
+      <ModalConfirmacao
+        produto={produtoAExcluir}
+        onConfirm={deletarProduto}
+        onCancel={() => setProdutoAExcluir(null)}
+      />
     </main>
   );
 }

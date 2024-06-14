@@ -128,7 +128,7 @@
         }
 
         &__delete_button {
-            background-color: $colorRed01;
+            background-color: #cccccc8d;
             color: $colorWhite01;
             text-transform: uppercase;
             border: none;
@@ -144,7 +144,7 @@
             width: 100%;
 
             &:hover {
-                background-color: #c25757;
+                background-color: #ea2e2e;
             }
         }
     }
