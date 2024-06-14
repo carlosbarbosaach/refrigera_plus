@@ -172,10 +172,10 @@ function MainContent() {
                   <div className={Styles.Main__container__productInfo}>
                     <div className={Styles.Main__container__productInfo__NameCategory}>
                       <h3>{produto.nome}</h3>
-                      <h3>{produto.descricao}</h3>
                       <p>
                         {produto.categoria ? produto.categoria.nome : "Categoria não especificada"}
                       </p>
+                      <h3>{produto.descricao}</h3>
                     </div>
                     <div className={Styles.Main__container__productInfo__PriceQuantity}>
                       <p

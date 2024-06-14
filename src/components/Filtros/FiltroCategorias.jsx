@@ -3,7 +3,7 @@ import Styles from '../../Styles/Pages/Main/FiltroCategorias.module.scss';
 
 function FiltroCategorias({ categorias, categoriaSelecionada, onCategoriaChange }) {
   const handleCategoriaChange = (event) => {
-    const categoriaId = parseInt(event.target.value);
+    const categoriaId = event.target.value ? parseInt(event.target.value) : null;
     onCategoriaChange(categoriaId);
   };
 
