@@ -206,7 +206,7 @@ function MainContent() {
                             className={Styles.Main__container__buttonGroup__excluirButton}
                             onClick={() => confirmarDelecao(produto)}
                           >
-                            x
+                            Excluir
                           </button>
                         </div>
                       </div>

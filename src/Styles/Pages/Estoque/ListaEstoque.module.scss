@@ -1,0 +1,65 @@
+@import "../../../Styles/Mixins/variables.scss";
+.container {
+    margin: 20px 0;
+}
+
+.table {
+    width: 100%;
+    margin-top: 16px;
+    border-collapse: collapse;
+
+    &__tHeader {
+        padding: 12px;
+        text-align: left;
+        border-bottom: 1px solid #ccc;
+        font-weight: bold;
+        color: #ffff;
+        background-color: #0554F2;
+
+        &__Button {
+            text-align: center;
+            background-color: #0554F2;
+            color: #ffff;
+        }
+    }
+
+    &__tRow {
+        text-align: left;
+        border-bottom: 1px solid #ccc;
+    }
+
+    &__tDetailed {
+        padding: 12px;
+        background-color: #fafafa;
+        font-weight: 400;
+        font-size: 14px;
+        color: black;
+
+        &__Buttons {
+            display: flex;
+            flex-direction: row;
+            justify-content: center;
+            align-items: center;
+            padding: 12px 0;
+            gap: 12px; 
+            background-color: #fafafa;
+        }
+    }
+}
+
+.ReportButtonContainer {
+    display: flex;
+    justify-content: end;
+    margin: 0 0 10px;
+}
+
+.ReportIcon {
+    width: 28px;
+    height: 28px;
+    transition: transform 0.3s ease;
+    cursor: pointer;
+    
+    &:hover {
+        transform: scale(1.2);
+    }
+}

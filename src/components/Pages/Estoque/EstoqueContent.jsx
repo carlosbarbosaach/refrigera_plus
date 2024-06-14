@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import Styles from '../../../Styles/Pages/Estoque/EstoqueContent.module.scss';
-import GetEstoque from "./GetEstoque";
+import ListaEstoque from "./ListaEstoque";
 import { FaArrowUp } from 'react-icons/fa';
 import { toast, ToastContainer } from 'react-toastify';
 
@@ -200,7 +200,7 @@ function EstoqueContent() {
         <button className={Styles.Estoque__add_button} onClick={openModal}>
           Adicionar Novo Produto
         </button>
-        <GetEstoque />
+        <ListaEstoque />
         {showModal && (
           <div className={Styles.Modal} onClick={closeModal}>
             <div className={Styles.Modal__content} onClick={(e) => e.stopPropagation()}>
