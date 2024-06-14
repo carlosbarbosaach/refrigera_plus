@@ -51,6 +51,24 @@ function MainContent() {
     }
   };
 
+  const deletarProduto = async (id) => {
+    try {
+      const response = await fetch(`http://45.235.53.125:8080/api/produto/${id}`, {
+        method: 'DELETE',
+      });
+
+      if (!response.ok) {
+        const errorData = await response.json();
+        throw new Error(`Erro ao deletar o produto: ${errorData.message}`);
+      }
+
+      setProdutos(produtos.filter(produto => produto.id !== id));
+    } catch (error) {
+      console.error("Erro ao deletar o produto:", error);
+      setMensagemErro("Erro ao deletar o produto. Por favor, tente novamente.");
+    }
+  };
+
   const mostrarMaisProdutos = () => {
     setNumProdutosExibidos(numProdutosExibidos + 5);
   };
@@ -149,6 +167,12 @@ function MainContent() {
                           onClick={() => decrementQuantity(produto.id)}
                         >
                           -
+                        </button>
+                        <button
+                          className={Styles.Main__container__button}
+                          onClick={() => deletarProduto(produto.id)}
+                        >
+                          X
                         </button>
                       </div>
                     </div>
