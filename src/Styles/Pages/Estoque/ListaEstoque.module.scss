@@ -12,7 +12,8 @@
         padding: 12px;
         text-align: left;
         border-bottom: 1px solid #ccc;
-        font-weight: bold;
+        font-weight: 500;
+        letter-spacing: 0.3px;
         color: #ffff;
         background-color: #0554F2;
 
@@ -20,6 +21,8 @@
             text-align: center;
             background-color: #0554F2;
             color: #ffff;
+            letter-spacing: 0.3px;
+            font-weight: 500;
         }
     }
 
@@ -31,6 +34,7 @@
     &__tDetailed {
         padding: 12px;
         background-color: #fafafa;
+        letter-spacing: 0.3px;
         font-weight: 400;
         font-size: 14px;
         color: black;

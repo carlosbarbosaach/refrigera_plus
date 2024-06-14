@@ -13,19 +13,19 @@
 
     &__Content {
         background: white;
-        padding: 28px;
+        padding: 24px 48px;
         border-radius: 8px;
         text-align: center;
     }
 
     &__richText {
-        font-size: 16px;
+        font-size: 14px;
         color: black;
     }
 
     &__buttonSim {
-        margin: 10px;
-        padding: 10px 30px;
+        margin: 5px;
+        padding: 10px 40px;
         cursor: pointer;
         border-radius: 8px;
         font-size: 14px;
@@ -39,8 +39,8 @@
     }
 
     &__buttonNao {
-        margin: 10px;
-        padding: 10px 30px;
+        margin: 5px;
+        padding: 10px 40px;
         cursor: pointer;
         border-radius: 8px;
         font-size: 14px;

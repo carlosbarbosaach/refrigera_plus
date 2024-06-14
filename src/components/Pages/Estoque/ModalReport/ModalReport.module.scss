@@ -13,26 +13,31 @@
 
 .modalContent {
     background-color: #fff;
-    padding: 20px;
+    padding: 24px 48px;
     border-radius: 8px;
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
 
     &__Paragraph {
-        font-size: 16px;
+        font-size: 14px;
         color: black;
+        text-align: center;
     }
 }
 
 .modalButton {
-    margin-left: 10px;
-    padding: 8px 16px;
-    background-color: #007bff;
-    color: #fff;
-    border: none;
-    border-radius: 4px;
-    cursor: pointer;
-}
+    
+    &__Button {
+        margin: 5px;
+        padding: 10px 20px;
+        cursor: pointer;
+        border-radius: 8px;
+        font-size: 14px;
+        letter-spacing: 0.6px;
+        border: none;
+        transition: background-color 0.4s ease, color 0.4s ease;
 
-.modalButton:hover {
-    background-color: #0056b3;
+        &:hover {
+            background-color: #cccccc8d;
+        }
+    }
 }

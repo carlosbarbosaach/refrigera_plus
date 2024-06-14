@@ -13,7 +13,7 @@
 
 .modalContent {
     background-color: #fff;
-    padding: 20px;
+    padding: 24px 48px;
     border-radius: 8px;
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
     text-align: center;
@@ -26,23 +26,21 @@
 
 .modalButtons {
     margin-top: 20px;
-}
 
-.confirmButton, .cancelButton {
-    padding: 8px 16px;
-    border-radius: 4px;
-    cursor: pointer;
-}
 
-.confirmButton {
-    background-color: #f44336;
-    color: white;
-    border: none;
-    margin-right: 10px;
-}
+    &__confirmButton,
+    &__cancelButton {
+        margin: 5px;
+        padding: 10px 20px;
+        cursor: pointer;
+        border-radius: 8px;
+        font-size: 14px;
+        letter-spacing: 0.6px;
+        border: none;
+        transition: background-color 0.4s ease, color 0.4s ease;
 
-.cancelButton {
-    background-color: #ccc;
-    color: #333;
-    border: none;
+        &:hover {
+            background-color: #cccccc8d;
+        }
+    }
 }

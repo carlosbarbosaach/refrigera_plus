@@ -25,7 +25,7 @@ const GenerateReportButton = ({ onClick }) => {
             <img src={reportIcon} alt="Gerar Relatório" className={styles.ReportIcon} onClick={handleGenerateReport} />
             <ModalReport
                 isOpen={modalOpen}
-                message="Deseja baixar o relatório?"
+                message="Deseja baixar o Relatório?"
                 onConfirm={handleConfirm}
                 onCancel={handleCancel}
             />
