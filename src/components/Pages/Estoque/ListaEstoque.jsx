@@ -34,7 +34,6 @@ const ListaEstoque = () => {
 
     const handleEdit = (produto) => {
         console.log('Editando produto:', produto);
-        // Implemente a lógica de edição do produto aqui
     };
 
     const handleGenerateReport = () => {
@@ -94,7 +93,7 @@ const ListaEstoque = () => {
                             <td className={styles.table__tDetailed}>{produto.quantidade}</td>
                             <td className={styles.table__tDetailed__Buttons}>
                                 <EditButton product={produto} onEdit={handleEdit} />
-                                <DeleteButton productId={produto.id} onDelete={handleDelete} />
+                                <DeleteButton productId={produto.id} productName={produto.nome} onDelete={handleDelete} />
                             </td>
                         </tr>
                     ))}
