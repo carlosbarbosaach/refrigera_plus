@@ -1,22 +1,39 @@
-import React from 'react';
+import React, { useState } from 'react';
 import PropTypes from 'prop-types';
-// import styles from './EditButton.module.scss';
+import EditModal from './EditModal/EditModal';
+import styles from '../../../Styles/Pages/Estoque/EditButton.module.scss';
 
 const EditButton = ({ product, onEdit }) => {
-    const handleEdit = () => {
-      onEdit(product);
-    };
-  
-    return (
-      <button onClick={handleEdit} style={{ backgroundColor: '#2196f3', color: 'white', padding: '10px 15px', border: 'none', borderRadius: '8px', cursor: 'pointer'}}>
+  const [showModal, setShowModal] = useState(false);
+
+  const handleEdit = () => {
+    setShowModal(true);
+  };
+
+  const handleSave = (editedProduct) => {
+    onEdit(editedProduct);
+    setShowModal(false);
+  };
+
+  const handleClose = () => {
+    setShowModal(false);
+  };
+
+  return (
+    <>
+      <button className={styles.EditButton} onClick={handleEdit}>
         Editar
       </button>
-    );
-  };
-  
-  EditButton.propTypes = {
-    product: PropTypes.object.isRequired,
-    onEdit: PropTypes.func.isRequired,
-  };
-  
-  export default EditButton;
+      {showModal && (
+        <EditModal product={product} onSave={handleSave} onClose={handleClose} />
+      )}
+    </>
+  );
+};
+
+EditButton.propTypes = {
+  product: PropTypes.object.isRequired,
+  onEdit: PropTypes.func.isRequired,
+};
+
+export default EditButton;

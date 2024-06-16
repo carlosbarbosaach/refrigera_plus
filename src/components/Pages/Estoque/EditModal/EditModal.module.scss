@@ -1,0 +1,74 @@
+.modal {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.5);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 9999;
+}
+
+.modalContent {
+    background-color: #fff;
+    padding: 24px 48px;
+    border-radius: 8px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
+    text-align: center;
+
+    &__Heading {
+        font-size: 16px;
+        color: black;
+    }
+
+    &__formGroup {
+        margin-bottom: 10px;
+
+        &__Label {
+            font-size: 14px;
+            font-weight: 500;
+            color: #1c1c1c;
+            display: flex;
+            flex-direction: column;
+            align-items: baseline;
+        }
+
+        &__Input {
+            width: 100%;
+            padding: 10px;
+            margin-top: 5px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            font-size: 16px;
+            box-sizing: border-box;
+        }
+    }
+
+    &__buttonSave,
+    &__buttonCancel {
+        margin: 5px;
+        padding: 10px 20px;
+        cursor: pointer;
+        border-radius: 8px;
+        font-size: 14px;
+        letter-spacing: 0.6px;
+        border: none;
+        transition: background-color 0.6s ease, color 0.4s ease;
+    }
+
+    &__buttonSave {
+        &:hover {
+            background-color: #298f28;
+            color: #FFFFFF;
+        }
+    }
+
+    &__buttonCancel {
+        &:hover {
+            background-color: #CCCC;
+            color: #FFFFFF;
+        }
+    }
+}
