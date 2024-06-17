@@ -77,6 +77,7 @@ const ListaEstoque = () => {
                     <tr className={styles.table__tRow}>
                         <th className={styles.table__tHeader}>ID</th>
                         <th className={styles.table__tHeader}>Nome</th>
+                        <th className={styles.table__tHeader}>Categoria</th>
                         <th className={styles.table__tHeader}>Preço</th>
                         <th className={styles.table__tHeader}>Descrição</th>
                         <th className={styles.table__tHeader}>Quantidade</th>
@@ -88,6 +89,7 @@ const ListaEstoque = () => {
                         <tr className={styles.table__tRow} key={produto.id}>
                             <td className={styles.table__tDetailed}>{produto.id}</td>
                             <td className={styles.table__tDetailed}>{produto.nome}</td>
+                            <td className={styles.table__tDetailed}>{produto.categoria.nome}</td>
                             <td className={styles.table__tDetailed}>R$ {produto.preco.toFixed(2)}</td>
                             <td className={styles.table__tDetailed}>{produto.descricao}</td>
                             <td className={styles.table__tDetailed}>{produto.quantidade}</td>
