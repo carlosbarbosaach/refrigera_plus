@@ -32,8 +32,13 @@ const ListaEstoque = () => {
         setProdutos(produtos.filter((produto) => produto.id !== id));
     };
 
-    const handleEdit = (produto) => {
-        console.log('Editando produto:', produto);
+    const handleEdit = (produtoEditado) => {
+        console.log('🚀 ~ handleEdit ~ produtoEditado:', produtoEditado);
+        // Atualize o estado dos produtos aqui
+        const produtosAtualizados = produtos.map(produto =>
+            produto.id === produtoEditado.id ? produtoEditado : produto
+        );
+        setProdutos(produtosAtualizados);
     };
 
     const handleGenerateReport = () => {
@@ -41,7 +46,7 @@ const ListaEstoque = () => {
         const rows = produtos.map(produto => [
             produto.id,
             produto.nome,
-            `R$ ${produto.preco.toFixed(2)}`,
+            (typeof produto.preco === 'number' ? `R$ ${produto.preco.toFixed(2)}` : 'Preço Indisponível'),
             produto.descricao,
             produto.quantidade
         ]);
@@ -90,7 +95,9 @@ const ListaEstoque = () => {
                             <td className={styles.table__tDetailed}>{produto.id}</td>
                             <td className={styles.table__tDetailed}>{produto.nome}</td>
                             <td className={styles.table__tDetailed}>{produto.categoria.nome}</td>
-                            <td className={styles.table__tDetailed}>R$ {produto.preco.toFixed(2)}</td>
+                            <td className={styles.table__tDetailed}>
+                            {typeof produto.preco === 'number' && produto.preco !== null && produto.preco !== undefined ? `R$ ${produto.preco.toFixed(2)}` : ''}
+                            </td>
                             <td className={styles.table__tDetailed}>{produto.descricao}</td>
                             <td className={styles.table__tDetailed}>{produto.quantidade}</td>
                             <td className={styles.table__tDetailed__Buttons}>

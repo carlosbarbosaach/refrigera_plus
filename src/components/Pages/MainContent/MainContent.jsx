@@ -96,21 +96,55 @@ function MainContent() {
   };
 
   const incrementQuantity = async (id) => {
-    const updatedProdutos = produtos.map(produto =>
-      produto.id === id ? { ...produto, quantidade: produto.quantidade + 1 } : produto
-    );
-    setProdutos(updatedProdutos);
-    const updatedProduto = updatedProdutos.find(produto => produto.id === id);
-    await enviarQuantidadeAtualizada(updatedProduto);
+    try {
+      const response = await fetch(`http://45.235.53.125:8080/api/produto/aumentar/${id}`, {
+        method: 'PATCH',
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({
+        })
+      });
+  
+      if (!response.ok) {
+        const errorData = await response.json();
+        throw new Error(`Erro ao aumentar a quantidade do produto: ${errorData.message}`);
+      }
+  
+      const updatedProdutos = produtos.map(produto =>
+        produto.id === id ? { ...produto, quantidade: produto.quantidade + 1 } : produto
+      );
+      setProdutos(updatedProdutos);
+    } catch (error) {
+      console.error("Erro ao aumentar a quantidade do produto:", error);
+      setMensagemErro("Erro ao aumentar a quantidade do produto. Por favor, tente novamente.");
+    }
   };
 
   const decrementQuantity = async (id) => {
-    const updatedProdutos = produtos.map(produto =>
-      produto.id === id && produto.quantidade > 0 ? { ...produto, quantidade: produto.quantidade - 1 } : produto
-    );
-    setProdutos(updatedProdutos);
-    const updatedProduto = updatedProdutos.find(produto => produto.id === id);
-    await enviarQuantidadeAtualizada(updatedProduto);
+    try {
+      const response = await fetch(`http://45.235.53.125:8080/api/produto/diminuir/${id}`, {
+        method: 'PATCH',
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({
+        })
+      });
+  
+      if (!response.ok) {
+        const errorData = await response.json();
+        throw new Error(`Erro ao diminuir a quantidade do produto: ${errorData.message}`);
+      }
+  
+      const updatedProdutos = produtos.map(produto =>
+        produto.id === id && produto.quantidade > 0 ? { ...produto, quantidade: produto.quantidade - 1 } : produto
+      );
+      setProdutos(updatedProdutos);
+    } catch (error) {
+      console.error("Erro ao diminuir a quantidade do produto:", error);
+      setMensagemErro("Erro ao diminuir a quantidade do produto. Por favor, tente novamente.");
+    }
   };
 
   const handleCategoriaChange = (categoriaId) => {

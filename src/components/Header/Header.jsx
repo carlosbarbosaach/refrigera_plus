@@ -14,7 +14,7 @@ function Header() {
     <header className={Styles.Header}>
       <div className={Styles.Header__container}>
         <Link to="/">
-        <img src={LogoRefrigera} alt="Refrigera PluS" className={Styles.Header__container__logo} />
+        <img src={LogoRefrigera} width="120" height="68" alt="Refrigera PluS" className={Styles.Header__container__logo} />
         </Link>
         <nav className={Styles.Header__container__nav}>
           <ul>

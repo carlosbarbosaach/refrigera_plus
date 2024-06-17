@@ -29,6 +29,7 @@
     &__tRow {
         text-align: left;
         border-bottom: 1px solid #d4d4d4;
+        background-color: #fafafa;
     }
 
     &__tDetailed {
@@ -54,17 +55,23 @@
             background-color: #fafafa;
         }
     }
+
+    &__tDetailedImagem {
+        max-width: 80px;
+        height: 60px;
+    }
 }
 
 .ReportButtonContainer {
     display: flex;
     justify-content: end;
+    gap: 10px;
     margin: 0 0 10px;
 }
 
 .ReportIcon {
-    width: 28px;
-    height: 28px;
+    width: 36px;
+    height: 36px;
     transition: transform 0.3s ease;
     cursor: pointer;
     
