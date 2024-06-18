@@ -5,16 +5,13 @@
     justify-content: end;
 
     &__select {
-        padding: 8px 12px;
+        padding: 5px 12px;
         max-width: 200px;
         width: 100%;
-        border: 1px solid 3445dd;
+        border: 1px solid #a7a7a7;
         border-radius: 8px;
         transition: border-color 0.4s ease;
-        height: 42px;
         color: $colorGrey02;
-        font-weight: 500;
-        font-size: 14px;
         font-family: 'Poppins', sans-serif;
         line-height: 1.5;
         font-weight: 400;

@@ -2,12 +2,17 @@ import React, { useState, useEffect } from 'react';
 import DeleteButton from './DeleteButton';
 import EditButton from './EditButton';
 import GenerateReportButton from './GenerateReportButton';
+import VisualizarModal from './VisualizarModal/VisualizarModal';
 import styles from '../../../Styles/Pages/Estoque/ListaEstoque.module.scss';
+
+import LupaIcon from '../../../assets/icon_lupa.svg';
 
 const ListaEstoque = () => {
     const [produtos, setProdutos] = useState([]);
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState(null);
+    const [produtoSelecionado, setProdutoSelecionado] = useState(null);
+    const [pesquisa, setPesquisa] = useState('');
 
     useEffect(() => {
         const fetchProdutos = async () => {
@@ -34,11 +39,14 @@ const ListaEstoque = () => {
     };
 
     const handleEdit = (produtoEditado) => {
-        console.log('🚀 ~ handleEdit ~ produtoEditado:', produtoEditado);
         const produtosAtualizados = produtos.map(produto =>
             produto.id === produtoEditado.id ? produtoEditado : produto
         );
         setProdutos(produtosAtualizados);
+    };
+
+    const handleVisualizar = (id) => {
+        setProdutoSelecionado(id);
     };
 
     const handleGenerateReport = () => {
@@ -66,6 +74,10 @@ const ListaEstoque = () => {
         document.body.removeChild(link);
     };
 
+    const produtosFiltrados = produtos.filter(produto =>
+        produto.nome.toLowerCase().includes(pesquisa.toLowerCase())
+    );
+
     if (loading) {
         return <div>Carregando...</div>;
     }
@@ -75,8 +87,21 @@ const ListaEstoque = () => {
     }
 
     return (
-        <div className={styles.container}>
-            <GenerateReportButton onClick={handleGenerateReport} />
+
+        <div>
+            <div className={styles.Search}>
+                <div className={styles.Search__Content}>
+                    <input
+                        type="text"
+                        placeholder="Pesquisar produtos..."
+                        value={pesquisa}
+                        onChange={(e) => setPesquisa(e.target.value)}
+                        className={styles.Search__Content__InputSearch}
+                    />
+                    <img className={styles.Search__Content__Icon} src={LupaIcon} width="26" height="26" alt="Ícone de Lupa" />
+                </div>
+                <GenerateReportButton onClick={handleGenerateReport} />
+            </div>
             <table className={styles.table}>
                 <thead className={styles.table__tSection}>
                     <tr className={styles.table__tRow}>
@@ -90,27 +115,30 @@ const ListaEstoque = () => {
                     </tr>
                 </thead>
                 <tbody>
-                    {produtos.map((produto) => (
+                    {produtosFiltrados.map((produto) => (
                         <tr className={styles.table__tRow} key={produto.id}>
                             <td className={styles.table__tDetailed__idProduto}>{produto.id}</td>
                             <td className={styles.table__tDetailed}>{produto.nome}</td>
-                            <td className={styles.table__tDetailed}>{produto.categoria.nome}</td>
+                            <td className={styles.table__tDetailed}>{produto.categoria?.nome}</td>
                             <td className={styles.table__tDetailed}>
                                 {typeof produto.preco === 'number' && produto.preco !== null && produto.preco !== undefined ? `R$ ${produto.preco.toFixed(2)}` : ''}
                             </td>
-                            <td className={styles.table__tDetailed}>{produto.quantidade}</td>
+                            <td className={styles.table__tDetailed}>{produto.quantidade} un.</td>
                             <td className={styles.table__tDetailed}>
                                 <div className={`${styles.circle} ${produto.quantidade > 0 ? styles['circle--available'] : styles['circle--unavailable']}`}></div>
                             </td>
                             <td className={styles.table__tDetailed__Buttons}>
                                 <EditButton product={produto} onEdit={handleEdit} />
-                                <button>Visualizar</button>
+                                <button className={styles.table__tDetailed__ButtonVisualizar} onClick={() => handleVisualizar(produto.id)}>Visualizar</button>
                                 <DeleteButton productId={produto.id} productName={produto.nome} onDelete={handleDelete} />
                             </td>
                         </tr>
                     ))}
                 </tbody>
             </table>
+            {produtoSelecionado && (
+                <VisualizarModal productId={produtoSelecionado} onClose={() => setProdutoSelecionado(null)} />
+            )}
         </div>
     );
 };

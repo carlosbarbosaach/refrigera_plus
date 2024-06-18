@@ -105,12 +105,12 @@ function MainContent() {
         body: JSON.stringify({
         })
       });
-  
+
       if (!response.ok) {
         const errorData = await response.json();
         throw new Error(`Erro ao aumentar a quantidade do produto: ${errorData.message}`);
       }
-  
+
       const updatedProdutos = produtos.map(produto =>
         produto.id === id ? { ...produto, quantidade: produto.quantidade + 1 } : produto
       );
@@ -131,12 +131,12 @@ function MainContent() {
         body: JSON.stringify({
         })
       });
-  
+
       if (!response.ok) {
         const errorData = await response.json();
         throw new Error(`Erro ao diminuir a quantidade do produto: ${errorData.message}`);
       }
-  
+
       const updatedProdutos = produtos.map(produto =>
         produto.id === id && produto.quantidade > 0 ? { ...produto, quantidade: produto.quantidade - 1 } : produto
       );
@@ -200,7 +200,7 @@ function MainContent() {
                 <li key={produto.id} className={Styles.Main__container__ul__li}>
                   {produto.idImagem && (
                     <div className={Styles.Main__container__imagem}>
-                      <img src={`http://45.235.53.125:8080/api/imagem/${produto.idImagem}`} alt="Imagem do produto" />
+                      <img src={`http://45.235.53.125:8080/api/imagem/${produto.idImagem}`} width="210" height="210" loading="lazy" alt="Imagem do produto" />
                     </div>
                   )}
                   <div className={Styles.Main__container__productInfo}>
@@ -252,7 +252,7 @@ function MainContent() {
           {!naoHaProdutos && produtos.length > numProdutosExibidos && (
             <div className={Styles.Main__container__ShowMoreButton}>
               <button className={Styles.Main__container__ButtonStyle} onClick={mostrarMaisProdutos}>
-                Mostrar Mais <img src={IconDown} alt="Ícone de seta para baixo" />
+                Mostrar Mais <img src={IconDown} width="24px" height="24px" alt="Ícone de seta para baixo" />
               </button>
             </div>
           )}

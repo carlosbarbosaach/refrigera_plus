@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import Styles from '../../../Styles/Pages/Estoque/EstoqueContent.module.scss';
 import ListaEstoque from "./ListaEstoque";
 import { FaArrowUp } from 'react-icons/fa';
+import LupaIcon from '../../../assets/icon_lupa.svg';
 import { toast, ToastContainer } from 'react-toastify';
 
 function EstoqueContent() {
@@ -200,6 +201,16 @@ function EstoqueContent() {
         <button className={Styles.Estoque__add_button} onClick={openModal}>
           Adicionar novo produto
         </button>
+        {/* <div className={Styles.Main__container__searchInput}>
+          <input
+            type="text"
+            placeholder="Pesquisar produtos..."
+            value={pesquisa}
+            onChange={(e) => setPesquisa(e.target.value)}
+            className={Styles.Main__container__searchInput__Styles}
+          />
+          <img className={Styles.Main__container__searchInput__lupaIcon} src={LupaIcon} alt="Ícone de Lupa" />
+        </div> */}
         <ListaEstoque />
         {showModal && (
           <div className={Styles.Modal} onClick={closeModal}>

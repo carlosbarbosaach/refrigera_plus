@@ -29,9 +29,9 @@
             &__Styles {
                 padding-right: 36px;
                 max-width: 450px;
-                padding: 8px 12px;
+                padding: 5px 12px;
                 width: 100%;
-                border: 1px solid $colorBlue03;
+                border: 1px solid #a7a7a7;
                 border-radius: 8px;
                 transition: border-color 0.4s ease;
                 height: 24px;
@@ -41,7 +41,7 @@
                 }
 
                 &:focus-visible {
-                    border: solid 3px $colorBlue02;
+                    border: solid 1px #676767;
                 }
 
                 &::placeholder {
@@ -87,7 +87,6 @@
                 flex-direction: column;
                 border-radius: 8px;
                 padding: 10px 20px;
-                cursor: pointer;
                 justify-content: space-around;
                 position: relative;
             }
