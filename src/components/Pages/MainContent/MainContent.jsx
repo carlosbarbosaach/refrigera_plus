@@ -6,6 +6,7 @@ import IconDown from '../../../assets/icon_down.svg';
 import { ColorRing } from 'react-loader-spinner';
 import ModalConfirmacao from '../MainContent/Modal/ModalConfirmacao';
 import FiltroCategorias from '../../Filtros/FiltroCategorias';
+import ModalDetalhesProduto from './ModalDetalhesProduto/ModalDetalhesProduto'
 
 function MainContent() {
 
@@ -17,6 +18,7 @@ function MainContent() {
   const [pesquisa, setPesquisa] = useState("");
   const [produtoAExcluir, setProdutoAExcluir] = useState(null);
   const [categoriaSelecionada, setCategoriaSelecionada] = useState(null);
+  const [produtoSelecionado, setProdutoSelecionado] = useState(null);
 
   useEffect(() => {
     async function fetchData() {
@@ -197,7 +199,7 @@ function MainContent() {
             {produtosFiltrados
               .slice(0, numProdutosExibidos)
               .map((produto) => (
-                <li key={produto.id} className={Styles.Main__container__ul__li}>
+                <li key={produto.id} className={Styles.Main__container__ul__li} onClick={() => setProdutoSelecionado(produto.id)}>
                   {produto.idImagem && (
                     <div className={Styles.Main__container__imagem}>
                       <img src={`http://45.235.53.125:8080/api/imagem/${produto.idImagem}`} width="210" height="210" loading="lazy" alt="Imagem do produto" />
@@ -263,6 +265,9 @@ function MainContent() {
         onConfirm={deletarProduto}
         onCancel={() => setProdutoAExcluir(null)}
       />
+      {produtoSelecionado && (
+        <ModalDetalhesProduto productId={produtoSelecionado} onClose={() => setProdutoSelecionado(null)} />
+      )}
     </main>
   );
 }
