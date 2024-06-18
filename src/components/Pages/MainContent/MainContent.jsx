@@ -171,7 +171,7 @@ function MainContent() {
           ariaLabel="color-ring-loading"
           wrapperStyle={{}}
           wrapperClass="color-ring-wrapper"
-          colors={['#3889F2', '#076DF2', '#0554F2', '#3889F2', '#0554F2']}
+          colors={['3445dd', '#076DF2', '#0554F2', '3445dd', '#0554F2']}
         />
       ) : (
         <div className={Styles.Main__container}>

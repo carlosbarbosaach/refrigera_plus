@@ -274,7 +274,7 @@ function EstoqueContent() {
                   <label className={Styles.Modal__content__label} htmlFor="imagem">
                     Imagem do produto:
                     <input
-                      className={Styles.Modal__content__formControl}
+                      className={Styles.Modal__content__formControl__Upload}
                       name="imagem"
                       type="file"
                       onChange={handleImageChange}

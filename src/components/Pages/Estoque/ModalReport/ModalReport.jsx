@@ -10,10 +10,11 @@ const ModalReport = ({ isOpen, message, onConfirm, onCancel }) => {
     return (
         <div className={styles.modal}>
             <div className={styles.modalContent}>
+            <button className={styles.modalContent__closeButton} onClick={onCancel}>x</button>
                 <p className={styles.modalContent__Paragraph}>{message}</p>
                 <div className={styles.modalButton}>
-                    <button className={styles.modalButton__Button} onClick={onConfirm}>Confirmar</button>
-                    <button className={styles.modalButton__Button} onClick={onCancel}>Cancelar</button>
+                    <button className={styles.modalButton__ButtonSim} onClick={onConfirm}>Confirmar</button>
+                    <button className={styles.modalButton__ButtonNao} onClick={onCancel}>Cancelar</button>
                 </div>
             </div>
         </div>

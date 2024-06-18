@@ -17,6 +17,18 @@
     border-radius: 8px;
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
     text-align: center;
+    position: relative;
+
+    &__closeButton {
+        position: absolute;
+        top: 8px;
+        right: 12px;
+        background: none;
+        border: none;
+        font-size: 20px;
+        cursor: pointer;
+        color: #636363e5;
+    }
 
     &__Paragraph {
         font-size: 14px;
@@ -25,14 +37,14 @@
 }
 
 .modalButtons {
-    margin-top: 20px;
+    margin-top: 10px;
 
-
-    &__confirmButton,
-    &__cancelButton {
+    &__confirmButton {
         margin: 5px;
-        padding: 10px 20px;
+        padding: 10px 40px;
         cursor: pointer;
+        background-color: #3445dd;
+        color: #FFFFFF;
         border-radius: 8px;
         font-size: 14px;
         letter-spacing: 0.6px;
@@ -40,7 +52,24 @@
         transition: background-color 0.4s ease, color 0.4s ease;
 
         &:hover {
-            background-color: #cccccc8d;
+            background-color: #2b3697e3;
+        }
+    }
+
+    &__cancelButton {
+        margin: 5px;
+        padding: 10px 40px;
+        cursor: pointer;
+        color: #FFFFFF;
+        background-color: #a3a3a3e5;
+        border-radius: 8px;
+        font-size: 14px;
+        letter-spacing: 0.6px;
+        border: none;
+        transition: background-color 0.4s ease, color 0.4s ease;
+
+        &:hover {
+            background-color: #8a8a8ae5;
         }
     }
 }

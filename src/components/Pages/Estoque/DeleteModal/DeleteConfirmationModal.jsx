@@ -18,6 +18,7 @@ const DeleteConfirmationModal = ({ isOpen, productName, onConfirm, onCancel }) =
     return (
         <div className={styles.modal}>
             <div className={styles.modalContent}>
+            <button className={styles.modalContent__closeButton} onClick={onCancel}>x</button>
                 <p className={styles.modalContent__Paragraph}>Deseja deletar o produto <strong>{productName}</strong>?</p>
                 <div className={styles.modalButtons}>
                     <button className={styles.modalButtons__confirmButton} onClick={handleConfirm}>Confirmar</button>
