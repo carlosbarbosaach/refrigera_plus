@@ -13,20 +13,43 @@
 
     &__Content {
         background: white;
-        padding: 24px 48px;
+        padding: 30px 36px;
         border-radius: 8px;
         text-align: center;
+        position: relative;
+    }
+
+    &__closeButton {
+        position: absolute;
+        top: 8px;
+        right: 12px;
+        background: none;
+        border: none;
+        font-size: 20px;
+        cursor: pointer;
+        color: #636363e5;
     }
 
     &__richText {
         font-size: 14px;
         color: black;
+        max-width: 300px;
+        width: 100%;
+        text-align: left;
+    }
+
+    &__contentButton {
+        display: flex;
+        flex-direction: row;
+        justify-content: end;
     }
 
     &__buttonSim {
         margin: 5px;
         padding: 10px 40px;
         cursor: pointer;
+        background-color: #3445dde3;
+        color: #FFFFFF;
         border-radius: 8px;
         font-size: 14px;
         letter-spacing: 0.6px;
@@ -34,7 +57,7 @@
         transition: background-color 0.4s ease, color 0.4s ease;
 
         &:hover {
-            background-color: #cccccc8d;
+            background-color: #2b3697e3;
         }
     }
 
@@ -42,6 +65,8 @@
         margin: 5px;
         padding: 10px 40px;
         cursor: pointer;
+        color: #FFFFFF;
+        background-color: #a3a3a3e5;
         border-radius: 8px;
         font-size: 14px;
         letter-spacing: 0.6px;
@@ -49,7 +74,7 @@
         transition: background-color 0.4s ease, color 0.4s ease;
 
         &:hover {
-            background-color: #cccccc8d;
+            background-color: #8a8a8ae5;
         }
     }
 }

@@ -11,18 +11,15 @@
 .Estoque__add_button {
     background-color: #298f28;
     color: #FFFFFF;
-    text-transform: uppercase;
     border: none;
-    padding: 12px 16px;
+    padding: 10px 40px;
     border-radius: 8px;
     cursor: pointer;
     transition: background-color 0.4s ease, color 0.4s ease;
     outline: none;
     font-weight: 500;
-    font-size: 12px;
-    letter-spacing: 0.3px;
-    max-width: 306px;
-    width: 100%;
+    font-size: 14px;
+    letter-spacing: 0.6px;
 
     &:hover {
         background-color: #1e661c;
@@ -196,6 +193,17 @@
         box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
         position: relative;
 
+        &__closeButton {
+            position: absolute;
+            top: 8px;
+            right: 12px;
+            background: none;
+            border: none;
+            font-size: 20px;
+            cursor: pointer;
+            color: #636363e5;
+        }
+
         &__form {
             display: flex;
             flex-direction: column;
@@ -206,8 +214,8 @@
         }
 
         &__title {
-            margin-bottom: 20px;
-            text-align: center;
+            margin: 5px 0;
+            text-align: left;
             font-size: 16px;
             font-weight: 600;
             color: #1c1c1c;
@@ -225,27 +233,40 @@
 
         &__containerAdd {
             display: flex;
-            justify-content: center;
-            margin-top: 20px;
+            justify-content: right;
+            gap: 10px;
 
             &__addButton {
                 background-color: #298f28;
                 color: #FFFFFF;
-                text-transform: uppercase;
                 border: none;
-                padding: 12px 16px;
+                padding: 10px 40px;
                 border-radius: 8px;
                 cursor: pointer;
                 transition: background-color 0.4s ease, color 0.4s ease;
                 outline: none;
                 font-weight: 500;
-                font-size: 12px;
+                font-size: 14px;
                 letter-spacing: 0.6px;
-                max-width: 306px;
-                width: 100%;
 
                 &:hover {
-                    background-color: $colorGreen02;
+                    background-color: #1e661c;
+                }
+            }
+
+            &__closeButton {
+                padding: 10px 40px;
+                cursor: pointer;
+                color: #FFFFFF;
+                background-color: #a3a3a3e5;
+                border-radius: 8px;
+                font-size: 14px;
+                letter-spacing: 0.6px;
+                border: none;
+                transition: background-color 0.4s ease, color 0.4s ease;
+
+                &:hover {
+                    background-color: #8a8a8ae5;
                 }
             }
         }
@@ -262,12 +283,13 @@
 
     &__close {
         position: absolute;
-        top: 10px;
-        right: 10px;
-        background: transparent;
+        top: 12px;
+        right: 12px;
+        background: none;
         border: none;
-        font-size: 20px;
+        font-size: 16px;
         cursor: pointer;
+        color: #636363e5;
     }
 }
 
@@ -285,22 +307,12 @@
 
     &__content {
         background-color: $colorWhite01;
-        padding: 20px 40px;
+        padding: 30px 36px;
         border-radius: 8px;
         width: 80%;
         max-width: 500px;
         box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
         text-align: center;
-    }
-
-    &__close {
-        position: absolute;
-        top: 10px;
-        right: 10px;
-        background: none;
-        border: none;
-        font-size: 20px;
-        cursor: pointer;
     }
 }
 
@@ -367,7 +379,7 @@
     &__close {
         background: none;
         border: none;
-        font-size: 18px;
+        font-size: 16px;
         color: $colorBlack01;
         cursor: pointer;
         position: absolute;

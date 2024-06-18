@@ -198,18 +198,18 @@ function EstoqueContent() {
     <>
       <div className={Styles.EstoqueMain}>
         <button className={Styles.Estoque__add_button} onClick={openModal}>
-          Adicionar Novo Produto
+          Adicionar novo produto
         </button>
         <ListaEstoque />
         {showModal && (
           <div className={Styles.Modal} onClick={closeModal}>
             <div className={Styles.Modal__content} onClick={(e) => e.stopPropagation()}>
-              <button className={Styles.Modal__close} onClick={closeModal}>X</button>
+              <button className={Styles.Modal__content__closeButton} onClick={closeModal}>X</button>
               <form className={Styles.Modal__content__form} onSubmit={handleSubmit}>
                 <div className={Styles.Modal__content__formGroup}>
-                  <h2 className={Styles.Modal__content__title}>Adicionar Novo Produto</h2>
+                  <h2 className={Styles.Modal__content__title}>Adicionar novo produto</h2>
                   <label className={Styles.Modal__content__label} htmlFor="nome">
-                    Nome:
+                    Nome do produto:
                     <input
                       className={Styles.Modal__content__formControl}
                       name="nome"
@@ -261,7 +261,7 @@ function EstoqueContent() {
                 </div>
                 <div className={Styles.Modal__content__formGroup}>
                   <label className={Styles.Modal__content__label} htmlFor="descricao">
-                    Descrição:
+                    Descrição do produto:
                     <textarea
                       className={Styles.Modal__content__formControl}
                       name="descricao"
@@ -272,7 +272,7 @@ function EstoqueContent() {
                 </div>
                 <div className={Styles.Modal__content__formGroup}>
                   <label className={Styles.Modal__content__label} htmlFor="imagem">
-                    Imagem:
+                    Imagem do produto:
                     <input
                       className={Styles.Modal__content__formControl}
                       name="imagem"
@@ -283,6 +283,7 @@ function EstoqueContent() {
                 </div>
                 <div className={Styles.Modal__content__containerAdd}>
                   <button className={Styles.Modal__content__containerAdd__addButton} type="submit">Cadastrar Produto</button>
+                  <button className={Styles.Modal__content__containerAdd__closeButton} onClick={closeModal}>Cancelar</button>
                 </div>
               </form>
             </div>
