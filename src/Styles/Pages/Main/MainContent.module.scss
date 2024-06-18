@@ -236,27 +236,41 @@
             display: flex;
             flex-direction: row;
             justify-content: space-between;
-            margin-top: 8px;
+            margin-top: 5px;
             gap: 20px;
 
             &__maismenos {
-                gap: 10px;
+                gap: 12px;
                 display: flex;
             }
 
             &__excluirButton {
-                padding: 16px 14px;
+                padding: 10px 20px;
                 border-radius: 8px;
-                font-size: 14px;
+                font-size: 0;
                 color: $colorWhite01;
-                background-color: $colorRed01;
+                background-color: #9c9c9cd0;
                 letter-spacing: 0.4px;
                 border: none;
                 cursor: pointer;
                 transition: background-color 0.4s ease, color 0.4s ease;
+                position: relative;
+
+                &::before {
+                    content: '';
+                    display: inline-block;
+                    width: 19px;
+                    height: 19px;
+                    background-image: url('../../../assets/icon_trash.svg');
+                    background-repeat: no-repeat;
+                    background-color: #cccccc00;
+                    background-position: center;
+                    background-size: cover;
+                    vertical-align: middle;
+                }
 
                 &:hover {
-                    background-color: #ea2e2e;
+                    background-color: #d51c1c;
                 }
 
             }
@@ -264,12 +278,26 @@
             &__maisButton {
                 padding: 10px 20px;
                 border-radius: 8px;
-                font-size: 24px;
+                font-size: 0;
                 color: $colorWhite01;
                 background-color: #24cb51;
                 border: none;
                 cursor: pointer;
                 transition: background-color 0.4s ease, color 0.4s ease;
+                position: relative;
+
+                &::before {
+                    content: '';
+                    display: inline-block;
+                    width: 19px;
+                    height: 19px;
+                    background-image: url('../../../assets/icon_plus.svg');
+                    background-repeat: no-repeat;
+                    background-color: #cccccc00;
+                    background-position: center;
+                    background-size: cover;
+                    vertical-align: middle;
+                }
 
                 &:hover {
                     background-color: #0f840f;
@@ -277,14 +305,28 @@
             }
 
             &__menosButton {
-                padding: 10px 23px;
+                padding: 10px 20px;
                 border-radius: 8px;
-                font-size: 24px;
+                font-size: 0px;
                 border: none;
                 color: $colorWhite01;
                 background-color: $colorBlue03;
                 cursor: pointer;
                 transition: background-color 0.4s ease, color 0.4s ease;
+                position: relative;
+
+                &::before {
+                    content: '';
+                    display: inline-block;
+                    width: 19px;
+                    height: 19px;
+                    background-image: url('../../../assets/icon_minus.svg');
+                    background-repeat: no-repeat;
+                    background-color: #cccccc00;
+                    background-position: center;
+                    background-size: cover;
+                    vertical-align: middle;
+                }
 
                 &:hover {
                     background-color: $colorBlue01;

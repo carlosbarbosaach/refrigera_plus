@@ -20,17 +20,17 @@ function Header() {
           <ul>
             <li className={Styles.Header__item}>
               <a className={Styles.Header__link} href="/">Página Inicial
-                <img src={iconHome} alt="Icone Inicio" className={Styles.Header__container__icon} />
+                {/* <img src={iconHome} alt="Icone Inicio" className={Styles.Header__container__icon} /> */}
               </a>
             </li>
             <li className={Styles.Header__item}>
               <a className={Styles.Header__link} href="/gestao">Gestão
-                <img src={iconManagement} alt="Icone Gestão" className={Styles.Header__container__icon} />
+                {/* <img src={iconManagement} alt="Icone Gestão" className={Styles.Header__container__icon} /> */}
               </a>
             </li>
             <li className={Styles.Header__item}>
               <a className={Styles.Header__link} href="/estoque">Estoque
-                <img src={iconBox} alt="Icone Estoque" className={Styles.Header__container__icon} />
+                {/* <img src={iconBox} alt="Icone Estoque" className={Styles.Header__container__icon} /> */}
               </a>
             </li>
           </ul>
