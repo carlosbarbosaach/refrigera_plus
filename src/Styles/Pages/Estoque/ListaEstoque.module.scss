@@ -1,6 +1,6 @@
 @import "../../../Styles/Mixins/variables.scss";
+
 .container {
-    margin: 20px 0;
 }
 
 .table {
@@ -40,6 +40,15 @@
         font-size: 14px;
         color: black;
 
+        &__idProduto {
+            padding: 12px;
+            background-color: #fafafa;
+            letter-spacing: 0.3px;
+            font-weight: 600;
+            font-size: 14px;
+            color: black;
+        }
+
         &:hover {
             background-color: #e4e4e4ab;
             cursor: pointer;
@@ -51,7 +60,7 @@
             justify-content: center;
             align-items: center;
             padding: 12px 0;
-            gap: 12px; 
+            gap: 12px;
             background-color: #fafafa;
         }
     }
@@ -70,12 +79,43 @@
 }
 
 .ReportIcon {
-    width: 36px;
-    height: 36px;
+    width: 32px;
+    height: 32px;
     transition: transform 0.3s ease;
     cursor: pointer;
-    
+
     &:hover {
         transform: scale(1.2);
+    }
+}
+
+.circle {
+    width: 12px;
+    height: 12px;
+    border-radius: 50%;
+    display: inline-block;
+    position: relative;
+    left: 20px;
+}
+
+.circle--available {
+    background-color: #3cc43c;
+    animation: blink 2s infinite;
+}
+
+.circle--unavailable {
+    background-color: #ff4545;
+    animation: blink 2s infinite;
+}
+
+@keyframes blink {
+
+    0%,
+    100% {
+        opacity: 1;
+    }
+
+    50% {
+        opacity: 0.7;
     }
 }

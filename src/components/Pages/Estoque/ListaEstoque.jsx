@@ -34,7 +34,6 @@ const ListaEstoque = () => {
 
     const handleEdit = (produtoEditado) => {
         console.log('🚀 ~ handleEdit ~ produtoEditado:', produtoEditado);
-        // Atualize o estado dos produtos aqui
         const produtosAtualizados = produtos.map(produto =>
             produto.id === produtoEditado.id ? produtoEditado : produto
         );
@@ -84,22 +83,26 @@ const ListaEstoque = () => {
                         <th className={styles.table__tHeader}>Nome</th>
                         <th className={styles.table__tHeader}>Categoria</th>
                         <th className={styles.table__tHeader}>Preço</th>
-                        <th className={styles.table__tHeader}>Descrição</th>
+                        {/* <th className={styles.table__tHeader}>Descrição</th> */}
                         <th className={styles.table__tHeader}>Quantidade</th>
+                        <th className={styles.table__tHeader}>Status</th>
                         <th className={styles.table__tHeader__Button}>Ações</th>
                     </tr>
                 </thead>
                 <tbody>
                     {produtos.map((produto) => (
                         <tr className={styles.table__tRow} key={produto.id}>
-                            <td className={styles.table__tDetailed}>{produto.id}</td>
+                            <td className={styles.table__tDetailed__idProduto}>{produto.id}</td>
                             <td className={styles.table__tDetailed}>{produto.nome}</td>
                             <td className={styles.table__tDetailed}>{produto.categoria.nome}</td>
                             <td className={styles.table__tDetailed}>
                             {typeof produto.preco === 'number' && produto.preco !== null && produto.preco !== undefined ? `R$ ${produto.preco.toFixed(2)}` : ''}
                             </td>
-                            <td className={styles.table__tDetailed}>{produto.descricao}</td>
+                            {/* <td className={styles.table__tDetailed}>{produto.descricao}</td> */}
                             <td className={styles.table__tDetailed}>{produto.quantidade}</td>
+                            <td className={styles.table__tDetailed}>
+                                <div className={`${styles.circle} ${produto.quantidade > 0 ? styles['circle--available'] : styles['circle--unavailable']}`}></div>
+                            </td>
                             <td className={styles.table__tDetailed__Buttons}>
                                 <EditButton product={produto} onEdit={handleEdit} />
                                 <DeleteButton productId={produto.id} productName={produto.nome} onDelete={handleDelete} />
