@@ -202,7 +202,7 @@ function MainContent() {
                 <li key={produto.id} className={Styles.Main__container__ul__li} onClick={() => setProdutoSelecionado(produto.id)}>
                   {produto.idImagem && (
                     <div className={Styles.Main__container__imagem}>
-                      <img src={`http://45.235.53.125:8080/api/imagem/${produto.idImagem}`} width="210" height="210" loading="lazy" alt="Imagem do produto" />
+                      <img className={Styles.Main__container__imagemStyle} src={`http://45.235.53.125:8080/api/imagem/${produto.idImagem}`} width="210" height="210" loading="lazy" alt="Imagem do produto" />
                     </div>
                   )}
                   <div className={Styles.Main__container__productInfo}>
