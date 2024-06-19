@@ -58,7 +58,7 @@
 
 .table {
     width: 100%;
-    margin-top: 16px;
+    margin-top: 30px;
     border-collapse: collapse;
 
     &__tHeader {
@@ -76,7 +76,21 @@
             color: #ffff;
             letter-spacing: 0.3px;
             font-weight: 500;
+            border-top-right-radius: 12px 12px;
         }
+
+        &__left {
+            text-align: center;
+            background-color: #0554F2;
+            color: #ffff;
+            letter-spacing: 0.3px;
+            font-weight: 500;
+            border-top-left-radius: 12px 12px;
+        }
+    }
+
+    &__TableSection {
+        border: 1px solid #bbbfbf;
     }
 
     &__tRow {
@@ -112,7 +126,7 @@
             flex-direction: row;
             justify-content: center;
             align-items: center;
-            padding: 12px 0;
+            padding: 12px;
             gap: 12px;
             background-color: #fafafa;
         }
@@ -168,12 +182,12 @@
 
 .circle--available {
     background-color: #3cc43c;
-    animation: blink 2s infinite;
+    animation: blink 1.5s infinite;
 }
 
 .circle--unavailable {
     background-color: #ff4545;
-    animation: blink 2s infinite;
+    animation: blink 1.5s infinite;
 }
 
 @keyframes blink {

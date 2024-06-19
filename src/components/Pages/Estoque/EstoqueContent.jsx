@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import Styles from '../../../Styles/Pages/Estoque/EstoqueContent.module.scss';
 import ListaEstoque from "./ListaEstoque";
 import { FaArrowUp } from 'react-icons/fa';
-import LupaIcon from '../../../assets/icon_lupa.svg';
+import CurrencyInput from 'react-currency-input-field';
 import { toast, ToastContainer } from 'react-toastify';
 
 function EstoqueContent() {
@@ -10,7 +10,7 @@ function EstoqueContent() {
   const [categoriaId, setCategoriaId] = useState('');
   const [descricao, setDescricao] = useState('');
   const [nome, setNome] = useState('');
-  const [preco, setPreco] = useState(0);
+  const [preco, setPreco] = useState(''); // Altere para string
   const [quantidade, setQuantidade] = useState(0);
   const [imagem, setImagem] = useState(null);
   const [idProduto, setIdProduto] = useState(null);
@@ -63,9 +63,6 @@ function EstoqueContent() {
       case 'nome':
         setNome(value);
         break;
-      case 'preco':
-        setPreco(value);
-        break;
       case 'quantidade':
         setQuantidade(value);
         break;
@@ -95,6 +92,10 @@ function EstoqueContent() {
     }
   };
 
+  const handleCurrencyChange = (value) => {
+    setPreco(value);
+  };
+
   const cadastrarImagem = async () => {
     try {
       const imagemData = new FormData();
@@ -121,11 +122,13 @@ function EstoqueContent() {
 
   const cadastrarProduto = async (idImagem) => {
     try {
+      const precoNumerico = parseFloat(preco.replace('R$', '').replace('.', '').replace(',', '.')); // Converte para número
+
       const produtoData = {
         categoria: { id: categoriaId },
         descricao,
         nome,
-        preco,
+        preco: precoNumerico, // Use o valor numérico aqui
         quantidade,
         idImagem // ID da imagem cadastrada
       };
@@ -201,16 +204,6 @@ function EstoqueContent() {
         <button className={Styles.Estoque__add_button} onClick={openModal}>
           Adicionar novo produto
         </button>
-        {/* <div className={Styles.Main__container__searchInput}>
-          <input
-            type="text"
-            placeholder="Pesquisar produtos..."
-            value={pesquisa}
-            onChange={(e) => setPesquisa(e.target.value)}
-            className={Styles.Main__container__searchInput__Styles}
-          />
-          <img className={Styles.Main__container__searchInput__lupaIcon} src={LupaIcon} alt="Ícone de Lupa" />
-        </div> */}
         <ListaEstoque />
         {showModal && (
           <div className={Styles.Modal} onClick={closeModal}>
@@ -249,12 +242,16 @@ function EstoqueContent() {
                 <div className={Styles.Modal__content__formGroup}>
                   <label className={Styles.Modal__content__label} htmlFor="preco">
                     Preço:
-                    <input
+                    <CurrencyInput
                       className={Styles.Modal__content__formControl}
+                      id="preco"
                       name="preco"
-                      type="number"
                       value={preco}
-                      onChange={handleInputChange}
+                      decimalsLimit={2}
+                      decimalSeparator=","
+                      groupSeparator="."
+                      prefix="R$ "
+                      onValueChange={handleCurrencyChange}
                     />
                   </label>
                 </div>

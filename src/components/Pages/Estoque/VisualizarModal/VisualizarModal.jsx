@@ -41,6 +41,10 @@ const VisualizarModal = ({ productId, onClose }) => {
         return <div>Nenhum produto encontrado</div>;
     }
 
+    const formatarPreco = (valor) => {
+        return valor.toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' });
+    };
+
     return (
         <>
             <div className={styles.Modal}>
@@ -52,7 +56,7 @@ const VisualizarModal = ({ productId, onClose }) => {
                     <h3 className={styles.Modal__Heading}>{product.nome}</h3>
                     <p className={styles.Modal__Paragraph}><span className={styles.Modal__Paragraph__span}>Categoria:</span> {product.categoria?.nome}</p>
                     <p className={styles.Modal__Paragraph}><span className={styles.Modal__Paragraph__span}>Descrição:</span> {product.descricao}</p>
-                    <p className={styles.Modal__Paragraph}><span className={styles.Modal__Paragraph__span}>Preço:</span> R$ {product.preco.toFixed(2)}</p>
+                    <p className={styles.Modal__Paragraph}><span className={styles.Modal__Paragraph__span}>Preço: </span>{formatarPreco(product.preco)}</p>
                     <p className={styles.Modal__Paragraph}><span className={styles.Modal__Paragraph__span}>Quantidade:</span> {product.quantidade} unidade</p>
                 </div>
             </div>

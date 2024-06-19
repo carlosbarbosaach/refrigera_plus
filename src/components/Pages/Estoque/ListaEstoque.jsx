@@ -4,7 +4,6 @@ import EditButton from './EditButton';
 import GenerateReportButton from './GenerateReportButton';
 import VisualizarModal from './VisualizarModal/VisualizarModal';
 import styles from '../../../Styles/Pages/Estoque/ListaEstoque.module.scss';
-
 import LupaIcon from '../../../assets/icon_lupa.svg';
 
 const ListaEstoque = () => {
@@ -54,7 +53,7 @@ const ListaEstoque = () => {
         const rows = produtos.map(produto => [
             produto.id,
             produto.nome,
-            (typeof produto.preco === 'number' ? `R$ ${produto.preco.toFixed(2)}` : 'Preço Indisponível'),
+            formatarPreco(produto.preco),
             produto.descricao,
             produto.quantidade
         ]);
@@ -86,8 +85,11 @@ const ListaEstoque = () => {
         return <div>Erro ao carregar produtos: {error.message}</div>;
     }
 
-    return (
+    const formatarPreco = (valor) => {
+        return valor.toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' });
+    };
 
+    return (
         <div>
             <div className={styles.Search}>
                 <div className={styles.Search__Content}>
@@ -105,7 +107,7 @@ const ListaEstoque = () => {
             <table className={styles.table}>
                 <thead className={styles.table__tSection}>
                     <tr className={styles.table__tRow}>
-                        <th className={styles.table__tHeader}>ID</th>
+                        <th className={styles.table__tHeader__left}>ID</th>
                         <th className={styles.table__tHeader}>Nome</th>
                         <th className={styles.table__tHeader}>Categoria</th>
                         <th className={styles.table__tHeader}>Preço</th>
@@ -114,14 +116,14 @@ const ListaEstoque = () => {
                         <th className={styles.table__tHeader__Button}>Ações</th>
                     </tr>
                 </thead>
-                <tbody>
+                <tbody className={styles.table__TableSection}>
                     {produtosFiltrados.map((produto) => (
                         <tr className={styles.table__tRow} key={produto.id}>
                             <td className={styles.table__tDetailed__idProduto}>{produto.id}</td>
                             <td className={styles.table__tDetailed}>{produto.nome}</td>
                             <td className={styles.table__tDetailed}>{produto.categoria?.nome}</td>
                             <td className={styles.table__tDetailed}>
-                                {typeof produto.preco === 'number' && produto.preco !== null && produto.preco !== undefined ? `R$ ${produto.preco.toFixed(2)}` : ''}
+                                {typeof produto.preco === 'number' && produto.preco !== null && produto.preco !== undefined ? formatarPreco(produto.preco) : ''}
                             </td>
                             <td className={styles.table__tDetailed}>{produto.quantidade} un.</td>
                             <td className={styles.table__tDetailed}>
@@ -129,8 +131,8 @@ const ListaEstoque = () => {
                             </td>
                             <td className={styles.table__tDetailed__Buttons}>
                                 <EditButton product={produto} onEdit={handleEdit} />
-                                <button className={styles.table__tDetailed__ButtonVisualizar} onClick={() => handleVisualizar(produto.id)}>Visualizar</button>
                                 <DeleteButton productId={produto.id} productName={produto.nome} onDelete={handleDelete} />
+                                <button className={styles.table__tDetailed__ButtonVisualizar} onClick={() => handleVisualizar(produto.id)}>Visualizar</button>
                             </td>
                         </tr>
                     ))}

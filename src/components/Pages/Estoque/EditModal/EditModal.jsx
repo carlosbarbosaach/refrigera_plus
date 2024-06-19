@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import PropTypes from 'prop-types';
 import styles from './EditModal.module.scss';
+import CurrencyInput from 'react-currency-input-field';
 
 const EditModal = ({ product, onSave, onClose }) => {
     const [editedProduct, setEditedProduct] = useState({ ...product });
@@ -40,6 +41,13 @@ const EditModal = ({ product, onSave, onClose }) => {
         const file = e.target.files[0];
         console.log('Nova imagem selecionada:', file);
         setNovaImagem(file);
+    };
+
+    const handleCurrencyChange = (value) => {
+        setEditedProduct({
+            ...editedProduct,
+            preco: value,
+        });
     };
 
     const cadastrarImagem = async () => {
@@ -120,7 +128,7 @@ const EditModal = ({ product, onSave, onClose }) => {
     return (
         <div className={styles.modal}>
             <div className={styles.modalContent}>
-            <button className={styles.modalContent__closeButton} onClick={onClose}>x</button>
+                <button className={styles.modalContent__closeButton} onClick={onClose}>x</button>
                 <h2 className={styles.modalContent__Heading}>Editar Produto</h2>
                 <form>
                     <div className={styles.modalContent__formGroup}>
@@ -129,7 +137,17 @@ const EditModal = ({ product, onSave, onClose }) => {
                     </div>
                     <div className={styles.modalContent__formGroup}>
                         <label className={styles.modalContent__formGroup__Label} htmlFor="preco">Preço:</label>
-                        <input className={styles.modalContent__formGroup__Input} type="number" id="preco" name="preco" value={editedProduct.preco} onChange={handleChange} />
+                        <CurrencyInput
+                            className={styles.modalContent__formGroup__Input}
+                            id="preco"
+                            name="preco"
+                            value={editedProduct.preco}
+                            decimalsLimit={2}
+                            decimalSeparator=","
+                            groupSeparator="."
+                            prefix="R$ "
+                            onValueChange={(value) => handleCurrencyChange(value)}
+                        />
                     </div>
                     <div className={styles.modalContent__formGroup}>
                         <label className={styles.modalContent__formGroup__Label} htmlFor="quantidade">Quantidade do produto:</label>
@@ -145,16 +163,16 @@ const EditModal = ({ product, onSave, onClose }) => {
                         </select>
                     </div>
                     <div className={styles.modalContent__formGroup}>
-                        <label className={styles.modalContent__formGroup__Label} htmlFor="descricao">Descrição: do produto</label>
-                        <textarea className={styles.modalContent__formGroup__TextArea} type="text" id="descricao" name="descricao" value={editedProduct.descricao} onChange={handleChange} />
+                        <label className={styles.modalContent__formGroup__Label} htmlFor="descricao">Descrição do produto:</label>
+                        <textarea className={styles.modalContent__formGroup__TextArea} id="descricao" name="descricao" value={editedProduct.descricao} onChange={handleChange} />
                     </div>
                     <div className={styles.modalContent__formGroup}>
                         <label className={styles.modalContent__formGroup__Label} htmlFor="imagem">Adicionar nova imagem (opcional):</label>
                         <input className={styles.modalContent__formGroup__InputUpload} type="file" id="imagem" name="imagem" onChange={handleImageChange} />
                     </div>
                     <div className={styles.modalContent__modalButtons}>
-                    <button type="button" onClick={handleSave} className={styles.modalContent__modalButtons__buttonSave}>Salvar</button>
-                    <button type="button" onClick={onClose} className={styles.modalContent__modalButtons__buttonCancel}>Cancelar</button>
+                        <button type="button" onClick={handleSave} className={styles.modalContent__modalButtons__buttonSave}>Salvar</button>
+                        <button type="button" onClick={onClose} className={styles.modalContent__modalButtons__buttonCancel}>Cancelar</button>
                     </div>
                 </form>
             </div>
