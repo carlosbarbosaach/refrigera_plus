@@ -82,7 +82,7 @@ function GestaoContent() {
         <h2 className={Styles.GestaoContent__title}>Página de Gestão</h2>
         <div className={Styles.GestaoContainer}>
           <div className={Styles.GestaoContainer__box}>
-            <a className={Styles.GestaoContainer__subtitle} href="#" onClick={handleDataAnalysisClick}>Análise de Dados e Relatórios</a>
+            <a className={Styles.GestaoContainer__subtitle} href="#" onClick={handleDataAnalysisClick}>Análise de Dados</a>
             <a className={Styles.GestaoContainer__subtitle} href="#" onClick={handlePromotionsClick}>Gestão de Promoções e Descontos</a>
             <a className={Styles.GestaoContainer__subtitle} href="#" onClick={handleFinancialClick}>Gestão Financeira e Contabilidade</a>
           </div>
@@ -90,7 +90,7 @@ function GestaoContent() {
         <div className={Styles.containerAnalise}>
           {showDataAnalysis && (
             <div className={Styles.containerAnalise__content}>
-              <h2 className={Styles.containerAnalise__content__title}>Análise de Dados e Relatórios</h2>
+              <h2 className={Styles.containerAnalise__content__title}>Análise de Dados</h2>
               <div>
                 <p className={Styles.containerAnalise__content__subtitle}>Total de produtos cadastrados: {products.length}</p>
                 <p className={Styles.containerAnalise__content__subtitle}>Produtos com alto estoque:</p>

@@ -25,9 +25,24 @@
         right: 12px;
         background: none;
         border: none;
-        font-size: 20px;
+        font-size: 0;
         cursor: pointer;
         color: #636363e5;
+        transition: transform 0.4s ease;
+
+        &::before {
+            content: '';
+            display: inline-block;
+            width: 32px;
+            height: 32px;
+            background-image: url('../../../assets/icon_close.svg');
+            background-repeat: no-repeat;
+            background-position: center;
+        }
+
+        &:hover {
+            transform: scale(1.2);
+        }
     }
 
     &__richText {
@@ -35,13 +50,13 @@
         color: black;
         max-width: 300px;
         width: 100%;
-        text-align: left;
+        text-align: center;
     }
 
     &__contentButton {
         display: flex;
         flex-direction: row;
-        justify-content: end;
+        justify-content: center;
     }
 
     &__buttonSim {
