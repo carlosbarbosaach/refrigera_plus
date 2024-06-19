@@ -199,9 +199,9 @@ function MainContent() {
             {produtosFiltrados
               .slice(0, numProdutosExibidos)
               .map((produto) => (
-                <li key={produto.id} className={Styles.Main__container__ul__li} onClick={() => setProdutoSelecionado(produto.id)}>
+                <li key={produto.id} className={Styles.Main__container__ul__li}>
                   {produto.idImagem && (
-                    <div className={Styles.Main__container__imagem}>
+                    <div className={Styles.Main__container__imagem} onClick={() => setProdutoSelecionado(produto.id)}>
                       <img className={Styles.Main__container__imagemStyle} src={`http://45.235.53.125:8080/api/imagem/${produto.idImagem}`} width="210" height="210" loading="lazy" alt="Imagem do produto" />
                     </div>
                   )}

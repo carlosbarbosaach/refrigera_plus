@@ -89,7 +89,6 @@
                 padding: 10px 20px;
                 justify-content: space-around;
                 position: relative;
-                cursor: pointer;
             }
         }
 
@@ -99,6 +98,7 @@
             justify-content: center;
             margin-bottom: 14px;
             height: 100%;
+            cursor: pointer;
         }
 
             &__imagemStyle {
