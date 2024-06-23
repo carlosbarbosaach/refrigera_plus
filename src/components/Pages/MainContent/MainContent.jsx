@@ -6,20 +6,20 @@ import IconDown from '../../../assets/icon_down.svg';
 import { ColorRing } from 'react-loader-spinner';
 import ModalConfirmacao from '../MainContent/Modal/ModalConfirmacao';
 import FiltroCategorias from '../../Filtros/FiltroCategorias';
-import FiltroMarcas from '../../Filtros/FiltroMarcas'; // Importar componente de filtro de marcas
+import FiltroMarcas from '../../Filtros/FiltroMarcas';
 import ModalDetalhesProduto from './ModalDetalhesProduto/ModalDetalhesProduto'
 
 function MainContent() {
 
   const [produtos, setProdutos] = useState([]);
-  const [categoriasMarcas, setCategoriasMarcas] = useState({ categorias: [], marcas: [] }); // Estado para armazenar categorias e marcas
+  const [categoriasMarcas, setCategoriasMarcas] = useState({ categorias: [], marcas: [] });
   const [mensagemErro, setMensagemErro] = useState("");
   const [numProdutosExibidos, setNumProdutosExibidos] = useState(4);
   const [carregando, setCarregando] = useState(true);
   const [pesquisa, setPesquisa] = useState("");
   const [produtoAExcluir, setProdutoAExcluir] = useState(null);
   const [categoriaSelecionada, setCategoriaSelecionada] = useState(null);
-  const [marcaSelecionada, setMarcaSelecionada] = useState(null); // Estado para a marca selecionada
+  const [marcaSelecionada, setMarcaSelecionada] = useState(null);
   const [produtoSelecionado, setProdutoSelecionado] = useState(null);
 
   useEffect(() => {
@@ -36,7 +36,7 @@ function MainContent() {
           quantidade: produto.quantidade || 0
         }));
 
-        setCategoriasMarcas({ categorias: categoriasData, marcas: marcasData }); // Definir categorias e marcas no estado
+        setCategoriasMarcas({ categorias: categoriasData, marcas: marcasData });
         setProdutos(produtosWithQuantity);
         setCarregando(false);
       } catch (error) {
@@ -164,7 +164,7 @@ function MainContent() {
     return (
       produto.nome.toLowerCase().includes(pesquisa.toLowerCase()) &&
       (categoriaSelecionada === null || produto.categoria?.id === categoriaSelecionada) &&
-      (marcaSelecionada === null || produto.marca?.id === marcaSelecionada) // Filtrar por marca selecionada
+      (marcaSelecionada === null || produto.marca?.id === marcaSelecionada)
     );
   };
 
@@ -198,12 +198,12 @@ function MainContent() {
             </div>
             <div className={Styles.Main__container__filtros}>
               <FiltroCategorias
-                categorias={categoriasMarcas.categorias} // Passar as categorias para o componente de filtro
+                categorias={categoriasMarcas.categorias}
                 categoriaSelecionada={categoriaSelecionada}
                 onCategoriaChange={handleCategoriaChange}
               />
               <FiltroMarcas
-                marcas={categoriasMarcas.marcas} // Passar as marcas para o componente de filtro
+                marcas={categoriasMarcas.marcas}
                 marcaSelecionada={marcaSelecionada}
                 onMarcaChange={handleMarcaChange}
               />
