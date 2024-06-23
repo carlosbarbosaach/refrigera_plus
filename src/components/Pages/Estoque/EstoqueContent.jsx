@@ -4,16 +4,19 @@ import ListaEstoque from "./ListaEstoque";
 import { FaArrowUp } from 'react-icons/fa';
 import CurrencyInput from 'react-currency-input-field';
 import { toast, ToastContainer } from 'react-toastify';
+import AddBrandButton from './AddMarca/AddBrandButton';
 
 function EstoqueContent() {
   const [categorias, setCategorias] = useState([]);
+  const [marcas, setMarcas] = useState([]); // Estado para armazenar as marcas
   const [categoriaId, setCategoriaId] = useState('');
   const [descricao, setDescricao] = useState('');
   const [nome, setNome] = useState('');
-  const [preco, setPreco] = useState(''); // Altere para string
+  const [preco, setPreco] = useState('');
   const [quantidade, setQuantidade] = useState(0);
   const [imagem, setImagem] = useState(null);
   const [idProduto, setIdProduto] = useState(null);
+  const [marcaId, setMarcaId] = useState(''); // Estado para armazenar a marca selecionada
   const [showModal, setShowModal] = useState(false);
   const [showScrollButton, setShowScrollButton] = useState(false);
   const [showToast, setShowToast] = useState(false);
@@ -33,6 +36,23 @@ function EstoqueContent() {
     };
 
     fetchCategorias();
+  }, []);
+
+  useEffect(() => {
+    const fetchMarcas = async () => {
+      try {
+        const response = await fetch('http://45.235.53.125:8080/api/marca');
+        if (!response.ok) {
+          throw new Error('Erro ao obter marcas: ' + response.statusText);
+        }
+        const data = await response.json();
+        setMarcas(data);
+      } catch (error) {
+        console.error('Erro ao obter marcas:', error);
+      }
+    };
+
+    fetchMarcas();
   }, []);
 
   useEffect(() => {
@@ -65,6 +85,9 @@ function EstoqueContent() {
         break;
       case 'quantidade':
         setQuantidade(value);
+        break;
+      case 'marcaId': // Adicione o caso para capturar o ID da marca
+        setMarcaId(value);
         break;
       default:
         break;
@@ -128,9 +151,10 @@ function EstoqueContent() {
         categoria: { id: categoriaId },
         descricao,
         nome,
-        preco: precoNumerico, // Use o valor numérico aqui
+        preco: precoNumerico,
         quantidade,
-        idImagem // ID da imagem cadastrada
+        idImagem,
+        marca: { id: marcaId } // Adiciona a marca selecionada
       };
 
       const response = await fetch('http://45.235.53.125:8080/api/produto', {
@@ -201,9 +225,12 @@ function EstoqueContent() {
   return (
     <>
       <div className={Styles.EstoqueMain}>
-        <button className={Styles.Estoque__add_button} onClick={openModal}>
-          Adicionar novo produto
-        </button>
+        <div className={Styles.EstoqueMain__containerButton}>
+          <button className={Styles.Estoque__add_button} onClick={openModal}>
+            Adicionar novo produto
+          </button>
+          <AddBrandButton />
+        </div>
         <ListaEstoque />
         {showModal && (
           <div className={Styles.Modal} onClick={closeModal}>
@@ -235,6 +262,22 @@ function EstoqueContent() {
                       <option value="">Selecione uma categoria</option>
                       {categorias.map(categoria => (
                         <option key={categoria.id} value={categoria.id}>{categoria.nome}</option>
+                      ))}
+                    </select>
+                  </label>
+                </div>
+                <div className={Styles.Modal__content__formGroup}>
+                  <label className={Styles.Modal__content__label} htmlFor="marcaId">
+                    Marca:
+                    <select
+                      className={Styles.Modal__content__formControl}
+                      name="marcaId"
+                      value={marcaId}
+                      onChange={handleInputChange}
+                    >
+                      <option value="">Selecione uma marca</option>
+                      {marcas.map(marca => (
+                        <option key={marca.id} value={marca.id}>{marca.nome}</option>
                       ))}
                     </select>
                   </label>

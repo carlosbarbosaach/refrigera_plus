@@ -6,26 +6,29 @@ import IconDown from '../../../assets/icon_down.svg';
 import { ColorRing } from 'react-loader-spinner';
 import ModalConfirmacao from '../MainContent/Modal/ModalConfirmacao';
 import FiltroCategorias from '../../Filtros/FiltroCategorias';
+import FiltroMarcas from '../../Filtros/FiltroMarcas'; // Importar componente de filtro de marcas
 import ModalDetalhesProduto from './ModalDetalhesProduto/ModalDetalhesProduto'
 
 function MainContent() {
 
   const [produtos, setProdutos] = useState([]);
-  const [categorias, setCategorias] = useState([]);
+  const [categoriasMarcas, setCategoriasMarcas] = useState({ categorias: [], marcas: [] }); // Estado para armazenar categorias e marcas
   const [mensagemErro, setMensagemErro] = useState("");
   const [numProdutosExibidos, setNumProdutosExibidos] = useState(4);
   const [carregando, setCarregando] = useState(true);
   const [pesquisa, setPesquisa] = useState("");
   const [produtoAExcluir, setProdutoAExcluir] = useState(null);
   const [categoriaSelecionada, setCategoriaSelecionada] = useState(null);
+  const [marcaSelecionada, setMarcaSelecionada] = useState(null); // Estado para a marca selecionada
   const [produtoSelecionado, setProdutoSelecionado] = useState(null);
 
   useEffect(() => {
     async function fetchData() {
       try {
-        const [produtosData, categoriasData] = await Promise.all([
+        const [produtosData, categoriasData, marcasData] = await Promise.all([
           API.getProduto(),
-          API.getCategoria()
+          API.getCategoria(),
+          API.getMarca() // Buscar marcas na API
         ]);
 
         const produtosWithQuantity = produtosData.map(produto => ({
@@ -33,8 +36,8 @@ function MainContent() {
           quantidade: produto.quantidade || 0
         }));
 
+        setCategoriasMarcas({ categorias: categoriasData, marcas: marcasData }); // Definir categorias e marcas no estado
         setProdutos(produtosWithQuantity);
-        setCategorias(categoriasData);
         setCarregando(false);
       } catch (error) {
         console.error("Erro ao buscar dados da API:", error);
@@ -153,10 +156,15 @@ function MainContent() {
     setCategoriaSelecionada(categoriaId);
   };
 
+  const handleMarcaChange = (marcaId) => {
+    setMarcaSelecionada(marcaId);
+  };
+
   const filtrarProdutos = (produto) => {
     return (
       produto.nome.toLowerCase().includes(pesquisa.toLowerCase()) &&
-      (categoriaSelecionada === null || produto.categoria?.id === categoriaSelecionada)
+      (categoriaSelecionada === null || produto.categoria?.id === categoriaSelecionada) &&
+      (marcaSelecionada === null || produto.marca?.id === marcaSelecionada) // Filtrar por marca selecionada
     );
   };
 
@@ -188,12 +196,18 @@ function MainContent() {
               />
               <img className={Styles.Main__container__searchInput__lupaIcon} src={LupaIcon} alt="Ícone de Lupa" />
             </div>
-            <FiltroCategorias
-              className={Styles.Main__container__filtrocategoria}
-              categorias={categorias}
-              categoriaSelecionada={categoriaSelecionada}
-              onCategoriaChange={handleCategoriaChange}
-            />
+            <div className={Styles.Main__container__filtros}>
+              <FiltroCategorias
+                categorias={categoriasMarcas.categorias} // Passar as categorias para o componente de filtro
+                categoriaSelecionada={categoriaSelecionada}
+                onCategoriaChange={handleCategoriaChange}
+              />
+              <FiltroMarcas
+                marcas={categoriasMarcas.marcas} // Passar as marcas para o componente de filtro
+                marcaSelecionada={marcaSelecionada}
+                onMarcaChange={handleMarcaChange}
+              />
+            </div>
           </div>
           <ul className={Styles.Main__container__ul}>
             {produtosFiltrados
@@ -211,7 +225,9 @@ function MainContent() {
                       <p>
                         {produto.categoria ? produto.categoria.nome : "Categoria não especificada"}
                       </p>
-                      {/* <h3>{produto.descricao}</h3> */}
+                      <p>
+                        {produto.marca ? produto.marca.nome : "Marca não especificada"}
+                      </p>
                     </div>
                     <div className={Styles.Main__container__productInfo__PriceQuantity}>
                       <p

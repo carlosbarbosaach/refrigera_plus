@@ -32,6 +32,10 @@ class API {
         return this.fetchData('/api/categoria', 'GET');
     }
 
+    static getMarca() {
+        return this.fetchData('/api/marca', 'GET');
+    }
+
     static postProduto(data) {
         return this.fetchData('/api/produto', 'POST', data);
     }

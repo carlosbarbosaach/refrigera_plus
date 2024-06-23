@@ -6,6 +6,11 @@
     width: 100%;
     margin: 0 auto;
     padding: 140px 0 60px;
+
+    &__containerButton {
+        display: flex;
+        gap: 12px;
+    }
 }
 
 .Estoque__add_button {

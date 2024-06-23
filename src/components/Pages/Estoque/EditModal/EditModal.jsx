@@ -6,6 +6,7 @@ import CurrencyInput from 'react-currency-input-field';
 const EditModal = ({ product, onSave, onClose }) => {
     const [editedProduct, setEditedProduct] = useState({ ...product });
     const [categorias, setCategorias] = useState([]);
+    const [marcas, setMarcas] = useState([]);
     const [novaImagem, setNovaImagem] = useState(null);
     const [isProdutoSelecionado, setIsProdutoSelecionado] = useState(false);
 
@@ -24,6 +25,21 @@ const EditModal = ({ product, onSave, onClose }) => {
             .catch(error => {
                 console.error('Erro ao buscar categorias:', error);
             });
+
+        fetch('http://45.235.53.125:8080/api/marca')
+            .then(response => {
+                if (!response.ok) {
+                    throw new Error('Erro ao buscar marcas');
+                }
+                return response.json();
+            })
+            .then(data => {
+                console.log('Marcas recebidas:', data);
+                setMarcas(data);
+            })
+            .catch(error => {
+                console.error('Erro ao buscar marcas:', error);
+            });
     }, []);
 
     const handleChange = (e) => {
@@ -32,6 +48,9 @@ const EditModal = ({ product, onSave, onClose }) => {
         if (name === 'categoria') {
             const selectedCategory = categorias.find(cat => cat.id === parseInt(value));
             setEditedProduct({ ...editedProduct, categoria: selectedCategory });
+        } else if (name === 'marca') {
+            const selectedMarca = marcas.find(marca => marca.id === parseInt(value));
+            setEditedProduct({ ...editedProduct, marca: selectedMarca });
         } else {
             setEditedProduct({ ...editedProduct, [name]: value });
         }
@@ -136,6 +155,24 @@ const EditModal = ({ product, onSave, onClose }) => {
                         <input className={styles.modalContent__formGroup__Input} type="text" id="nome" name="nome" value={editedProduct.nome} onChange={handleChange} />
                     </div>
                     <div className={styles.modalContent__formGroup}>
+                        <label className={styles.modalContent__formGroup__Label} htmlFor="categoria">Categoria:</label>
+                        <select className={styles.modalContent__formGroup__Select} id="categoria" name="categoria" value={editedProduct.categoria.id} onChange={handleChange}>
+                            <option value="">Selecione uma categoria</option>
+                            {categorias.map(cat => (
+                                <option key={cat.id} value={cat.id}>{cat.nome}</option>
+                            ))}
+                        </select>
+                    </div>
+                    <div className={styles.modalContent__formGroup}>
+                        <label className={styles.modalContent__formGroup__Label} htmlFor="marca">Marca:</label>
+                        <select className={styles.modalContent__formGroup__Select} id="marca" name="marca" value={editedProduct.marca.id} onChange={handleChange}>
+                            <option value="">Selecione uma marca</option>
+                            {marcas.map(marca => (
+                                <option key={marca.id} value={marca.id}>{marca.nome}</option>
+                            ))}
+                        </select>
+                    </div>
+                    <div className={styles.modalContent__formGroup}>
                         <label className={styles.modalContent__formGroup__Label} htmlFor="preco">Preço:</label>
                         <CurrencyInput
                             className={styles.modalContent__formGroup__Input}
@@ -152,15 +189,6 @@ const EditModal = ({ product, onSave, onClose }) => {
                     <div className={styles.modalContent__formGroup}>
                         <label className={styles.modalContent__formGroup__Label} htmlFor="quantidade">Quantidade do produto:</label>
                         <input className={styles.modalContent__formGroup__Input} type="number" id="quantidade" name="quantidade" value={editedProduct.quantidade} onChange={handleChange} />
-                    </div>
-                    <div className={styles.modalContent__formGroup}>
-                        <label className={styles.modalContent__formGroup__Label} htmlFor="categoria">Categoria:</label>
-                        <select className={styles.modalContent__formGroup__Select} id="categoria" name="categoria" value={editedProduct.categoria.id} onChange={handleChange}>
-                            <option value="">Selecione uma categoria</option>
-                            {categorias.map(cat => (
-                                <option key={cat.id} value={cat.id}>{cat.nome}</option>
-                            ))}
-                        </select>
                     </div>
                     <div className={styles.modalContent__formGroup}>
                         <label className={styles.modalContent__formGroup__Label} htmlFor="descricao">Descrição do produto:</label>

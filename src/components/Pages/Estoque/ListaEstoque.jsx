@@ -91,6 +91,7 @@ const ListaEstoque = () => {
 
     return (
         <div>
+            
             <div className={styles.Search}>
                 <div className={styles.Search__Content}>
                     <input
