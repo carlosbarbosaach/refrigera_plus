@@ -13,7 +13,7 @@ const BrandModal = ({ onClose }) => {
     const handleSubmit = async (e) => {
         e.preventDefault();
         try {
-            // Verifique se a marca já existe
+
             const checkResponse = await fetch(`http://45.235.53.125:8080/api/marca/nome?nome=${marca}`);
             if (checkResponse.ok) {
                 const checkData = await checkResponse.json();
@@ -23,13 +23,13 @@ const BrandModal = ({ onClose }) => {
                 }
             }
 
-            // Se a marca não existir, continue com o envio
+
             const response = await fetch('http://45.235.53.125:8080/api/marca', {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
                 },
-                body: JSON.stringify({ id: 0, nome: marca }), // Ajustado para o formato correto
+                body: JSON.stringify({ id: 0, nome: marca }),
             });
 
             if (response.ok) {
