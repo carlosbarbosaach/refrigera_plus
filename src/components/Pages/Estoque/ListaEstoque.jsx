@@ -130,7 +130,7 @@ const ListaEstoque = () => {
                             </td>
                             <td className={styles.table__tDetailed}>{produto.quantidade} un.</td>
                             <td className={styles.table__tDetailed}>
-                                <div className={`${styles.circle} ${produto.quantidade > 0 ? styles['circle--available'] : styles['circle--unavailable']}`}></div>
+                                <div className={`${styles.circle} ${produto.quantidade > 11 ? styles['circle--available'] : styles['circle--unavailable']}`}></div>
                             </td>
                             <td className={styles.table__tDetailed__Buttons}>
                                 <EditButton product={produto} onEdit={handleEdit} />
