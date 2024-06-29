@@ -20,7 +20,7 @@ function GestaoContent() {
 
   const buscarProdutos = async () => {
     try {
-      const response = await fetch('http://45.235.53.125:8080/api/produto');
+      const response = await fetch('https://backend.suldailhanet.com.br/api/produto');
       if (!response.ok) {
         throw new Error('Erro ao buscar dados da API');
       }
@@ -37,7 +37,7 @@ function GestaoContent() {
       setQuantidadeBaixoEstoque(produtosBaixoEstoque.length);
       setQuantidadeAltoEstoque(produtosAltoEstoque.length);
 
-      const total = data.reduce((accumulator, produto) => accumulator + produto.preco, 0);
+      const total = data.reduce((accumulator, produto) => accumulator + (produto.preco * produto.quantidade), 0);
       setPrecoTotal(total);
     } catch (error) {
       console.error('Erro ao buscar dados da API:', error);
